@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .card-title .detail{
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .card .notice-list {
+            margin-top: 0;
+            padding-left: 3px;
+            line-height: 1.5;
+        }
+        .card .notice-list li {
+            list-style: none;
+            display: flex;
+            padding: 10px 0;
+            justify-content: space-between;
+            border-bottom: 1px dashed #eee;
+            font-size: 13px;
+            color: #555;
+        }
+        .notice-list li:last-child {
+            border-bottom: none;
+        }
+        .notice-list .date {
+            color: #aaa;
+        }
+        .btn {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid #F4B5C2;
+            background-color: #F7DDE2;
+            cursor: pointer;
+            transition: 0.15s ease;
+        }
+        .btn:hover {
+            background-color: #F4B5C2;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER FRAGMENT -->
+    <header class="header">
+        <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
+    </header>
+
+    <div class="container">
+
+        <!-- SIDEBAR FRAGMENT -->
+        <div class="navbar">
+            <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+
+            <div class="main-title">
+                <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('대시보드')}"></th:block>
+            </div>
+
+            <!-- CONTENT AREA -->
+            <div class="content">
+                <div class="dashboard-grid">
+
+                    <!-- 작품 등록현황 카드 -->
+                    <div class="card">
+                        <div class="card-title">작품 등록현황</div>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>등록</th>
+                                <th>승인</th>
+                                <th>미승인</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>수상작</td>
+                                <td>58157</td>
+                                <td>142</td>
+                                <td>21</td>
+                            </tr>
+                            <tr>
+                                <td>초대작</td>
+                                <td>58157</td>
+                                <td>58157</td>
+                                <td>0</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- 공지사항 카드 -->
+                    <div class="card">
+                        <div class="card-title">공지사항 <span class="detail">+ 더보기</span></div>
+
+                        <ul class="notice-list">
+                            <li>
+                                <span>대량파일 업로드 안내</span>
+                                <span class="date">2023-03-01</span>
+                            </li>
+                            <li>
+                                <span>코로나 19 재택 공지 안내</span>
+                                <span class="date">2023-03-01</span>
+                            </li>
+                            <li>
+                                <span>저작물 업로드 방법 안내</span>
+                                <span class="date">2023-03-01</span>
+                            </li>
+                            <li>
+                                <span>저작물 업로드 방법 안내</span>
+                                <span class="date">2023-03-01</span>
+                            </li>
+                            <li>
+                                <span>저작물 업로드 방법 안내</span>
+                                <span class="date">2023-03-01</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+    <script>
+        document.querySelector('.admin-name').addEventListener('click', function() {
+            this.closest('.admin-name').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

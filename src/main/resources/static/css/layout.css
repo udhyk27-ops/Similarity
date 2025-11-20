@@ -1,0 +1,185 @@
+/* 헤더 */
+.header {
+    width: 100%;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.header .fragment {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+.header .fragment .header-left {
+    font-family:"Chiron Sung HK", sans-serif;
+
+    font-size: 18px;
+    font-weight: 700;
+    color: #4A4A4A;
+    /*letter-spacing: -0.5px; !* 자간 조정 (선택 사항) *!*/
+}
+.header .fragment .admin-menu {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    background: white;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 5px 10px;
+    transition: background-color 0.2s;
+}
+.header .fragment .admin-name {
+    color: #4A4A4A;
+    font-size: 14px;
+    cursor: pointer;
+}
+.header .fragment .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 150px;
+
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+    padding: 10px 0;
+}
+.header .fragment .dropdown a {
+    display: block;
+    padding: 8px 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 400;
+}
+.header .fragment .dropdown a:hover {
+    background-color: #fff6f9;
+}
+.header .fragment .dropdown .logout-link {
+    background-color: #f1575b;
+    color: white;
+    margin: 5px 10px;
+    border-radius: 4px;
+    text-align: center;
+    padding: 5px 12px;
+}
+.header .fragment .dropdown .logout-link:hover {
+    background-color: #D33A4C;
+}
+.admin-menu:hover .dropdown,
+.admin-menu.active .dropdown {
+    display: block;
+}
+
+/* 네비 바 */
+.navbar {
+    width: 210px;
+    background-color: white;
+    flex-shrink: 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.menu-section {
+    font-size: 14px;
+    font-weight: 700;
+    color: #757373;
+    padding: 10px 20px;
+    margin-top: 15px;
+}
+
+.menu-item {
+    font-size: 14px;
+    padding: 8px 20px 8px 30px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.menu-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* 메인 타이틀 */
+.page-title{
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* 공통 */
+body {
+    margin: 0;
+    padding: 0;
+    /*font-family: 'Arial', sans-serif;*/
+    background-color: #fffdfd; /* 전체 배경색 */
+}
+.container {
+    display: flex;
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    text-align: center;
+}
+.table thead tr {
+    background-color: #f7f7f7;
+}
+
+.table th {
+    background-color: #F7DDE2;
+    padding: 10px;
+    border-bottom: 1px solid #F4B5C2;
+    font-weight: 600;
+}
+.table td {
+    padding: 10px;
+    border-bottom: 1px solid #E5E5E5;
+    text-align: center;
+}
+main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.dashboard-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.card {
+    background: white;
+    border: 1px solid #F4B5C2;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 6px rgba(244, 181, 194, 0.15);
+    flex: 1;
+    /*min-width: 300px;    */
+}
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    color: #444;
+    border-bottom: 2px solid #eee;
+}
+
+
+

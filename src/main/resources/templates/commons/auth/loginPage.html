@@ -4,10 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
     <style>
         body {
-            background:#f1eaea;
+            /*background:#fffdfd;*/
             /*font-family:"Raleway";*/
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+        main {
+            flex-grow: 1;
         }
         .form {
             position:absolute;
@@ -72,6 +80,10 @@
             border:none;
             outline:none;
         }
+        .form .form-element button:hover {
+            background-color: #D33A4C;
+            color: white;
+        }
         .form.reset .form-elements > div:nth-child(2),
         .form.reset .form-elements > div:nth-child(3) {
             height:0px;
@@ -80,30 +92,101 @@
     </style>
 </head>
 <body>
-<div class="form signup">
-    <div class="form-header">
-        <h3>사진공모전 저작물 등록관리 시스템</h3>
-    </div>
-    <form id="login_frm" action="#" method="post">
-        <div class="form-elements">
-            <div class="form-element">
-                <input type="text" placeholder="아이디">
+    <main>
+        <div class="form signup">
+            <div class="form-header">
+                <h3>사진공모전 저작물 등록관리 시스템</h3>
             </div>
-            <div class="form-element">
-                <input type="password" placeholder="패스워드">
-            </div>
+            <form id="login_frm" action="#" method="post">
+                <div class="form-elements">
+                    <div class="form-element">
+                        <input type="text" id="f_id" name="f_id" placeholder="아이디">
+                    </div>
+                    <div class="form-element">
+                        <input type="password" id="f_pw" name="f_pw" placeholder="패스워드">
+                    </div>
+                </div>
+                <div class="">
+                    <input type="checkbox" id="save_id" name="checkbox" class="input_chk">
+                    <label for="save_id">아이디 저장</label>
+                </div>
+                <div class="form-element">
+                    <button id="submit-btn">로그인</button>
+                </div>
+            </form>
         </div>
-        <div class="">
-            <input type="checkbox" id="save_id" name="checkbox" class="input_chk">
-            <label for="save_id">아이디 저장</label>
-        </div>
-        <div class="form-element">
-            <button id="submit-btn">로그인</button>
-        </div>
-    </form>
-</div>
-</body>
-<script>
+    </main>
+    <th:block th:replace="~{commons/fragments/footerPage.html :: footer}"></th:block>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
 
-</script>
+            const fId = document.getElementById("f_id");
+            const fPw = document.getElementById("f_pw");
+            const submitBtn = document.getElementById("submit-btn");
+            const saveId = document.getElementById("save_id");
+
+            fId.addEventListener("keydown", function(e) {
+                if(e.key === "Enter") {
+                    submitBtn.click();
+                }
+            })
+            fPw.addEventListener("keydown", function(e) {
+                if(e.key === "Enter") {
+                    submitBtn.click();
+                }
+            })
+
+            let key = cookie.getCookie("saveId");
+            if(key != "") {
+                fId.value = key;
+            }
+            if(fId.value != "") {
+                saveId.checked = true;
+            }
+
+            saveId.addEventListener("change", function() {
+                if(saveId.checked){
+                    cookie.setCookie("saveId", fID.value, 30);
+                }else{
+                    cookie.deleteCookie("saveId");
+                }
+            })
+
+            fId.addEventListener("keyup", function() {
+                if(saveId.checked){
+                    cookie.setCookie("saveId", fId.value, 30);
+                }
+            })
+
+        });
+        const cookie = {
+            setCookie: function(name, value, days) {
+                let exdate = new Date();
+                exdate.setDate(exdate.getDate() + days);
+                let cookieVal = encodeURIComponent(value) + ((days == null) ? "" : "; expires=" + exdate.toUTCString());
+
+                document.cookie = name + "=" + cookieVal;
+            },
+            deleteCookie: function(name) {
+                let exdate = new Date();
+                exdate.setDate(exdate.getDate() - 1);
+                document.cookie = name + "=; expires=" + exdate.toUTCString();
+            },
+            getCookie: function(name) {
+                name = name + '=';
+                let cookieData = document.cookie;
+                let start = cookieData.indexOf(name);
+                let cookieValue = '';
+
+                if(start != -1) {
+                    start += name.length;
+                    let end = cookieData.indexOf(';', start);
+                    if(end == -1) end = cookieData.length;
+                    cookieValue = decodeURIComponent(cookieData.substring(start, end));
+                }
+                return cookieValue;
+            }
+        }
+    </script>
+</body>
 </html>
