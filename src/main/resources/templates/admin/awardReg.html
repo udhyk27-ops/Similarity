@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사진공모전 저작물 등록관리 시스템</title>
+    <link rel="stylesheet" th:href="@{/css/award.css}">
+</head>
+<body>
+    <div class="ui">
+        <div class="area1">
+
+            <div class="sec1-1">
+                <div class="searchTable">
+                    <div class="row">
+                        <div class="header-row">등록날짜</div>
+                        <div class="cell">insert select box</div>
+                    </div>
+                    <div class="row">
+                        <div class="header-row">검색</div>
+                        <div class="cell">insert select box & sch button</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sec1-2">
+                <div class="sch-result">
+                    <p>총 ~ 중 검색결과: ~ 건</p>
+                </div>
+                <div class="filter">
+                    <label>
+                        <select>
+                            <option>전체</option>
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="sec1-3">
+                <div class="regListTable">
+                    <div class="row header-row">
+                        <div class="cell">번호</div>
+                        <div class="cell">제목</div>
+                        <div class="cell">저작자명</div>
+                        <div class="cell">공모전명</div>
+                        <div class="cell">상권명</div>
+                        <div class="cell">코드</div>
+                        <div class="cell">등록날짜</div>
+                    </div>
+
+                    <div class="row data-row">
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                        <div class="cell"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>paging</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="area2">
+            <div class="sec2-1">
+
+            </div>
+
+            <div class="sec2-2">
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script th:src="@{/js/award.js}"></script>
+</body>
+</html>

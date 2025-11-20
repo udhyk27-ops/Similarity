@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class AdminController {
 
+    @GetMapping("award")
+    public String awardPage() {return "admin/awardReg";}
 
-    @GetMapping("admin")
-    public String adminPage() {
-        return "admin/adminPage";
-    }
+    @GetMapping("invit")
+    public String invitPage() {return "admin/invitReg";}
+
+
 
 }

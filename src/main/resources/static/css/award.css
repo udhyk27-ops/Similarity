@@ -1,0 +1,84 @@
+* {box-sizing: border-box;}
+div {border: 1px solid darkorange;}
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ui {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.area1, .area2 {
+    padding: 1.0rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.sec1-1 { flex: 2; padding : 1.0rem;}
+.sec1-2 { flex: 1; display: flex; padding: 1.0rem; width: 100%}
+.sec1-3 { flex: 7; }
+
+.sec2-1 { flex: 6; }
+.sec2-2 { flex: 4; }
+/**********************************************************************************************/
+
+/* area1 start */
+
+/* sec1-2 start */
+.sch-result { float: left; flex: 1;}
+.filter { float: right; flex: 1;}
+/* sec1-2 end */
+
+
+/* sec1-3 start */
+.regListTable, .searchTable {
+    padding: 1.0rem;
+    /*width: calc(100%);*/
+    /*height: calc(100%);*/
+    border: 1px solid #000000A0;
+}
+
+.row {
+    display: flex;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-row {
+    color: #5B5B5B;
+    background: #F0F0F0;
+    font-weight: 900;
+    border-top: 2px solid rgba(0, 0, 0, 0.28);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.63);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.cell {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.75rem;
+    text-align: center;
+    font-size: 1rem;
+    word-break: break-word;
+    overflow: hidden;
+    white-space: nowrap;
+}
+/* sec1-3 end */
+
+/* area1 end */
+
+
+
+
+
+/* area2 start */
+
+
+/* area2 end */
