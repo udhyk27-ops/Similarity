@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>사진공모전 저작물 등록관리 시스템</title>
+
     <link rel="stylesheet" th:href="@{/css/award.css}">
     <link rel="stylesheet" th:href="@{/css/layout.css}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+
 </head>
 <body>
     <header class="header">
@@ -30,11 +38,22 @@
                         <div class="sch-tb">
                             <div class="row">
                                 <div class="header-cell">등록날짜</div>
-                                <div class="cell">insert select box</div>
+                                <div class="cell">
+                                    <input class="flatpickr" type="date" name="startDate" placeholder="전체" />
+                                    ~
+                                    <input class="flatpickr" type="date" name="endDate" placeholder="전체" />
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">검색</div>
-                                <div class="cell">insert select box & sch button</div>
+                                <div class="cell">
+                                    <select>
+                                        <option>선택</option>
+                                    </select>
+                                    <input type="text" name
+                                            ="keyword" />
+                                    <button class="cell-btn">검색</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -65,21 +84,21 @@
                                 <div class="cell">등록날짜</div>
                             </div>
 
-                            <div class="row">
-                                <div class="cell">1</div>
-                                <div class="cell">구름 속 붉은 빛 그리고 도시 야경</div>
-                                <div class="cell">홍길동</div>
-                                <div class="cell">2023 주니어해양피켓챌린지</div>
-                                <div class="cell">대상</div>
-                                <div class="cell">미발급</div>
-                                <div class="cell">2023-01-03</div>
+                            <div class="row" th:each="award : ${awardList}" th:if="${award != null}">
+                                <div class="cell" th:text="${award.id}"></div>
+                                <div class="cell" th:text="${award.title}"></div>
+                                <div class="cell" th:text="${award.author}"></div>
+                                <div class="cell" th:text="${award.contest}"></div>
+                                <div class="cell" th:text="${award.prize}"></div>
+                                <div class="cell" th:text="${award.code}"></div>
+                                <div class="cell" th:text="${award.regDate}"></div>
                             </div>
                         </div>
 
                         <div class="paging-div">
-                            <button></button>
-                            <button></button>
-                            <button></button>
+                            <button>1</button>
+                            <button>2</button>
+                            <button>3</button>
                         </div>
                     </div>
                 </div>
@@ -128,8 +147,8 @@
                             <div class="row">
                                 <div class="header-cell">사진</div>
                                 <div class="cell img-cell">
-                                    <div class="img-div"><img th:src="@{/images/logo.png}" alt="로고" /></div>
-                                    <div><button>다운로드</button></div>
+                                    <div class="img-div"><img th:src="@{/images/sample.png}" alt="샘플" /></div>
+                                    <div><button class="cell-btn">다운로드</button></div>
                                 </div>
                             </div>
                         </div>
@@ -145,7 +164,7 @@
                                     <select>
                                         <option>회원</option>
                                     </select>
-                                    <button>조회</button>
+                                    <button class="cell-btn">조회</button>
                                 </div>
                                 <div class="header-cell">지역</div>
                                 <div class="cell"><input value="" name="" /></div>
@@ -164,10 +183,16 @@
                             </div>
                             <div class="row">
                                 <div class="header-cell">주소</div>
-                                <div class="cell">
-                                    <input value="" name="" />
-                                    <button>우편번호</button>
-                                    <input value="" name="" />
+                                    <div class="cell address-cell">
+                                        <div class="address-div1">
+                                            <input value="" name=""/>
+                                            <button class="cell-btn">우편번호</button>
+                                        </div>
+                                        <div class="address-div2">
+                                            <input value="" name="" />
+                                            <input value="" name="" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

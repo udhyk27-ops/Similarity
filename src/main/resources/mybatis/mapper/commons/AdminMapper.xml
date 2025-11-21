@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.java_practice.commons.mapper.AdminMapper">
+
+    <resultMap type="award" id="awardResultSet">
+        <result column="F_ID" property="id" />
+        <result column="F_TITLE" property="title" />
+        <result column="F_AUTHOR" property="author" />
+        <result column="F_CONTEST" property="contest" />
+        <result column="F_PRIZE" property="prize" />
+        <result column="F_CODE" property="code" />
+        <result column="F_REG_DATE" property="regDate" />
+    </resultMap>
+
+    <select id="selectAwardList" resultMap="awardResultSet">
+        SELECT F_ID, F_TITLE, F_AUTHOR, F_CONTEST, F_PRIZE, F_CODE, F_REG_DATE
+        FROM ZTMP_AWARD
+    </select>
+
+</mapper>
