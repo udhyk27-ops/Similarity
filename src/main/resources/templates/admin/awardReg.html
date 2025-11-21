@@ -19,162 +19,173 @@
             <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
         </div>
 
-        <div class="area1">
-
-            <div class="sec1-1">
-                <div class="sch-tb">
-                    <div class="row">
-                        <div class="header-cell">등록날짜</div>
-                        <div class="cell">insert select box</div>
-                    </div>
-                    <div class="row">
-                        <div class="header-cell">검색</div>
-                        <div class="cell">insert select box & sch button</div>
-                    </div>
-                </div>
+        <div class="main">
+            <div class="title">
+                수상작 등록현황
             </div>
 
-            <div class="sec1-2">
-                <div class="sch-result">
-                    <p>총 ~ 중 검색결과: ~ 건</p>
-                </div>
-                <div class="filter-div">
-                    <label>
-                        <select class="filter">
-                            <option value="">전체</option>
-                            <option>1</option>
-                        </select>
-                    </label>
-                </div>
-            </div>
-
-            <div class="sec1-3">
-                <div class="reg-list-tb">
-                    <div class="row header-row">
-                        <div class="cell">번호</div>
-                        <div class="cell">제목</div>
-                        <div class="cell">저작자명</div>
-                        <div class="cell">공모전명</div>
-                        <div class="cell">상권명</div>
-                        <div class="cell">코드</div>
-                        <div class="cell">등록날짜</div>
-                    </div>
-
-                    <div class="row">
-                        <div class="cell">1</div>
-                        <div class="cell">구름 속 붉은 빛 그리고 도시 야경</div>
-                        <div class="cell">홍길동</div>
-                        <div class="cell">2023 주니어해양피켓챌린지</div>
-                        <div class="cell">대상</div>
-                        <div class="cell">미발급</div>
-                        <div class="cell">2023-01-03</div>
-                    </div>
-                </div>
-
-                <div>
-                    <h3>paging</h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="area2">
-            <div class="sec2-1">
-                <div class="info">기본정보</div>
-
-                <div class="work-tb">
-                    <div class="row">
-                        <div class="header-cell">작품코드</div>
-                        <div class="cell">미발급</div>
-                    </div>
-                    <div class="row">
-                        <div class="header-cell">제목</div>
-                        <div class="cell"><input value="" name="" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="header-cell">공모전명</div>
-                        <div class="cell"><input value="" name="" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="header-cell">저작자명</div>
-                        <div class="cell"><input value="" name="" /></div>
-                        <div class="header-cell">상권명</div>
-                        <div class="cell"><input value="" name="" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="header-cell">주최</div>
-                        <div class="cell"><input value="" name="" /></div>
-                        <div class="header-cell">주관</div>
-                        <div class="cell"><input value="" name="" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="header-cell">출품년도</div>
-                        <div class="cell"><input value="" name="" /></div>
-                        <div class="header-cell">등록일시</div>
-                        <div class="cell">2023-03-02 16:45:23</div>
-                    </div>
-                    <div class="row">
-                        <div class="header-cell">등록자</div>
-                        <div class="cell">홍길동(hong)</div>
-                        <div class="header-cell">소속</div>
-                        <div class="cell">경남지부</div>
-                    </div>
-                    <div class="row">
-                        <div class="header-cell">사진</div>
-                        <div class="cell img-cell">
-                            <div><img th:src="@{/images/logo.png}" alt="로고" /></div>
-                            <div><button>다운로드</button></div>
+            <div class="content">
+                <div class="area1">
+                    <div class="sec1-1">
+                        <div class="sch-tb">
+                            <div class="row">
+                                <div class="header-cell">등록날짜</div>
+                                <div class="cell">insert select box</div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">검색</div>
+                                <div class="cell">insert select box & sch button</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="sec2-2">
-                <div class="info">회원정보</div>
-
-                <div class="user-tb">
-                    <div class="row">
-                        <div class="header-cell">회원구분</div>
-                        <div class="cell">
-                            <select>
-                                <option>회원</option>
-                            </select>
-                            <button>조회</button>
+                    <div class="sec1-2">
+                        <div class="sch-result">
+                            <p>총 ~ 중 검색결과: ~ 건</p>
                         </div>
-                        <div class="header-cell">지역</div>
-                        <div class="cell"><input value="" name="" /></div>
+                        <div class="filter-div">
+                            <label>
+                                <select class="filter">
+                                    <option value="">전체</option>
+                                    <option>1</option>
+                                </select>
+                            </label>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="header-cell">회원명</div>
-                        <div class="cell"><input value="" name="" /></div>
-                        <div class="header-cell">생년월일</div>
-                        <div class="cell"><input value="" name="" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="header-cell">연락처</div>
-                        <div class="cell"><input value="" name="" /></div>
-                        <div class="header-cell">이메일</div>
-                        <div class="cell"><input value="" name="" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="header-cell">주소</div>
-                        <div class="cell">
-                            <input value="" name="" />
-                            <button>우편번호</button>
-                            <input value="" name="" />
+
+                    <div class="sec1-3">
+                        <div class="reg-list-tb">
+                            <div class="row header-row">
+                                <div class="cell">번호</div>
+                                <div class="cell">제목</div>
+                                <div class="cell">저작자명</div>
+                                <div class="cell">공모전명</div>
+                                <div class="cell">상권명</div>
+                                <div class="cell">코드</div>
+                                <div class="cell">등록날짜</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="cell">1</div>
+                                <div class="cell">구름 속 붉은 빛 그리고 도시 야경</div>
+                                <div class="cell">홍길동</div>
+                                <div class="cell">2023 주니어해양피켓챌린지</div>
+                                <div class="cell">대상</div>
+                                <div class="cell">미발급</div>
+                                <div class="cell">2023-01-03</div>
+                            </div>
+                        </div>
+
+                        <div class="paging-div">
+                            <button></button>
+                            <button></button>
+                            <button></button>
                         </div>
                     </div>
                 </div>
 
-                <div class="btn-div">
-                    <div class="btn-group1">
-                        <button>삭제</button>
+                <div class="area2">
+                    <div class="sec2-1">
+                        <div class="info">기본정보</div>
+
+                        <div class="work-tb">
+                            <div class="row">
+                                <div class="header-cell">작품코드</div>
+                                <div class="cell">미발급</div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">제목</div>
+                                <div class="cell"><input value="" name="" /></div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">공모전명</div>
+                                <div class="cell"><input value="" name="" /></div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">저작자명</div>
+                                <div class="cell"><input value="" name="" /></div>
+                                <div class="header-cell">상권명</div>
+                                <div class="cell"><input value="" name="" /></div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">주최</div>
+                                <div class="cell"><input value="" name="" /></div>
+                                <div class="header-cell">주관</div>
+                                <div class="cell"><input value="" name="" /></div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">출품년도</div>
+                                <div class="cell"><input value="" name="" /></div>
+                                <div class="header-cell">등록일시</div>
+                                <div class="cell">2023-03-02 16:45:23</div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">등록자</div>
+                                <div class="cell">홍길동(hong)</div>
+                                <div class="header-cell">소속</div>
+                                <div class="cell">경남지부</div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">사진</div>
+                                <div class="cell img-cell">
+                                    <div class="img-div"><img th:src="@{/images/logo.png}" alt="로고" /></div>
+                                    <div><button>다운로드</button></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="btn-group2">
-                        <button>수정</button>
-                        <button>작품등록</button>
+
+                    <div class="sec2-2">
+                        <div class="info">회원정보</div>
+
+                        <div class="user-tb">
+                            <div class="row">
+                                <div class="header-cell">회원구분</div>
+                                <div class="cell">
+                                    <select>
+                                        <option>회원</option>
+                                    </select>
+                                    <button>조회</button>
+                                </div>
+                                <div class="header-cell">지역</div>
+                                <div class="cell"><input value="" name="" /></div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">회원명</div>
+                                <div class="cell"><input value="" name="" /></div>
+                                <div class="header-cell">생년월일</div>
+                                <div class="cell"><input value="" name="" /></div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">연락처</div>
+                                <div class="cell"><input value="" name="" /></div>
+                                <div class="header-cell">이메일</div>
+                                <div class="cell"><input value="" name="" /></div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">주소</div>
+                                <div class="cell">
+                                    <input value="" name="" />
+                                    <button>우편번호</button>
+                                    <input value="" name="" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-div">
+                            <div class="btn-group1">
+                                <button>삭제</button>
+                            </div>
+                            <div class="btn-group2">
+                                <button>수정</button>
+                                <button>작품등록</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
+
         </div>
     </div>
 
