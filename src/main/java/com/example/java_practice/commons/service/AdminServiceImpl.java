@@ -1,6 +1,7 @@
 package com.example.java_practice.commons.service;
 
 import com.example.java_practice.commons.dto.Award;
+import com.example.java_practice.commons.dto.AwardSearch;
 import com.example.java_practice.commons.mapper.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,8 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public ArrayList<Award> selectAwardList() {
-        return adminMapper.selectAwardList();
+    public ArrayList<Award> selectAwardList(AwardSearch awardSearch) {
+        return adminMapper.selectAwardList(awardSearch);
     }
 
 

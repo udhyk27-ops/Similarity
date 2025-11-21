@@ -84,7 +84,7 @@
                                 <div class="cell">등록날짜</div>
                             </div>
 
-                            <div class="row" th:each="award : ${awardList}" th:if="${award != null}">
+                            <div class="row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}">
                                 <div class="cell" th:text="${award.id}"></div>
                                 <div class="cell" th:text="${award.title}"></div>
                                 <div class="cell" th:text="${award.author}"></div>
@@ -93,6 +93,7 @@
                                 <div class="cell" th:text="${award.code}"></div>
                                 <div class="cell" th:text="${award.regDate}"></div>
                             </div>
+                            <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
                         </div>
 
                         <div class="paging-div">
