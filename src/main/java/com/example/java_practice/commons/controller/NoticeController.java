@@ -10,4 +10,7 @@ public class NoticeController {
 
     @GetMapping("/noticeReg")
     public String noticeRegPage(){return "commons/notice/noticeRegPage";}
+
+    @GetMapping("/detail")
+    public String noticeDetailPage(){return "commons/notice/noticeDetailPage";}
 }

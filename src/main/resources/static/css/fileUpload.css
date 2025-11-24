@@ -1,0 +1,39 @@
+.file-box {
+    border: 2px dashed #cacaca;
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 6px;
+}
+.file-box:hover {
+    border-color: var(--border);
+    transform: scale(1.05);
+}
+
+.file-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+.file-item {
+    display: inline-flex;
+    align-items: center;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    /*margin-right: 6px;*/
+}
+.delete-btn {
+    margin-left: 6px;
+    cursor: pointer;
+    color: #f1575b;
+    text-decoration: none;
+    font-weight: bold;
+}
+.delete-btn:hover {
+    color: var(--dark-pink);
+    text-decoration: none;
+}
