@@ -60,7 +60,10 @@
 
                     <div class="sec1-2">
                         <div class="sch-result">
-                            <p>총 ~ 중 검색결과: ~ 건</p>
+                            <p th:text="'총 ' + ${total} + '건 중 ' + ${awardList.size()} + '건 표시'">
+                                총 0건 중 0건 표시
+                            </p>
+
                         </div>
                         <div class="filter-div">
                             <label>
@@ -85,7 +88,7 @@
                             </div>
 
                             <div class="row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}">
-                                <div class="cell" th:text="${award.f_id}"></div>
+                                <div class="cell" th:text="1"></div>
                                 <div class="cell" th:text="${award.f_title}"></div>
                                 <div class="cell" th:text="${award.f_author}"></div>
                                 <div class="cell" th:text="${award.f_contest}"></div>
@@ -97,9 +100,21 @@
                         </div>
 
                         <div class="paging-div">
-                            <button>1</button>
-                            <button>2</button>
-                            <button>3</button>
+                            <a th:if="${currentPage > 1}" th:href="@{/award(page=1)}">처음</a>
+
+                            <a th:if="${currentPage > 1}"
+                               th:href="@{/award(page=${currentPage - 1})}">이전</a>
+
+                            <!-- 페이지 번호 반복 -->
+                            <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+                               th:href="@{/award(page=${i})}"
+                               th:text="${i}"
+                               th:classappend="${i == currentPage} ? 'current' : ''"></a>
+
+                            <a th:if="${currentPage < totalPages}"
+                               th:href="@{/award(page=${currentPage + 1})}">다음</a>
+
+                            <a th:if="${currentPage < totalPages}" th:href="@{/award(page=${totalPages})}">끝</a>
                         </div>
                     </div>
                 </div>
@@ -111,7 +126,7 @@
                         <div class="work-tb">
                             <div class="row">
                                 <div class="header-cell">작품코드</div>
-                                <div class="cell">미발급</div>
+                                <div class="cell"></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">제목</div>
@@ -137,13 +152,13 @@
                                 <div class="header-cell">출품년도</div>
                                 <div class="cell"><input value="" name="" /></div>
                                 <div class="header-cell">등록일시</div>
-                                <div class="cell">2023-03-02 16:45:23</div>
+                                <div class="cell"></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">등록자</div>
-                                <div class="cell">홍길동(hong)</div>
+                                <div class="cell"></div>
                                 <div class="header-cell">소속</div>
-                                <div class="cell">경남지부</div>
+                                <div class="cell"></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">사진</div>
@@ -157,12 +172,11 @@
 
                     <div class="sec2-2">
                         <div class="info">회원정보</div>
-
                         <div class="user-tb">
                             <div class="row">
                                 <div class="header-cell">회원구분</div>
                                 <div class="cell">
-                                    <select>
+                                    <select class="select-user">
                                         <option>회원</option>
                                     </select>
                                     <button class="cell-btn" id="openModal" type="button">조회</button>
@@ -196,27 +210,22 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="btn-div">
-                            <div class="btn-group1">
-                                <button>삭제</button>
-                            </div>
-                            <div class="btn-group2">
-                                <button>수정</button>
-                                <button>작품등록</button>
+                            <div class="btn-div">
+                                <div class="btn-group1">
+                                    <button>삭제</button>
+                                </div>
+                                <div class="btn-group2">
+                                    <button>수정</button>
+                                    <button>작품등록</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
-
-
-
 
 
 

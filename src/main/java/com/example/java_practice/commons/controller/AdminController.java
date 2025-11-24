@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.ArrayList;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,10 +18,17 @@ public class AdminController {
 
     // 수상작 등록현황 페이지
     @GetMapping("award")
-    public String awardPage(Model model) {
+    public String awardPage(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                            Model model) {
+        // paging
+        int limit = 5;
+        int offset = (page - 1) * limit;
 
         AwardSearch awardSearch = new AwardSearch();
-        awardSearch.setPage(1);
+
+        awardSearch.setLimit(limit);
+        awardSearch.setOffset(offset);
+
         awardSearch.setSort("award");
         awardSearch.setKeyword("");
         awardSearch.setFilter("");
@@ -28,7 +36,13 @@ public class AdminController {
         awardSearch.setEndDate("");
 
         ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
+        int total = adminService.cntAwardList();
+        int totalPages = (int) Math.ceil((double) total / limit);
+
         model.addAttribute("awardList", awardList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("total", total);
 
         return "commons/admin/awardReg";
     }
@@ -37,7 +51,8 @@ public class AdminController {
     public String invitPage() {
 
         AwardSearch awardSearch = new AwardSearch();
-        awardSearch.setPage(1);
+        awardSearch.setOffset(1);
+
         awardSearch.setSort("invit");
         awardSearch.setKeyword("");
         awardSearch.setFilter("");

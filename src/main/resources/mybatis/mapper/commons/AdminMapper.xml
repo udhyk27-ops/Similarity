@@ -47,7 +47,7 @@
         T1.F_SUB_ADDRESS,
         T1.F_BIRTH,
         T1.F_PLACE,
-        T1.F_REG_DATE AS US_REG_DATE,
+        SUBSTR(T1.F_REG_DATE, 1, 10) AS US_REG_DATE,
         T1.F_DEPT,
         T1.F_POSITION,
         T1.F_PHONE,
@@ -59,7 +59,7 @@
         T2.F_TITLE,
         T2.F_AUTHOR,
         T2.F_YEAR,
-        T2.F_REG_DATE AS PD_REG_DATE,
+        SUBSTR(T2.F_REG_DATE, 1, 10) AS PD_REG_DATE,
         T2.F_CODE,
         T2.F_PATH,
         T3.F_CONTEST,
@@ -77,21 +77,31 @@
         T4.F_AUTH_ADMIN
     </sql>
 
-    <select id="selAwardList" resultMap="awardResultSet">
+    <select id="selAwardList" resultMap="awardResultSet" parameterType="awardsearch">
         SELECT
             <include refid="selAward" />
         FROM T_USER T1
              JOIN T_PRODUCT T2
                ON T1.F_USERNO=T2.F_REG_NO
-             LEFT JOIN T_CONTEST T3
-                    ON T2.F_PRODUCT_NO=T3.F_PRODUCT_NO
-             LEFT JOIN T_AUTH T4
-                    ON T1.F_USERNO = T4.F_USERNO
+             JOIN T_CONTEST T3
+               ON T2.F_PRODUCT_NO=T3.F_PRODUCT_NO
         WHERE T2.F_SORT = 'A'
           AND T1.F_DEL_YN = 'N'
           AND T2.F_DEL_YN = 'N'
         ORDER BY T2.F_REG_DATE DESC
-        OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+    </select>
+
+    <!--  Award List CNT -->
+    <select id="cntAwardList">
+        SELECT COUNT(*) FROM T_USER T1
+         JOIN T_PRODUCT T2
+              ON T1.F_USERNO=T2.F_REG_NO
+         JOIN T_CONTEST T3
+              ON T2.F_PRODUCT_NO=T3.F_PRODUCT_NO
+        WHERE T2.F_SORT = 'A'
+          AND T1.F_DEL_YN = 'N'
+          AND T2.F_DEL_YN = 'N'
     </select>
 
     <select id="selUserList" resultMap="userResultSet">

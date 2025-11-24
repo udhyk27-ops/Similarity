@@ -13,7 +13,8 @@ import lombok.Data;
 @Data
 public class AwardSearch {
     private String sort;
-    private int page;
+    private int offset;
+    private int limit;
     private String keyword;
     private String filter;
     private String startDate;

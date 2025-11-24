@@ -11,6 +11,9 @@ public interface AdminService {
     // 수상작 리스트 조회
     ArrayList<Award> selAwardList(AwardSearch awardSearch);
 
+    // 수상작 CNT
+    int cntAwardList();
+
     // 회원 조회(모달)
     ArrayList<User> selUserList(User user);
 }
