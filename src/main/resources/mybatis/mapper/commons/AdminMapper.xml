@@ -8,20 +8,12 @@
     <resultMap type="award" id="awardResultSet">
         <result column="F_NAME" property="f_name" />
         <result column="F_ID" property="f_id" />
-        <result column="F_REG_NUM" property="f_reg_num" />
         <result column="F_MAIN_ADDRESS" property="f_main_address" />
         <result column="F_SUB_ADDRESS" property="f_sub_address" />
         <result column="F_BIRTH" property="f_birth" />
         <result column="F_PLACE" property="f_place" />
-        <result column="US_REG_DATE" property="us_reg_date" />
-        <result column="F_DEPT" property="f_dept" />
-        <result column="F_POSITION" property="f_position" />
         <result column="F_PHONE" property="f_phone" />
         <result column="F_EMAIL" property="f_email" />
-        <result column="F_LOGIN_DATE" property="f_login_date" />
-        <result column="F_MOD_DATE" property="f_mod_date" />
-        <result column="F_MEMO" property="f_memo" />
-        <result column="US_SORT" property="us_sort" />
         <result column="F_TITLE" property="f_title" />
         <result column="F_AUTHOR" property="f_author" />
         <result column="F_YEAR" property="f_year" />
