@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SingleReg</title>
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/fileUpload.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
+    <script th:src="@{/js/fileUpload.js}"></script>
+    <style>
+        .notice-container {
+            width: 100%;
+            border: 1px solid var(--border);
+            background: #fff;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .notice-container table.layout {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .notice-container td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        .label {
+            background: var(--muted);
+            color: var(--text-light);
+            width: 120px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .form-control {
+            height: 32px;
+            width: 80%;
+        }
+        .select-control{
+            width: 80px;
+        }
+        .margin-x{
+            margin: 0 7px;
+        }
+        .textarea {
+            height: auto;
+        }
+        .buttons {
+            padding-top: 16px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .buttons .btn {
+            padding: 8px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .preview-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER FRAGMENT -->
+    <header class="header">
+        <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
+    </header>
+
+    <div class="container">
+
+        <!-- SIDEBAR FRAGMENT -->
+        <div class="navbar">
+            <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+
+
+            <!-- CONTENT AREA -->
+            <div class="content">
+                <div class="dashboard-grid">
+
+                    <div class="card">
+
+                        <div class="main-title">
+                            <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('개별등록')}"></th:block>
+                        </div>
+                        <div class="notice-detail-wrap">
+                            <form class="notice-form" method="post" enctype="multipart/form-data">
+                                <div class="notice-container">
+                                    <table class="layout">
+                                        <tr>
+                                            <td class="label">저작물명 <span class="font-red">*</span></td>
+                                            <td class="content" colspan="3">
+                                                <input type="text" class="form-control" name="artwork-title" value="">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">저작자명 <span class="font-red">*</span></td>
+                                            <td class="content" colspan="3">
+                                                <input type="text" class="form-control" name="author" value="">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">발표년도 <span class="font-red">*</span></td>
+                                            <td class="content" colspan="3">
+                                                <select name="issue-year" class="form-control select-control">
+                                                    <option th:each="i : ${#numbers.sequence(2025, 2015)}" th:value="${i}" th:text="${i}"></option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">공모전명 <span class="font-red">*</span></td>
+                                            <td class="content" colspan="3">
+                                                <input type="text" class="form-control" name="contest-name" value="">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">주최사 <span class="font-red">*</span></td>
+                                            <td class="content" colspan="3">
+                                                <input type="text" class="form-control" name="host-name" value="">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">주관사 <span class="font-red">*</span></td>
+                                            <td class="content" colspan="3">
+                                                <input type="text" class="form-control" name="manage-name" value="">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">상권명 <span class="font-red">*</span></td>
+                                            <td class="content" colspan="3">
+                                                <input type="text" class="form-control" name="award-name" value="">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">저작물 사이즈 <span class="font-red">*</span></td>
+                                            <td class="content" colspan="3">
+                                                <input type="text" class="form-control select-control" name="work-size-wid" value="">
+                                                <span class="margin-x"> X </span>
+                                                <input type="text" class="form-control select-control" name="work-size-hei" value="">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">기타</td>
+                                            <td class="content" colspan="3">
+                                                <textarea rows="10" class="form-control textarea" name="content" value=""></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label">사진첨부</td>
+                                            <td class="attach" colspan="3">
+                                                <label class="file-box">
+                                                    <input type="file" id="fileInput" name="files" accept="image/*" multiple style="display:none;">
+                                                    📁 사진첨부
+                                                </label>
+
+                                                <div id="fileList"></div>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </form>
+                            <div class="buttons">
+                                <div class="right-btns">
+                                    <a href="/worklist" class="btn btn-white">목록</a>
+                                    <button class="btn btn-navy">저장</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+    <script>
+        const fileInput = document.getElementById("fileInput");
+        const fileList = document.getElementById("fileList");
+
+        fileUpload.init({ enablePreview: true });
+        fileInput.addEventListener("change", function () {
+            fileUpload.renderFileList();
+        });
+
+    </script>
+</body>
+</html>

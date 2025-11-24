@@ -3,151 +3,141 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Notice</title>
+    <title>NoticeReg</title>
     <link rel="stylesheet" th:href="@{/css/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/fileUpload.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
+    <script th:src="@{/js/fileUpload.js}"></script>
     <style>
-        .search-box {
+
+        .notice-container {
             width: 100%;
-            margin-bottom: 15px;
+            border: 1px solid var(--border);
+            background: #fff;
+            overflow: hidden;
+            margin-top: 20px;
         }
-        .sch-form {
-            display: flex;
-            justify-content: flex-end;
+        .notice-container table.layout {
             width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
         }
-        .sch-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .notice-container td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
         }
-        .sch-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .date-group .form-control {
-            width: 140px;
-            height: 30px;
-        }
-        .keyword-group .form-control {
-            width: 220px;
-            height: 30px;
+        .label {
+            background: var(--muted);
+            color: var(--text-light);
+            width: 120px;
+            text-align: center;
+            font-weight: 600;
         }
         .form-control {
-            height: 34px;
-            padding: 0 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            height: 32px;
+            width: 95%;
         }
-        .date-separator {
-            font-size: 16px;
-            font-weight: bold;
-            color: #555;
+        .textarea {
+            height: auto;
         }
-        .btn-group {
+        .buttons {
+            padding-top: 16px;
             display: flex;
-            gap: 6px;
+            justify-content: flex-end;
         }
-        .btn-navy {
-            padding: 3px 18px;
-            border-radius: 8px;
-            border: 1px solid #274690;
-            background-color: #274690;
+        .buttons .btn {
+            padding: 8px 25px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: 0.15s ease;
-            color: #fff;
-        }
-        .btn-navy:hover {
-            background-color: #1B355F;
-            color: white;
-        }
-        .btn-pink {
-            padding: 3px 18px;
-            border-radius: 8px;
-            border: 1px solid #ff4e4e;
-            background-color: #ff4e4e;
-            cursor: pointer;
-            transition: 0.15s ease;
-            color: #fff;
-        }
-        .btn-pink:hover {
-            background-color: #D33A4C;
-            color: white;
+            font-size: 13px;
         }
 
     </style>
 </head>
 <body>
-<!-- HEADER FRAGMENT -->
-<header class="header">
-    <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
-</header>
+    <!-- HEADER FRAGMENT -->
+    <header class="header">
+        <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
+    </header>
 
-<div class="container">
+    <div class="container">
 
-    <!-- SIDEBAR FRAGMENT -->
-    <div class="navbar">
-        <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <main class="main">
-
-
-        <!-- CONTENT AREA -->
-        <div class="content">
-            <div class="dashboard-grid">
-
-                <div class="card">
-
-                    <div class="main-title">
-                        <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('공지사항')}"></th:block>
-                    </div>
-                    <table class="table" style="border: 1px solid #eee;">
-                        <tr>
-                            <th colspan="1">제목</th>
-                            <td colspan="5">관리환경을 오픈하였습니다</td>
-                        </tr>
-                        <tr>
-                            <th colspan="1" >작성자</th>
-                            <td colspan="2">운영자</td>
-                            <th colspan="1">등록일</th>
-                            <td colspan="2">2022-08-01</td>
-                        </tr>
-<!--                        <tr>-->
-<!--                            <th colspan="1">내용</th>-->
-<!--                            <td colspan="5">-->
-<!--                                <p>-->
-<!--                                발송 메일: 발송 메일 주소를 입력합니다. 이름 형식으로 작성하면 발송자 이름과 메일주소를 입력할 수 있습니다.-->
-<!--                                예약 전송: 메일 발송 예약 일시를 지정할 수 있습니다.-->
-<!--                                첨부 파일: 메일에 첨부 파일을 추가합니다.-->
-<!--                                첨부 파일은 최대 10개까지 업로드 가능하며, 30MB 이하의 파일만 가능합니다.-->
-<!--                                첨부 파일의 총합은 30MB를 넘어갈 수 없습니다.-->
-<!--                                제목/내용: 메일 제목과 내용을 입력합니다.-->
-<!--                                </p>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <th colspan="1">첨부파일</th>-->
-<!--                            <td colspan="5">대량등록양식.xlsx</td>-->
-<!--                        </tr>-->
-                    </table>
-<!--                    <div class="btn-group">-->
-<!--                        <a class="btn-pink">삭제</a>-->
-<!--                        <a href="/notice" class="btn-gray">목록</a>-->
-<!--                        <a class="btn-navy">등록</a>-->
-<!--                    </div>-->
-                </div>
-            </div>
+        <!-- SIDEBAR FRAGMENT -->
+        <div class="navbar">
+            <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
         </div>
 
-    </main>
+        <!-- MAIN CONTENT -->
+        <main class="main">
 
-</div>
-<script>
-</script>
+
+            <!-- CONTENT AREA -->
+            <div class="content">
+                <div class="dashboard-grid">
+
+                    <div class="card">
+
+                        <div class="main-title">
+                            <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('공지사항')}"></th:block>
+                        </div>
+                        <div class="notice-detail-wrap">
+                            <form class="notice-form" method="post" enctype="multipart/form-data">
+                                <div class="notice-container">
+                                    <table class="layout">
+                                        <tr>
+                                            <td class="label">제목</td>
+                                            <td class="content" colspan="3">
+                                                <input type="text" class="form-control" name="title" value="">
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="label">내용</td>
+                                            <td class="content" colspan="3">
+                                                <textarea rows="10" class="form-control textarea" name="content" value=""></textarea>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="label">첨부파일</td>
+                                            <td class="attach" colspan="3">
+                                                <label class="file-box">
+                                                    <input type="file" id="fileInput" name="files" multiple style="display:none;">
+                                                    📁 파일첨부
+                                                </label>
+
+                                                <div id="fileList"></div>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </form>
+                            <div class="buttons">
+                                <div class="right-btns">
+                                    <a href="/notice" class="btn btn-white">취소</a>
+                                    <button class="btn btn-navy">저장</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+    <script>
+        const fileInput = document.getElementById("fileInput");
+        const fileList = document.getElementById("fileList");
+
+        fileUpload.init({ enablePreview: false });
+        fileInput.addEventListener("change", function () {
+            fileUpload.renderFileList();
+        });
+
+    </script>
 </body>
 </html>

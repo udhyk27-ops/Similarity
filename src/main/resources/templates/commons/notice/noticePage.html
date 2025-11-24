@@ -23,213 +23,183 @@
             align-items: center;
             gap: 10px;
         }
-        .sch-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
         .date-group .form-control {
             width: 140px;
             height: 30px;
-        }
-        .keyword-group .form-control {
-            width: 220px;
-            height: 30px;
-        }
-        .form-control {
-            height: 34px;
-            padding: 0 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
         }
         .date-separator {
             font-size: 16px;
             font-weight: bold;
             color: #555;
         }
+        .keyword-group .form-control {
+            width: 220px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-control {
+            height: 34px;
+            padding: 0 8px;
+        }
         .btn-group {
             display: flex;
             gap: 6px;
-        }
-        .btn-navy {
-            padding: 3px 18px;
-            border-radius: 8px;
-            border: 1px solid #274690;
-            background-color: #274690;
-            cursor: pointer;
-            transition: 0.15s ease;
-            color: #fff;
-        }
-        .btn-navy:hover {
-            background-color: #1B355F;
-            color: white;
-        }
-        .btn-pink {
-            padding: 3px 18px;
-            border-radius: 8px;
-            border: 1px solid #ff4e4e;
-            background-color: #ff4e4e;
-            cursor: pointer;
-            transition: 0.15s ease;
-            color: #fff;
-        }
-        .btn-pink:hover {
-            background-color: #D33A4C;
-            color: white;
         }
 
     </style>
 </head>
 <body>
-<!-- HEADER FRAGMENT -->
-<header class="header">
-    <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
-</header>
+    <!-- HEADER FRAGMENT -->
+    <header class="header">
+        <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
+    </header>
 
-<div class="container">
+    <div class="container">
 
-    <!-- SIDEBAR FRAGMENT -->
-    <div class="navbar">
-        <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
-    </div>
+        <!-- SIDEBAR FRAGMENT -->
+        <div class="navbar">
+            <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
+        </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="main">
+        <!-- MAIN CONTENT -->
+        <main class="main">
 
 
-        <!-- CONTENT AREA -->
-        <div class="content">
-            <div class="dashboard-grid">
+            <!-- CONTENT AREA -->
+            <div class="content">
+                <div class="dashboard-grid">
 
-                <div class="card">
+                    <div class="card">
 
-                    <div class="main-title">
-                        <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('공지사항')}"></th:block>
-                    </div>
-                    <div class="search-box">
-                        <form class="sch-form">
-                            <input type="hidden" name="perPage" value="">
-                            <input type="hidden" name="page" value="">
+                        <div class="main-title">
+                            <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('공지사항')}"></th:block>
+                        </div>
+                        <div class="search-box">
+                            <form class="sch-form">
+                                <input type="hidden" name="perPage" value="">
+                                <input type="hidden" name="page" value="">
 
-                            <div class="sch-row">
-                                <div class="filter-group date-group">
-                                    <input type="date" name="staDate" class="form-control" value="">
-                                    <span class="date-separator">~</span>
-                                    <input type="date" name="endDate" class="form-control" value="">
+                                <div class="sch-row">
+                                    <div class="date-group">
+                                        <input type="date" name="staDate" class="form-control" value="">
+                                        <span class="date-separator">~</span>
+                                        <input type="date" name="endDate" class="form-control" value="">
+                                    </div>
+
+                                    <div class="sch-group keyword-group">
+                                        <input type="search" class="form-control" name="keyword" placeholder="검색 키워드" value="">
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a class="btn-pink">검색</a>
+                                        <a href="/noticeReg" class="btn-navy">등록</a>
+                                    </div>
                                 </div>
+                            </form>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                    <th>작성날짜</th>
+                                    <th>조회수</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>10</td>
+                                    <td><a href="/detail">공지사항제목입니다</a></td>
+                                    <td>관리자</td>
+                                    <td>2022-08-01 16:15</td>
+                                    <td>152</td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td><a href="/detail">공지사항제목입니다</a></td>
+                                    <td>관리자</td>
+                                    <td>2022-08-01 16:15</td>
+                                    <td>152</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td><a href="/detail">공지사항제목입니다</a></td>
+                                    <td>관리자</td>
+                                    <td>2022-08-01 16:15</td>
+                                    <td>152</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td><a href="/detail">공지사항제목입니다</a></td>
+                                    <td>관리자</td>
+                                    <td>2022-08-01 16:15</td>
+                                    <td>152</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td><a href="/detail">공지사항제목입니다</a></td>
+                                    <td>관리자</td>
+                                    <td>2022-08-01 16:15</td>
+                                    <td>152</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><a href="/detail">공지사항제목입니다</a></td>
+                                    <td>관리자</td>
+                                    <td>2022-08-01 16:15</td>
+                                    <td>152</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td><a href="/detail">공지사항제목입니다</a></td>
+                                    <td>관리자</td>
+                                    <td>2022-08-01 16:15</td>
+                                    <td>152</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><a href="/detail">공지사항제목입니다</a></td>
+                                    <td>관리자</td>
+                                    <td>2022-08-01 16:15</td>
+                                    <td>152</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><a href="/detail">공지사항제목입니다</a></td>
+                                    <td>관리자</td>
+                                    <td>2022-08-01 16:15</td>
+                                    <td>152</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><a href="/detail">공지사항제목입니다</a></td>
+                                    <td>관리자</td>
+                                    <td>2022-08-01 16:15</td>
+                                    <td>152</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <a href="#" class="page-btn prev">«</a>
 
-                                <div class="sch-group keyword-group">
-                                    <input type="search" class="form-control" name="keyword" placeholder="검색 키워드" value="">
-                                </div>
+                            <a href="#" class="page-btn active">1</a>
+                            <a href="#" class="page-btn">2</a>
+                            <a href="#" class="page-btn">3</a>
+                            <a href="#" class="page-btn">4</a>
+                            <a href="#" class="page-btn">5</a>
 
-                                <div class="btn-group">
-                                    <a class="btn-pink">검색</a>
-                                    <a href="/noticeReg" class="btn-navy">등록</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>번호</th>
-                                <th>제목</th>
-                                <th>작성자</th>
-                                <th>작성날짜</th>
-                                <th>조회수</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>10</td>
-                                <td><a href="javascript:void(0)">공지사항제목입니다</a></td>
-                                <td>관리자</td>
-                                <td>2022-08-01 16:15</td>
-                                <td>152</td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td><a href="javascript:void(0)">공지사항제목입니다</a></td>
-                                <td>관리자</td>
-                                <td>2022-08-01 16:15</td>
-                                <td>152</td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td><a href="javascript:void(0)">공지사항제목입니다</a></td>
-                                <td>관리자</td>
-                                <td>2022-08-01 16:15</td>
-                                <td>152</td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td><a href="javascript:void(0)">공지사항제목입니다</a></td>
-                                <td>관리자</td>
-                                <td>2022-08-01 16:15</td>
-                                <td>152</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td><a href="javascript:void(0)">공지사항제목입니다</a></td>
-                                <td>관리자</td>
-                                <td>2022-08-01 16:15</td>
-                                <td>152</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td><a href="javascript:void(0)">공지사항제목입니다</a></td>
-                                <td>관리자</td>
-                                <td>2022-08-01 16:15</td>
-                                <td>152</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td><a href="javascript:void(0)">공지사항제목입니다</a></td>
-                                <td>관리자</td>
-                                <td>2022-08-01 16:15</td>
-                                <td>152</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><a href="javascript:void(0)">공지사항제목입니다</a></td>
-                                <td>관리자</td>
-                                <td>2022-08-01 16:15</td>
-                                <td>152</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="javascript:void(0)">공지사항제목입니다</a></td>
-                                <td>관리자</td>
-                                <td>2022-08-01 16:15</td>
-                                <td>152</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0)">공지사항제목입니다</a></td>
-                                <td>관리자</td>
-                                <td>2022-08-01 16:15</td>
-                                <td>152</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="pagination">
-                        <a href="#" class="page-btn prev">«</a>
-
-                        <a href="#" class="page-btn active">1</a>
-                        <a href="#" class="page-btn">2</a>
-                        <a href="#" class="page-btn">3</a>
-                        <a href="#" class="page-btn">4</a>
-                        <a href="#" class="page-btn">5</a>
-
-                        <a href="#" class="page-btn next">»</a>
+                            <a href="#" class="page-btn next">»</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </main>
+        </main>
 
-</div>
+    </div>
 <script>
 </script>
 </body>

@@ -1,3 +1,15 @@
+:root {
+    --border: #ffdae4;
+    --muted: #fff0f0;
+    --accent: #ffbccc;
+    --text: #333;
+    --text-light: #444;
+    --bg: #fffdfd;
+    --btn-pink: #ff4e4e;
+    --dark-pink: #d33a4c;
+    --page-pink: #fab2c1;
+}
+
 /* 헤더 */
 .header {
     width: 100%;
@@ -56,7 +68,7 @@
     display: block;
     padding: 8px 15px;
     text-decoration: none;
-    color: #333;
+    color: var(--text);
     font-weight: 400;
 }
 .header .fragment .dropdown a:hover {
@@ -71,7 +83,7 @@
     padding: 5px 12px;
 }
 .header .fragment .dropdown .logout-link:hover {
-    background-color: #D33A4C;
+    background-color: var(--dark-pink);
 }
 .admin-menu:hover .dropdown,
 .admin-menu.active .dropdown {
@@ -95,7 +107,7 @@
 .menu-item {
     font-size: 14px;
     padding: 8px 20px 8px 30px;
-    color: #333;
+    color: var(--text);
     cursor: pointer;
     transition: background-color 0.2s;
 }
@@ -110,7 +122,7 @@
     margin-bottom: 20px;
     font-size: 20px;
     font-weight: 600;
-    color: #333;
+    color: var(--text);
 }
 
 /* 공통 */
@@ -122,7 +134,7 @@ body {
     margin: 0;
     padding: 0;
     /*font-family: 'Arial', sans-serif;*/
-    background-color: #fffdfd; /* 전체 배경색 */
+    background-color: var(--bg);
 }
 main {
     flex-grow: 1;
@@ -138,6 +150,7 @@ main {
     gap: 20px;
     flex-wrap: wrap;
 }
+/* 카드 */
 .card {
     background: white;
     /*border: 1px solid #F4B5C2;*/
@@ -155,32 +168,109 @@ main {
     font-weight: 600;
     padding-bottom: 15px;
     margin-bottom: 20px;
-    color: #444;
+    color: var(--text-light);
     border-bottom: 2px solid #eee;
 }
+/* 테이블 */
 .table td,
 .table th {
     padding: 5px 8px;
-    color: #444;
+    color: var(--text-light);
 }
 .table {
     width: 100%;
     border-collapse: collapse;
     background: white;
-    text-align: center;
+    /*text-align: center;*/
 }
 .table thead tr {
     background-color: #f7f7f7;
 }
 .table th {
-    background-color: #fff0f0;
-    border-bottom: 1px solid #ffdae4;
+    background-color: var(--muted);
+    border-bottom: 1px solid var(--border);
     font-weight: 600;
+    font-size: 14px;
 }
 .table td {
     border-bottom: 1px solid #E5E5E5;
     text-align: center;
 }
+/* 폰트 */
+.font-red{
+    color: red;
+}
+/* 버튼 */
+.btn-navy {
+    padding: 5px 18px;
+    border-radius: 8px;
+    border: 1px solid #274690;
+    background-color: #274690;
+    cursor: pointer;
+    transition: 0.15s ease;
+    color: #fff;
+    font-size: 13px;
+}
+.btn-navy:hover {
+    background-color: #1B355F;
+    color: white;
+}
+.btn-pink {
+    padding: 5px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--btn-pink);
+    background-color: var(--btn-pink);
+    cursor: pointer;
+    transition: 0.15s ease;
+    color: #fff;
+    font-size: 13px;
+}
+.btn-pink:hover {
+    background-color: var(--dark-pink);
+    color: white;
+}
+.btn-green {
+    padding: 5px 18px;
+    border-radius: 8px;
+    border: 1px solid #21A366;
+    background-color: #21A366;
+    cursor: pointer;
+    transition: 0.15s ease;
+    color: #fff;
+    font-size: 13px;
+}
+.btn-green:hover {
+    background-color: #1B8A55;
+    color: white;
+}
+.btn-white {
+    padding: 5px 18px;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #87898e;
+    cursor: pointer;
+    transition: 0.15s ease;
+    color: var(--text);
+    font-size: 13px;
+}
+.btn-white:hover {
+    background: #f4f4f6;
+    border-color: #87898e;
+}
+/* input */
+/* form-control : input관련 css. height와 width는 각자 개별 설정 */
+.form-control {
+    padding: 0 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    appearance: none;
+}
+.form-control:focus {
+    border: 1px solid var(--accent);
+    outline: none;
+}
+
 /* 페이징 */
 .pagination {
     display: flex;
@@ -194,7 +284,7 @@ main {
     padding: 5px 12px;
     border: 1px solid #ddd;
     background: #fff;
-    color: #333;
+    color: var(--text);
     text-decoration: none;
     border-radius: 4px;
     font-size: 14px;
@@ -204,9 +294,9 @@ main {
     background: #f0f0f0;
 }
 .page-btn.active {
-    background: #fab2c1;
+    background: var(--page-pink);
     color: #fff;
-    border-color: #fab2c1;
+    border-color: var(--page-pink);
 }
 .page-btn.prev,
 .page-btn.next {
