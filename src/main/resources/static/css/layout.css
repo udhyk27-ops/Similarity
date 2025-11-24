@@ -114,8 +114,9 @@
 }
 
 /* 공통 */
-a{
-    text-decoration-line: none;
+a {
+    text-decoration: none;
+    color: #1f5ff7;
 }
 body {
     margin: 0;
