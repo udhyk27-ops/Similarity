@@ -3,6 +3,7 @@ package com.example.java_practice.commons.controller;
 import java.util.ArrayList;
 import com.example.java_practice.commons.dto.Award;
 import com.example.java_practice.commons.dto.AwardSearch;
+import com.example.java_practice.commons.dto.User;
 import com.example.java_practice.commons.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,11 @@ public class AdminRestController {
 
 
 
-        return adminService.selectAwardList(awardSearch);
+        return adminService.selAwardList(awardSearch);
     }
+    
+    // 회원정보 조회 모달
+    @GetMapping("/searchUser")
+    public ArrayList<User> selUser(@ModelAttribute User user) { return adminService.selUserList(user); }
 
 }

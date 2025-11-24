@@ -6,18 +6,107 @@
 <mapper namespace="com.example.java_practice.commons.mapper.AdminMapper">
 
     <resultMap type="award" id="awardResultSet">
-        <result column="F_ID" property="id" />
-        <result column="F_TITLE" property="title" />
-        <result column="F_AUTHOR" property="author" />
-        <result column="F_CONTEST" property="contest" />
-        <result column="F_PRIZE" property="prize" />
-        <result column="F_CODE" property="code" />
-        <result column="F_REG_DATE" property="regDate" />
+        <result column="F_NAME" property="f_name" />
+        <result column="F_ID" property="f_id" />
+        <result column="F_REG_NUM" property="f_reg_num" />
+        <result column="F_MAIN_ADDRESS" property="f_main_address" />
+        <result column="F_SUB_ADDRESS" property="f_sub_address" />
+        <result column="F_BIRTH" property="f_birth" />
+        <result column="F_PLACE" property="f_place" />
+        <result column="US_REG_DATE" property="us_reg_date" />
+        <result column="F_DEPT" property="f_dept" />
+        <result column="F_POSITION" property="f_position" />
+        <result column="F_PHONE" property="f_phone" />
+        <result column="F_EMAIL" property="f_email" />
+        <result column="F_LOGIN_DATE" property="f_login_date" />
+        <result column="F_MOD_DATE" property="f_mod_date" />
+        <result column="F_MEMO" property="f_memo" />
+        <result column="US_SORT" property="us_sort" />
+        <result column="F_TITLE" property="f_title" />
+        <result column="F_AUTHOR" property="f_author" />
+        <result column="F_YEAR" property="f_year" />
+        <result column="PD_REG_DATE" property="pd_reg_date" />
+        <result column="F_CODE" property="f_code" />
+        <result column="F_PATH" property="f_path" />
+        <result column="F_CONTEST" property="f_contest" />
+        <result column="F_AWARD" property="f_award" />
+        <result column="F_NATION" property="f_nation" />
+        <result column="F_CITY" property="f_city" />
     </resultMap>
 
-    <select id="selectAwardList" resultMap="awardResultSet">
-        SELECT F_ID, F_TITLE, F_AUTHOR, F_CONTEST, F_PRIZE, F_CODE, F_REG_DATE
-        FROM ZTMP_AWARD
+    <resultMap type="user" id="userResultSet">
+        <result column="F_NAME" property="f_name" />
+        <result column="F_ID" property="f_id" />
+        <result column="F_REG_NUM" property="f_reg_num" />
+        <result column="F_MAIN_ADDRESS" property="f_main_address" />
+        <result column="F_SUB_ADDRESS" property="f_sub_address" />
+        <result column="F_BIRTH" property="f_birth" />
+        <result column="F_PLACE" property="f_place" />
+        <result column="F_REG_DATE" property="f_reg_date" />
+        <result column="F_PHONE" property="f_phone" />
+        <result column="F_EMAIL" property="f_email" />
+    </resultMap>
+
+    <sql id="selAward">
+        T1.F_NAME,
+        T1.F_ID,
+        T1.F_REG_NUM,
+        T1.F_MAIN_ADDRESS,
+        T1.F_SUB_ADDRESS,
+        T1.F_BIRTH,
+        T1.F_PLACE,
+        T1.F_REG_DATE AS US_REG_DATE,
+        T1.F_DEPT,
+        T1.F_POSITION,
+        T1.F_PHONE,
+        T1.F_EMAIL,
+        T1.F_LOGIN_DATE,
+        T1.F_MOD_DATE,
+        T1.F_MEMO,
+        T1.F_SORT AS US_SORT,
+        T2.F_TITLE,
+        T2.F_AUTHOR,
+        T2.F_YEAR,
+        T2.F_REG_DATE AS PD_REG_DATE,
+        T2.F_CODE,
+        T2.F_PATH,
+        T3.F_CONTEST,
+        T3.F_AWARD,
+        T3.F_NATION,
+        T3.F_CITY
+    </sql>
+
+    <sql id="selAuth">
+        T4.F_AUTH_AWARD,
+        T4.F_AUTH_INVIT,
+        T4.F_AUTH_REG,
+        T4.F_AUTH_SIM,
+        T4.F_AUTH_USER,
+        T4.F_AUTH_ADMIN
+    </sql>
+
+    <select id="selAwardList" resultMap="awardResultSet">
+        SELECT
+            <include refid="selAward" />
+        FROM T_USER T1
+             JOIN T_PRODUCT T2
+               ON T1.F_USERNO=T2.F_REG_NO
+             LEFT JOIN T_CONTEST T3
+                    ON T2.F_PRODUCT_NO=T3.F_PRODUCT_NO
+             LEFT JOIN T_AUTH T4
+                    ON T1.F_USERNO = T4.F_USERNO
+        WHERE T2.F_SORT = 'A'
+          AND T1.F_DEL_YN = 'N'
+          AND T2.F_DEL_YN = 'N'
+        ORDER BY T2.F_REG_DATE DESC
+        OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+    </select>
+
+    <select id="selUserList" resultMap="userResultSet">
+        SELECT F_NAME, F_ID, F_REG_NUM, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_BIRTH, F_PLACE, F_REG_DATE, F_PHONE, F_EMAIL
+        FROM T_USER
+        WHERE F_DEL_YN = 'N'
+          AND F_SORT = '회원'
     </select>
 
 </mapper>

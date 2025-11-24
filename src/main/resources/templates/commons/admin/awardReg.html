@@ -85,13 +85,13 @@
                             </div>
 
                             <div class="row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}">
-                                <div class="cell" th:text="${award.id}"></div>
-                                <div class="cell" th:text="${award.title}"></div>
-                                <div class="cell" th:text="${award.author}"></div>
-                                <div class="cell" th:text="${award.contest}"></div>
-                                <div class="cell" th:text="${award.prize}"></div>
-                                <div class="cell" th:text="${award.code}"></div>
-                                <div class="cell" th:text="${award.regDate}"></div>
+                                <div class="cell" th:text="${award.f_id}"></div>
+                                <div class="cell" th:text="${award.f_title}"></div>
+                                <div class="cell" th:text="${award.f_author}"></div>
+                                <div class="cell" th:text="${award.f_contest}"></div>
+                                <div class="cell" th:text="${award.f_award}"></div>
+                                <div class="cell" th:text="${award.f_code}"></div>
+                                <div class="cell" th:text="${award.pd_reg_date}"></div>
                             </div>
                             <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
                         </div>
@@ -165,7 +165,7 @@
                                     <select>
                                         <option>회원</option>
                                     </select>
-                                    <button class="cell-btn">조회</button>
+                                    <button class="cell-btn" id="openModal" type="button">조회</button>
                                 </div>
                                 <div class="header-cell">지역</div>
                                 <div class="cell"><input value="" name="" /></div>
@@ -220,12 +220,68 @@
 
 
 
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">회원정보조회</div>
+                <div><button class="close-btn close">x</button></div>
+            </div>
+            <div class="modal-sch">
+                <div class="sch-tb">
+                    <div class="row">
+                        <div class="header-cell">검색</div>
+                        <div class="cell">
+                            <select>
+                                <option>선택</option>
+                            </select>
+                            <input type="text" name="modal-keyword" />
+                            <button class="cell-btn">검색</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="user-list-tb">
+                    <div class="row header-row">
+                        <div class="cell">이름</div>
+                        <div class="cell">아이디</div>
+                        <div class="cell">주민번호</div>
+                        <div class="cell">가입일</div>
+                        <div class="cell">연락처</div>
+                        <div class="cell">이메일</div>
+                        <div class="cell">선택</div>
+                    </div>
+
+                    <div class="row" id="user-template" style="display: none;">
+                        <div class="cell f_name"></div>
+                        <div class="cell f_id"></div>
+                        <div class="cell f_reg_num"></div>
+                        <div class="cell f_reg_date"></div>
+                        <div class="cell f_phone"></div>
+                        <div class="cell f_email"></div>
+                        <div class="cell"><button class="cell-btn">선택</button></div>
+                    </div>
+
+                    <div id="user-row"></div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="cell-btn close">닫기</button>
+            </div>
+
+
+        </div>
+    </div>
 
 
 
 
 
-
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script th:src="@{/js/award.js}"></script>
+
+
 </body>
 </html>

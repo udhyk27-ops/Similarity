@@ -27,7 +27,7 @@ public class AdminController {
         awardSearch.setStartDate("");
         awardSearch.setEndDate("");
 
-        ArrayList<Award> awardList = adminService.selectAwardList(awardSearch);
+        ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
         model.addAttribute("awardList", awardList);
 
         return "commons/admin/awardReg";
