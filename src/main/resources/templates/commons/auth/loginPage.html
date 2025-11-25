@@ -7,8 +7,6 @@
     <link rel="stylesheet" th:href="@{/css/footer.css}">
     <style>
         body {
-            /*background:#fffdfd;*/
-            /*font-family:"Raleway";*/
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -18,77 +16,69 @@
             flex-grow: 1;
         }
         .form {
-            position:absolute;
-            top:50%;
-            left:50%;
-            transform:translate(-50%,-50%);
-            width:300px;
-            height:250px;
-            padding:10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 19rem;
+            height: 16rem;
+            padding: 0.5rem;
         }
         .form .form-header {
-            height:30px;
-            display:flex;
-            align-items:center;
-            text-align:center;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            text-align: center;
         }
         .form .form-header > h3 {
-            width:calc(100%);
-            color:#414040;
+            width: calc(100%);
+            color: #414040;
         }
         .form .form-elements {
-            margin-top:15px;
+            margin-top: 1rem;
         }
         .form .form-elements .form-element {
-            height:45px;
-            opacity:1;
-            overflow:hidden;
-            transition:all 500ms ease-in-out;
+            height: 3rem;
+            opacity: 1;
+            overflow: hidden;
+            transition: all 500ms ease-in-out;
         }
         .form .form-elements input {
-            width:100%;
-            padding:9px;
-            font-size:16px;
-            margin:5px 0px;
-            border-radius:10px;
-            box-sizing:border-box;
-            border:1px solid #edc0c0;
-            background:#f5f5f5;
+            width: 100%;
+            padding: 0.6rem;
+            font-size: 1rem;
+            margin: 0.3rem 0;
+            border-radius: 0.7rem;
+            box-sizing: border-box;
+            border: 1px solid #edc0c0;
+            background: #f5f5f5;
         }
         .form .form-elements input:focus {
             border: 1px solid #fd4242;
             outline: none;
         }
-        .input_chk {
-            margin-top: 10px;
-            accent-color: #ff4e4e;
-        }
         .input_chk + label {
             color: #414040;
-            font-size: 14px;
+            font-size: 0.9rem;
         }
         .form .form-element button {
-            width:100%;
-            padding:7px;
-            font-size:16px;
-            font-weight:600;
-            margin-top:10px;
-            border-radius:10px;
-            background:#f1575b;
-            color:#f5f5f5;
-            cursor:pointer;
-            border:none;
-            outline:none;
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 0.6rem;
+            border-radius: 0.6rem;
+            background: #f1575b;
+            color: #f5f5f5;
+            cursor: pointer;
+            border: none;
+            outline: none;
         }
         .form .form-element button:hover {
             background-color: #D33A4C;
             color: white;
         }
-        .form.reset .form-elements > div:nth-child(2),
-        .form.reset .form-elements > div:nth-child(3) {
-            height:0px;
-            opacity:0;
-        }
+
     </style>
 </head>
 <body>
@@ -135,6 +125,14 @@
                     submitBtn.click();
                 }
             })
+            submitBtn.addEventListener("click", function(e) {
+                console.log("실행1");
+                if(!validate.chkEmpty()) {
+                    e.preventDefault();
+                }
+            })
+
+            validate.chkError();
 
             let key = cookie.getCookie("saveId");
             if(key != "") {
@@ -185,6 +183,28 @@
                     cookieValue = decodeURIComponent(cookieData.substring(start, end));
                 }
                 return cookieValue;
+            }
+        }
+        const validate = {
+            chkEmpty: function() {
+                console.log("실행2");
+                const id = document.getElementById("f_id").value;
+                const pw = document.getElementById("f_pw").value;
+                if(id === "") {
+                    alert("아이디를 입력해주세요");
+                    return false;
+                }
+                if(pw === ""){
+                    alert("패스워드를 입력해주세요");
+                    return false;
+                }
+                return true;
+            },
+            chkError: function() {
+               const urlParams = new URLSearchParams(window.location.search);
+               if(urlParams.get('error') === 'true'){
+                   alert("로그인에 실패했습니다");
+               }
             }
         }
     </script>
