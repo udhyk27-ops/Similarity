@@ -23,4 +23,8 @@ public class AdminRestController {
     @GetMapping("/searchUser")
     public ArrayList<User> selUser(String sort) { return adminService.selUserList(sort); }
 
+    // 회원 삭제
+    @PostMapping("/deleteUser")
+    public int delUser(int userNo) { return adminService.delUser(userNo); }
+
 }

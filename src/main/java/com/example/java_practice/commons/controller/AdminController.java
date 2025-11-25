@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.ArrayList;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -45,19 +44,29 @@ public class AdminController {
     }
 
     @GetMapping("invit")
-    public String invitPage() {
+    public String invitPage(@ModelAttribute AwardSearch awardSearch, Model model) {
 
-        AwardSearch awardSearch = new AwardSearch();
-        awardSearch.setOffset(1);
+        // paging
+        int limit = 5;
+        int offset = (awardSearch.getPage() - 1) * limit;
 
-        awardSearch.setSort("invit");
-        awardSearch.setKeyword("");
-        awardSearch.setSchFilter("");
-        awardSearch.setStartDate("");
-        awardSearch.setEndDate("");
+        awardSearch.setLimit(limit);
+        awardSearch.setOffset(offset);
+        awardSearch.setSort("award");
 
+        ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
+        int cdCnt = adminService.cntAwardList(awardSearch);
+        int totalCnt = adminService.cntAwardList(new AwardSearch()); // 전체 건수
+        int totalPages = (int) Math.ceil((double) cdCnt / limit);
 
-        return "admin/invitReg";
+        model.addAttribute("awardSearch", awardSearch);
+        model.addAttribute("awardList", awardList);
+        model.addAttribute("currentPage", awardSearch.getPage());
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("cdCnt", cdCnt);
+        model.addAttribute("totalCnt", totalCnt);
+
+        return "commons/admin/invitReg";
     }
 
 

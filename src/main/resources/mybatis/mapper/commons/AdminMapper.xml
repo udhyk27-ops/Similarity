@@ -30,6 +30,7 @@
     </resultMap>
 
     <resultMap type="user" id="userResultSet">
+        <result column="F_USERNO" property="f_userNo" />
         <result column="F_NAME" property="f_name" />
         <result column="F_ID" property="f_id" />
         <result column="F_REG_NUM" property="f_reg_num" />
@@ -163,7 +164,7 @@
     </select>
 
     <select id="selUserList" resultMap="userResultSet">
-        SELECT F_NAME, F_ID, F_REG_NUM, F_REG_DATE, F_PHONE, F_EMAIL, F_PLACE, F_BIRTH, F_MAIN_ADDRESS, F_SUB_ADDRESS
+        SELECT F_USERNO, F_NAME, F_ID, F_REG_NUM, F_REG_DATE, F_PHONE, F_EMAIL, F_PLACE, F_BIRTH, F_MAIN_ADDRESS, F_SUB_ADDRESS
         FROM T_USER
         WHERE F_DEL_YN = 'N'
         <choose>
@@ -175,5 +176,9 @@
             </when>
         </choose>
     </select>
+
+    <update id="delUser" parameterType="int">
+        UPDATE T_USER SET F_DEL_YN = 'Y' WHERE F_USERNO = #{userNo}
+    </update>
 
 </mapper>

@@ -5,32 +5,32 @@ flatpickr(".flatpickr", {
 
 $('.reg-list-row').on('click', function() {
 
-   $.ajax({
-      url: '/api/admin/searchProduct',
-      type: 'GET',
-      data: {
-         contestNo: $(this).data('contest-no')
-      },
-      success: function(response) {
-          const product = response[0];
+    $.ajax({
+        url: '/api/admin/searchProduct',
+        type: 'GET',
+        data: {
+            contestNo: $(this).data('contest-no')
+        },
+        success: function(response) {
+            const product = response[0];
 
-          $('#work-code').text(product.f_code);
-          $('#work-title').val(product.f_title);
-          $('#work-contest').val(product.f_contest);
-          $('#work-author').val(product.f_author);
-          $('#work-award').val(product.f_award);
-          $('#work-host').val(product.f_city);
-          $('#work-manager').val(product.f_nation);
-          $('#work-year').val(product.f_year);
-          $('#work-regdate').text(product.f_reg_date);
-          $('#work-name').text(product.f_name + "(" + product.f_id + ")");
-          $('#work-dept').text(product.f_dept);
-          $('#work-img').attr('src', product.f_path);
-      },
-      error: function(error) {
-         console.error(error);
-      }
-   });
+            $('#work-code').text(product.f_code);
+            $('#work-title').val(product.f_title);
+            $('#work-contest').val(product.f_contest);
+            $('#work-author').val(product.f_author);
+            $('#work-award').val(product.f_award);
+            $('#work-host').val(product.f_city);
+            $('#work-manager').val(product.f_nation);
+            $('#work-year').val(product.f_year);
+            $('#work-regdate').text(product.f_reg_date);
+            $('#work-name').text(product.f_name + "(" + product.f_id + ")");
+            $('#work-dept').text(product.f_dept);
+            $('#work-img').attr('src', product.f_path);
+        },
+        error: function(error) {
+            console.error(error);
+        }
+    });
 
 
 });
@@ -76,7 +76,7 @@ $('#openModal').on('click', function () {
             }
         },
         error: function(error) {
-           console.error(error);
+            console.error(error);
         }
 
     });

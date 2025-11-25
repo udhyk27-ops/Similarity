@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>사진공모전 저작물 등록관리 시스템</title>
-
-    <link rel="stylesheet" th:href="@{/css/award.css}">
+    <link rel="stylesheet" th:href="@{/css/invit.css}">
     <link rel="stylesheet" th:href="@{/css/layout.css}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,291 +14,290 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
-
 </head>
 <body>
-    <header class="header">
-        <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
-    </header>
 
-    <div class="ui">
-        <div class="navbar">
-            <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
+<header class="header">
+    <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
+</header>
+
+<div class="ui">
+    <div class="navbar">
+        <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
+    </div>
+
+    <div class="main">
+        <div class="title">
+            초대작 등록현황
         </div>
 
-        <div class="main">
-            <div class="title">
-                수상작 등록현황
-            </div>
+        <div class="content">
+            <div class="area1">
+                <div class="sec1-1">
+                    <div class="sch-tb">
 
-            <div class="content">
-                <div class="area1">
-                    <div class="sec1-1">
-                        <div class="sch-tb">
-
-                            <form id="schPdForm" method="/award" autocomplete="off">
-                                <input type="hidden" name="sort" value="award" />
-                                <input type="hidden" name="page" value="1" />
-                                <div class="row">
-                                    <div class="header-cell">등록날짜</div>
-                                    <div class="cell">
-                                        <input class="flatpickr" type="date" name="startDate" placeholder="전체" th:value="${awardSearch.startDate}" />
-                                        ~
-                                        <input class="flatpickr" type="date" name="endDate" placeholder="전체" th:value="${awardSearch.endDate}" />
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="header-cell">검색</div>
-                                    <div class="cell">
-                                        <select name="schFilter">
-                                            <option value="" selected disabled hidden>선택</option>
-                                            <option value="op-title">제목</option>
-                                            <option value="op-author">저작자명</option>
-                                        </select>
-                                        <input type="text" name="keyword" th:value="${awardSearch.keyword}" />
-                                        <button class="cell-btn">검색</button>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-
-                    <div class="sec1-2">
-                        <div class="sch-result">
-                            <p th:text="'총 ' + ${totalCnt} + '건 중 ' + ${cdCnt} + '건 표시'">
-                                총 0건 중 0건 표시
-                            </p>
-
-                        </div>
-                        <div class="filter-div">
-                            <label>
-                                <select class="filter">
-                                    <option value="">전체</option>
-                                    <option>1</option>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="sec1-3">
-                        <div class="reg-list-tb">
-                            <div class="row header-row">
-                                <div class="cell">번호</div>
-                                <div class="cell">제목</div>
-                                <div class="cell">저작자명</div>
-                                <div class="cell">공모전명</div>
-                                <div class="cell">상권명</div>
-                                <div class="cell">코드</div>
-                                <div class="cell">등록날짜</div>
-                            </div>
-
-                            <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-contest-no="${award.f_no}">
-                                <div class="cell" th:text="${(currentPage - 1) * 5 + awardStat.index + 1}"></div>
-                                <div class="cell" th:text="${award.f_title}"></div>
-                                <div class="cell" th:text="${award.f_author}"></div>
-                                <div class="cell" th:text="${award.f_contest}"></div>
-                                <div class="cell" th:text="${award.f_award}"></div>
-                                <div class="cell" th:text="${award.f_code}"></div>
-                                <div class="cell" th:text="${award.pd_reg_date}"></div>
-                            </div>
-                            <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
-                        </div>
-
-                        <div class="paging-div" th:if="${cdCnt > 0}">
-                            <a th:if="${currentPage > 1}" th:href="@{/award(page=1)}">처음</a>
-
-                            <a th:if="${currentPage > 1}"
-                               th:href="@{/award(page=${currentPage - 1})}">이전</a>
-
-                            <!-- 페이지 번호 반복 -->
-                            <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-                               th:href="@{/award(page=${i})}"
-                               th:text="${i}"
-                               th:classappend="${i == currentPage} ? 'current' : ''"></a>
-
-                            <a th:if="${currentPage < totalPages}"
-                               th:href="@{/award(page=${currentPage + 1})}">다음</a>
-
-                            <a th:if="${currentPage < totalPages}" th:href="@{/award(page=${totalPages})}">끝</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="area2">
-                    <div class="sec2-1">
-                        <div class="info">기본정보</div>
-
-                        <div class="work-tb">
+                        <form id="schPdForm" method="/invit" autocomplete="off">
+                            <input type="hidden" name="sort" value="invit" />
+                            <input type="hidden" name="page" value="1" />
                             <div class="row">
-                                <div class="header-cell">작품코드</div>
-                                <div class="cell" id="work-code"></div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">제목</div>
-                                <div class="cell"><input id="work-title" /></div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">공모전명</div>
-                                <div class="cell"><input id="work-contest" /></div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">저작자명</div>
-                                <div class="cell"><input id="work-author" /></div>
-                                <div class="header-cell">상권명</div>
-                                <div class="cell"><input id="work-award" /></div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">주최</div>
-                                <div class="cell"><input id="work-host" /></div>
-                                <div class="header-cell">주관</div>
-                                <div class="cell"><input id="work-manager" /></div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">출품년도</div>
-                                <div class="cell"><input id="work-year" /></div>
-                                <div class="header-cell">등록일시</div>
-                                <div class="cell" id="work-regdate"></div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">등록자</div>
-                                <div class="cell" id="work-name"></div>
-                                <div class="header-cell">소속</div>
-                                <div class="cell" id="work-dept"></div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">사진</div>
-                                <div class="cell img-cell">
-                                    <div class="img-div"><img id="work-img" src="/images/sample.png" alt="샘플" /></div>
-                                    <div><button class="cell-btn">다운로드</button></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="sec2-2">
-                        <div class="info">회원정보</div>
-                        <div class="user-tb">
-                            <div class="row">
-                                <div class="header-cell">회원구분</div>
+                                <div class="header-cell">등록날짜</div>
                                 <div class="cell">
-                                    <select class="select-user">
-                                        <option>회원</option>
-                                        <option>관리자</option>
+                                    <input class="flatpickr" type="date" name="startDate" placeholder="전체" th:value="${awardSearch.startDate}" />
+                                    ~
+                                    <input class="flatpickr" type="date" name="endDate" placeholder="전체" th:value="${awardSearch.endDate}" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="header-cell">검색</div>
+                                <div class="cell">
+                                    <select name="schFilter">
+                                        <option value="" selected disabled hidden>선택</option>
+                                        <option value="op-title">제목</option>
+                                        <option value="op-author">저작자명</option>
                                     </select>
-                                    <button class="cell-btn" id="openModal" type="button">조회</button>
-                                </div>
-                                <div class="header-cell">지역</div>
-                                <div class="cell"><input value="" name="" /></div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">회원명</div>
-                                <div class="cell"><input value="" name="" /></div>
-                                <div class="header-cell">생년월일</div>
-                                <div class="cell"><input value="" name="" /></div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">연락처</div>
-                                <div class="cell"><input value="" name="" /></div>
-                                <div class="header-cell">이메일</div>
-                                <div class="cell"><input value="" name="" /></div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">주소</div>
-                                    <div class="cell address-cell">
-                                        <div class="address-div1">
-                                            <input value="" name=""/>
-                                            <button class="cell-btn">우편번호</button>
-                                        </div>
-                                        <div class="address-div2">
-                                            <input value="" name="" />
-                                            <input value="" name="" />
-                                        </div>
-                                    </div>
+                                    <input type="text" name="keyword" th:value="${awardSearch.keyword}" />
+                                    <button class="cell-btn">검색</button>
                                 </div>
                             </div>
+                        </form>
 
-                            <div class="btn-div">
-                                <div class="btn-group1">
-                                    <button>삭제</button>
-                                </div>
-                                <div class="btn-group2">
-                                    <button>수정</button>
-                                    <button>작품등록</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Modal -->
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">회원정보조회</div>
-                <div><button class="close-btn close">x</button></div>
-            </div>
-            <div class="modal-sch">
-                <div class="sch-tb">
-                    <div class="row">
-                        <div class="header-cell">검색</div>
-                        <div class="cell">
-                            <select>
-                                <option value="" selected disabled hidden>선택</option>
-                                <option value="op-name">이름</option>
-                                <option value="op-id">아이디</option>
+                <div class="sec1-2">
+                    <div class="sch-result">
+                        <p th:text="'총 ' + ${totalCnt} + '건 중 ' + ${cdCnt} + '건 표시'">
+                            총 0건 중 0건 표시
+                        </p>
+
+                    </div>
+                    <div class="filter-div">
+                        <label>
+                            <select class="filter">
+                                <option value="">전체</option>
+                                <option>1</option>
                             </select>
-                            <input type="text" name="modal-keyword" />
-                            <button class="cell-btn">검색</button>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="sec1-3">
+                    <div class="reg-list-tb">
+                        <div class="row header-row">
+                            <div class="cell">번호</div>
+                            <div class="cell">제목</div>
+                            <div class="cell">저작자명</div>
+                            <div class="cell">공모전명</div>
+                            <div class="cell">상권명</div>
+                            <div class="cell">코드</div>
+                            <div class="cell">등록날짜</div>
+                        </div>
+
+                        <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-contest-no="${award.f_no}">
+                            <div class="cell" th:text="${(currentPage - 1) * 5 + awardStat.index + 1}"></div>
+                            <div class="cell" th:text="${award.f_title}"></div>
+                            <div class="cell" th:text="${award.f_author}"></div>
+                            <div class="cell" th:text="${award.f_contest}"></div>
+                            <div class="cell" th:text="${award.f_award}"></div>
+                            <div class="cell" th:text="${award.f_code}"></div>
+                            <div class="cell" th:text="${award.pd_reg_date}"></div>
+                        </div>
+                        <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
+                    </div>
+
+                    <div class="paging-div" th:if="${cdCnt > 0}">
+                        <a th:if="${currentPage > 1}" th:href="@{/award(page=1)}">처음</a>
+
+                        <a th:if="${currentPage > 1}"
+                           th:href="@{/award(page=${currentPage - 1})}">이전</a>
+
+                        <!-- 페이지 번호 반복 -->
+                        <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+                           th:href="@{/award(page=${i})}"
+                           th:text="${i}"
+                           th:classappend="${i == currentPage} ? 'current' : ''"></a>
+
+                        <a th:if="${currentPage < totalPages}"
+                           th:href="@{/award(page=${currentPage + 1})}">다음</a>
+
+                        <a th:if="${currentPage < totalPages}" th:href="@{/award(page=${totalPages})}">끝</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="area2">
+                <div class="sec2-1">
+                    <div class="info">기본정보</div>
+
+                    <div class="work-tb">
+                        <div class="row">
+                            <div class="header-cell">작품코드</div>
+                            <div class="cell" id="work-code"></div>
+                        </div>
+                        <div class="row">
+                            <div class="header-cell">제목</div>
+                            <div class="cell"><input id="work-title" /></div>
+                        </div>
+                        <div class="row">
+                            <div class="header-cell">공모전명</div>
+                            <div class="cell"><input id="work-contest" /></div>
+                        </div>
+                        <div class="row">
+                            <div class="header-cell">저작자명</div>
+                            <div class="cell"><input id="work-author" /></div>
+                            <div class="header-cell">상권명</div>
+                            <div class="cell"><input id="work-award" /></div>
+                        </div>
+                        <div class="row">
+                            <div class="header-cell">주최</div>
+                            <div class="cell"><input id="work-host" /></div>
+                            <div class="header-cell">주관</div>
+                            <div class="cell"><input id="work-manager" /></div>
+                        </div>
+                        <div class="row">
+                            <div class="header-cell">출품년도</div>
+                            <div class="cell"><input id="work-year" /></div>
+                            <div class="header-cell">등록일시</div>
+                            <div class="cell" id="work-regdate"></div>
+                        </div>
+                        <div class="row">
+                            <div class="header-cell">등록자</div>
+                            <div class="cell" id="work-name"></div>
+                            <div class="header-cell">소속</div>
+                            <div class="cell" id="work-dept"></div>
+                        </div>
+                        <div class="row">
+                            <div class="header-cell">사진</div>
+                            <div class="cell img-cell">
+                                <div class="img-div"><img id="work-img" src="/images/sample.png" alt="샘플" /></div>
+                                <div><button class="cell-btn">다운로드</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sec2-2">
+                    <div class="info">회원정보</div>
+                    <div class="user-tb">
+                        <div class="row">
+                            <div class="header-cell">회원구분</div>
+                            <div class="cell">
+                                <select class="select-user">
+                                    <option>회원</option>
+                                    <option>관리자</option>
+                                </select>
+                                <button class="cell-btn" id="openModal" type="button">조회</button>
+                            </div>
+                            <div class="header-cell">지역</div>
+                            <div class="cell"><input value="" name="" /></div>
+                        </div>
+                        <div class="row">
+                            <div class="header-cell">회원명</div>
+                            <div class="cell"><input value="" name="" /></div>
+                            <div class="header-cell">생년월일</div>
+                            <div class="cell"><input value="" name="" /></div>
+                        </div>
+                        <div class="row">
+                            <div class="header-cell">연락처</div>
+                            <div class="cell"><input value="" name="" /></div>
+                            <div class="header-cell">이메일</div>
+                            <div class="cell"><input value="" name="" /></div>
+                        </div>
+                        <div class="row">
+                            <div class="header-cell">주소</div>
+                            <div class="cell address-cell">
+                                <div class="address-div1">
+                                    <input value="" name=""/>
+                                    <button class="cell-btn">우편번호</button>
+                                </div>
+                                <div class="address-div2">
+                                    <input value="" name="" />
+                                    <input value="" name="" />
+                                    <input type="hidden" class="info-userNo" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-div">
+                        <div class="btn-group1">
+                            <button class="del-btn">삭제</button>
+                        </div>
+                        <div class="btn-group2">
+                            <button class="mod-btn">수정</button>
+                            <button class="ins-btn">작품등록</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-body">
-                <div class="user-list-tb">
-                    <div class="row header-row">
-                        <div class="cell">이름</div>
-                        <div class="cell">아이디</div>
-                        <div class="cell">주민번호</div>
-                        <div class="cell">가입일</div>
-                        <div class="cell">연락처</div>
-                        <div class="cell">이메일</div>
-                        <div class="cell">선택</div>
-                    </div>
-
-                    <div class="row" id="user-template" style="display: none;">
-                        <div class="f_place" style="display: none;"></div>
-                        <div class="f_birth" style="display: none;"></div>
-                        <div class="f_main_address" style="display: none;"></div>
-                        <div class="f_sub_address" style="display: none;"></div>
-
-                        <div class="cell f_name"></div>
-                        <div class="cell f_id"></div>
-                        <div class="cell f_reg_num"></div>
-                        <div class="cell f_reg_date"></div>
-                        <div class="cell f_phone"></div>
-                        <div class="cell f_email"></div>
-                        <div class="cell"><button class="cell-btn">선택</button></div>
-                    </div>
-
-                    <div id="user-row"></div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button class="cell-btn close">닫기</button>
-            </div>
-
         </div>
     </div>
+</div>
+</div>
 
+<!-- Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title">회원정보조회</div>
+            <div><button class="close-btn close">x</button></div>
+        </div>
+        <div class="modal-sch">
+            <div class="sch-tb">
+                <div class="row">
+                    <div class="header-cell">검색</div>
+                    <div class="cell">
+                        <select>
+                            <option value="" selected disabled hidden>선택</option>
+                            <option value="op-name">이름</option>
+                            <option value="op-id">아이디</option>
+                        </select>
+                        <input type="text" name="modal-keyword" />
+                        <button class="cell-btn">검색</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="user-list-tb">
+                <div class="row header-row">
+                    <div class="cell">이름</div>
+                    <div class="cell">아이디</div>
+                    <div class="cell">주민번호</div>
+                    <div class="cell">가입일</div>
+                    <div class="cell">연락처</div>
+                    <div class="cell">이메일</div>
+                    <div class="cell">선택</div>
+                </div>
+
+                <div class="row" id="user-template" style="display: none;">
+                    <div class="f_userNo" style="display: none;"></div>
+                    <div class="f_place" style="display: none;"></div>
+                    <div class="f_birth" style="display: none;"></div>
+                    <div class="f_main_address" style="display: none;"></div>
+                    <div class="f_sub_address" style="display: none;"></div>
+
+                    <div class="cell f_name"></div>
+                    <div class="cell f_id"></div>
+                    <div class="cell f_reg_num"></div>
+                    <div class="cell f_reg_date"></div>
+                    <div class="cell f_phone"></div>
+                    <div class="cell f_email"></div>
+                    <div class="cell"><button class="cell-btn">선택</button></div>
+                </div>
+
+                <div id="user-row"></div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="cell-btn close">닫기</button>
+        </div>
+
+    </div>
+</div>
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script th:src="@{/js/award.js}"></script>
-
-
+<script th:src="@{/js/invit.js}"></script>
 </body>
 </html>

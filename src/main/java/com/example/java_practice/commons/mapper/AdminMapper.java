@@ -17,4 +17,6 @@ public interface AdminMapper {
     ArrayList<Product> selProduct(int contestNo);
 
     ArrayList<User> selUserList(String sort);
+
+    int delUser(int userNo);
 }
