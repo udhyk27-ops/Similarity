@@ -35,8 +35,14 @@
         <result column="F_BIRTH" property="f_birth" />
         <result column="F_PLACE" property="f_place" />
         <result column="F_REG_DATE" property="f_reg_date" />
+        <result column="F_DEPT" property="f_dept" />
+        <result column="F_POSITION" property="f_position" />
         <result column="F_PHONE" property="f_phone" />
         <result column="F_EMAIL" property="f_email" />
+        <result column="F_LOGIN_DATE" property="f_login_date" />
+        <result column="F_MOD_DATE" property="f_mod_date" />
+        <result column="F_MEMO" property="f_memo" />
+        <result column="F_SORT" property="f_sort" />
     </resultMap>
 
     <sql id="selAward">
@@ -47,19 +53,19 @@
         T1.F_SUB_ADDRESS,
         T1.F_BIRTH,
         T1.F_PLACE,
-        SUBSTR(T1.F_REG_DATE, 1, 10) AS US_REG_DATE,
+        TO_CHAR(T1.F_REG_DATE, 'YYYYMMDD') AS US_REG_DATE,
         T1.F_DEPT,
         T1.F_POSITION,
         T1.F_PHONE,
         T1.F_EMAIL,
-        T1.F_LOGIN_DATE,
-        T1.F_MOD_DATE,
+        TO_CHAR(T1.F_LOGIN_DATE, 'YYYYMMDD') AS F_LOGIN_DATE,
+        TO_CHAR(T1.F_MOD_DATE, 'YYYYMMDD') AS F_MOD_DATE,
         T1.F_MEMO,
         T1.F_SORT AS US_SORT,
         T2.F_TITLE,
         T2.F_AUTHOR,
         T2.F_YEAR,
-        SUBSTR(T2.F_REG_DATE, 1, 10) AS PD_REG_DATE,
+        TO_CHAR(T2.F_REG_DATE, 'YYYYMMDD') AS PD_REG_DATE,
         T2.F_CODE,
         T2.F_PATH,
         T3.F_CONTEST,
@@ -85,27 +91,78 @@
                ON T1.F_USERNO=T2.F_REG_NO
              JOIN T_CONTEST T3
                ON T2.F_PRODUCT_NO=T3.F_PRODUCT_NO
-        WHERE T2.F_SORT = 'A'
-          AND T1.F_DEL_YN = 'N'
-          AND T2.F_DEL_YN = 'N'
+        WHERE T2.F_DEL_YN = 'N'
+        <choose>
+            <when test="sort == 'award'">
+                AND T2.F_SORT = 'A'
+            </when>
+            <when test="sort == 'invit'">
+                AND T2.F_SORT = 'N'
+            </when>
+        </choose>
+
+        <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+            AND T2.F_REG_DATE BETWEEN #{startDate} AND #{endDate}
+        </if>
+
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="schFilter != null and schFilter == 'op-title'">
+                    AND T2.F_TITLE LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="schFilter != null and schFilter == 'op-author'">
+                    AND T2.F_AUTHOR LIKE '%' || #{keyword} || '%'
+                </when>
+                <otherwise>
+                    AND (T2.F_TITLE LIKE '%' || #{keyword} || '%'
+                    OR T2.F_AUTHOR LIKE '%' || #{keyword} || '%')
+                </otherwise>
+            </choose>
+        </if>
         ORDER BY T2.F_REG_DATE DESC
         OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
     </select>
 
     <!--  Award List CNT -->
-    <select id="cntAwardList">
-        SELECT COUNT(*) FROM T_USER T1
-         JOIN T_PRODUCT T2
+    <select id="cntAwardList" parameterType="awardsearch">
+        SELECT COUNT(*)
+          FROM T_USER T1
+          JOIN T_PRODUCT T2
               ON T1.F_USERNO=T2.F_REG_NO
-         JOIN T_CONTEST T3
+          JOIN T_CONTEST T3
               ON T2.F_PRODUCT_NO=T3.F_PRODUCT_NO
-        WHERE T2.F_SORT = 'A'
-          AND T1.F_DEL_YN = 'N'
-          AND T2.F_DEL_YN = 'N'
+         WHERE T2.F_DEL_YN = 'N'
+        <choose>
+            <when test="sort == 'award'">
+                AND T2.F_SORT = 'A'
+            </when>
+            <when test="sort == 'invit'">
+                AND T2.F_SORT = 'N'
+            </when>
+        </choose>
+
+        <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+            AND T2.F_REG_DATE BETWEEN #{startDate} AND #{endDate}
+        </if>
+
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="schFilter != null and schFilter == 'op-title'">
+                    AND T2.F_TITLE LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="schFilter != null and schFilter == 'op-author'">
+                    AND T2.F_AUTHOR LIKE '%' || #{keyword} || '%'
+                </when>
+                <otherwise>
+                    AND (T2.F_TITLE LIKE '%' || #{keyword} || '%'
+                    OR T2.F_AUTHOR LIKE '%' || #{keyword} || '%')
+                </otherwise>
+            </choose>
+        </if>
     </select>
 
     <select id="selUserList" resultMap="userResultSet">
-        SELECT F_NAME, F_ID, F_REG_NUM, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_BIRTH, F_PLACE, F_REG_DATE, F_PHONE, F_EMAIL
+        SELECT F_NAME, F_ID, F_REG_NUM, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_BIRTH, F_PLACE, F_REG_DATE, F_DEPT, F_POSITION, F_PHONE, F_EMAIL, F_LOGIN_DATE, F_MOD_DATE, F_MEMO, F_SORT
         FROM T_USER
         WHERE F_DEL_YN = 'N'
           AND F_SORT = '회원'

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.ArrayList;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -18,31 +19,27 @@ public class AdminController {
 
     // 수상작 등록현황 페이지
     @GetMapping("award")
-    public String awardPage(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-                            Model model) {
+    public String awardPage(@ModelAttribute AwardSearch awardSearch, Model model) {
+
         // paging
         int limit = 5;
-        int offset = (page - 1) * limit;
-
-        AwardSearch awardSearch = new AwardSearch();
+        int offset = (awardSearch.getPage() - 1) * limit;
 
         awardSearch.setLimit(limit);
         awardSearch.setOffset(offset);
-
         awardSearch.setSort("award");
-        awardSearch.setKeyword("");
-        awardSearch.setFilter("");
-        awardSearch.setStartDate("");
-        awardSearch.setEndDate("");
 
         ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
-        int total = adminService.cntAwardList();
-        int totalPages = (int) Math.ceil((double) total / limit);
+        int cdCnt = adminService.cntAwardList(awardSearch);
+        int totalCnt = adminService.cntAwardList(new AwardSearch()); // 전체 건수
+        int totalPages = (int) Math.ceil((double) cdCnt / limit);
 
+        model.addAttribute("awardSearch", awardSearch);
         model.addAttribute("awardList", awardList);
-        model.addAttribute("currentPage", page);
+        model.addAttribute("currentPage", awardSearch.getPage());
         model.addAttribute("totalPages", totalPages);
-        model.addAttribute("total", total);
+        model.addAttribute("cdCnt", cdCnt);
+        model.addAttribute("totalCnt", totalCnt);
 
         return "commons/admin/awardReg";
     }
@@ -55,7 +52,7 @@ public class AdminController {
 
         awardSearch.setSort("invit");
         awardSearch.setKeyword("");
-        awardSearch.setFilter("");
+        awardSearch.setSchFilter("");
         awardSearch.setStartDate("");
         awardSearch.setEndDate("");
 

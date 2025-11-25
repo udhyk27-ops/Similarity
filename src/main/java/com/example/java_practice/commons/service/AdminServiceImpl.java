@@ -19,7 +19,7 @@ public class AdminServiceImpl implements AdminService {
     public ArrayList<Award> selAwardList(AwardSearch awardSearch) { return adminMapper.selAwardList(awardSearch); }
 
     @Override
-    public int cntAwardList(){ return adminMapper.cntAwardList(); };
+    public int cntAwardList(AwardSearch awardSearch){ return adminMapper.cntAwardList(awardSearch); };
 
     @Override
     public ArrayList<User> selUserList(User user) { return adminMapper.selUserList(user); }

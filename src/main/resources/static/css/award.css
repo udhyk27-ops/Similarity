@@ -65,7 +65,7 @@ select:focus { outline: none; }
 
 /* sec1-3 start */
 .reg-list-tb, .sch-tb, .work-tb, .user-tb, .user-list-tb { border: 1px solid #000000A0; width: 100%; }
-.reg-list-tb > .row > .cell { justify-content: center; }
+.reg-list-tb > .row > .cell, .reg-list-tb > div > .row > .cell { justify-content: center; }
 .paging-div { display: flex; justify-content: center; padding: 1.0rem 0; gap: 0.5rem; }
 .paging-div a {
     margin: 0 5px;

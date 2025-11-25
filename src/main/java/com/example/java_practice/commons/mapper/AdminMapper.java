@@ -11,7 +11,7 @@ public interface AdminMapper {
 
     ArrayList<Award> selAwardList(AwardSearch awardSearch);
 
-    int cntAwardList();
+    int cntAwardList(AwardSearch awardSearch);
 
     ArrayList<User> selUserList(User user);
 }

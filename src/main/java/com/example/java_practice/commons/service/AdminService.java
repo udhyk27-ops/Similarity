@@ -12,7 +12,7 @@ public interface AdminService {
     ArrayList<Award> selAwardList(AwardSearch awardSearch);
 
     // 수상작 CNT
-    int cntAwardList();
+    int cntAwardList(AwardSearch awardSearch);
 
     // 회원 조회(모달)
     ArrayList<User> selUserList(User user);

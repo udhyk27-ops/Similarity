@@ -36,31 +36,38 @@
                 <div class="area1">
                     <div class="sec1-1">
                         <div class="sch-tb">
-                            <div class="row">
-                                <div class="header-cell">등록날짜</div>
-                                <div class="cell">
-                                    <input class="flatpickr" type="date" name="startDate" placeholder="전체" />
-                                    ~
-                                    <input class="flatpickr" type="date" name="endDate" placeholder="전체" />
+
+                            <form id="schPdForm" method="/award" autocomplete="off">
+                                <input type="hidden" name="sort" value="award" />
+                                <input type="hidden" name="page" value="1" />
+                                <div class="row">
+                                    <div class="header-cell">등록날짜</div>
+                                    <div class="cell">
+                                        <input class="flatpickr" type="date" name="startDate" placeholder="전체" th:value="${awardSearch.startDate}" />
+                                        ~
+                                        <input class="flatpickr" type="date" name="endDate" placeholder="전체" th:value="${awardSearch.endDate}" />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="header-cell">검색</div>
-                                <div class="cell">
-                                    <select>
-                                        <option>선택</option>
-                                    </select>
-                                    <input type="text" name
-                                            ="keyword" />
-                                    <button class="cell-btn">검색</button>
+                                <div class="row">
+                                    <div class="header-cell">검색</div>
+                                    <div class="cell">
+                                        <select name="schFilter">
+                                            <option value="" selected disabled hidden>선택</option>
+                                            <option value="op-title">제목</option>
+                                            <option value="op-author">저작자명</option>
+                                        </select>
+                                        <input type="text" name="keyword" th:value="${awardSearch.keyword}" />
+                                        <button class="cell-btn">검색</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
+
                         </div>
                     </div>
 
                     <div class="sec1-2">
                         <div class="sch-result">
-                            <p th:text="'총 ' + ${total} + '건 중 ' + ${awardList.size()} + '건 표시'">
+                            <p th:text="'총 ' + ${totalCnt} + '건 중 ' + ${cdCnt} + '건 표시'">
                                 총 0건 중 0건 표시
                             </p>
 
@@ -87,19 +94,21 @@
                                 <div class="cell">등록날짜</div>
                             </div>
 
-                            <div class="row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}">
-                                <div class="cell" th:text="1"></div>
-                                <div class="cell" th:text="${award.f_title}"></div>
-                                <div class="cell" th:text="${award.f_author}"></div>
-                                <div class="cell" th:text="${award.f_contest}"></div>
-                                <div class="cell" th:text="${award.f_award}"></div>
-                                <div class="cell" th:text="${award.f_code}"></div>
-                                <div class="cell" th:text="${award.pd_reg_date}"></div>
+                            <div class="reg-list-row">
+                                <div class="row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}">
+                                    <div class="cell" th:text="1"></div>
+                                    <div class="cell" th:text="${award.f_title}"></div>
+                                    <div class="cell" th:text="${award.f_author}"></div>
+                                    <div class="cell" th:text="${award.f_contest}"></div>
+                                    <div class="cell" th:text="${award.f_award}"></div>
+                                    <div class="cell" th:text="${award.f_code}"></div>
+                                    <div class="cell" th:text="${award.pd_reg_date}"></div>
+                                </div>
+                                <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
                             </div>
-                            <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
                         </div>
 
-                        <div class="paging-div">
+                        <div class="paging-div" th:if="${cdCnt > 0}">
                             <a th:if="${currentPage > 1}" th:href="@{/award(page=1)}">처음</a>
 
                             <a th:if="${currentPage > 1}"
@@ -178,6 +187,7 @@
                                 <div class="cell">
                                     <select class="select-user">
                                         <option>회원</option>
+                                        <option>관리자</option>
                                     </select>
                                     <button class="cell-btn" id="openModal" type="button">조회</button>
                                 </div>
@@ -226,8 +236,6 @@
             </div>
         </div>
     </div>
-
-
 
     <!-- Modal -->
     <div id="myModal" class="modal">

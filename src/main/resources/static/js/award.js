@@ -1,7 +1,59 @@
 flatpickr(".flatpickr", {
     locale: 'ko',
-    dateFormat: "Y.m.d",
+    dateFormat: "Y-m-d",
 });
+
+// 작품 검색
+// $('#schPdForm').on('submit', function(e) {
+//     e.preventDefault();
+//
+//     const formData = $(this).serialize();
+//
+//     $.ajax({
+//         url: '/api/admin/search',
+//         type: 'get',
+//         data: formData,
+//         dataType: 'json',
+//         success: function(response) {
+//
+//             console.log('ajax success');
+//             console.log(response);
+//             console.log('response length : ' + response.list.length);
+//             console.log(response.currentPage);
+//
+//             let html = '';
+//
+//             if (response.length === 0) {
+//                 html = '<div class="cell">등록된 수상작이 없습니다.</div>';
+//             } else {
+//                 response.forEach(row => {
+//                     html += `
+//                         <div class="row">
+//                             <div class="cell" th:text="1"></div>
+//                             <div class="cell" th:text="${row.f_title}"></div>
+//                             <div class="cell" th:text="${row.f_author}"></div>
+//                             <div class="cell" th:text="${row.f_contest}"></div>
+//                             <div class="cell" th:text="${row.f_award}"></div>
+//                             <div class="cell" th:text="${row.f_code}"></div>
+//                             <div class="cell" th:text="${row.pd_reg_date}"></div>
+//                         </div>
+//                     `;
+//                 });
+//             }
+//             $('.reg-list-tb > div > .row > .cell').css('justify-content', 'center');
+//             $('.reg-list-row').html(html);
+//         }
+//     });
+// });
+
+
+
+
+
+
+
+
+
 
 $('#openModal').on('click', function () {
 
