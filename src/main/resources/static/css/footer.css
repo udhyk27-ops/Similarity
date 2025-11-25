@@ -1,20 +1,20 @@
 .footer-wrap .ft-btm {
-    padding: 10px;
+    padding: 0.6rem;
     border-top: 1px solid #fff;
 }
 .footer-wrap {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: #87898e;
     background: #2a2c39;
     padding: 0;
 }
 .footer-wrap .ft-btm .footer-container {
     display: flex;
-    padding: 20px 0;
+    padding: 1.25rem 0;
 }
 .footer-container {
     /* position: relative; */
-    max-width: 900px !important;
+    max-width: 56rem !important;
     margin: 0 auto;
 }
 .float-left {
@@ -22,20 +22,20 @@
 }
 .footer-wrap .ft-btm .logo-bottom {
     display: block;
-    width: 200px;
-    max-height: 300px;
+    width: 12.5rem;
+    max-height: 19rem;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
     opacity: 0.4;
-    margin: 0 20px;
+    margin: 0 1.25rem;
 }
 img{
     border: 0;
     vertical-align: middle;
 }
 .footer-wrap .footer-content{
-    margin-left: 20px;
+    margin-left: 1.25rem;
 }
 .footer-wrap .footer-info {
     display: flex;
@@ -43,10 +43,9 @@ img{
     flex-wrap: wrap;
 }
 .footer-wrap .footer-text {
-    width: calc(100% - 270px);
-    /*margin-left: 20px;*/
-    font-size: 13px;
-    line-height: 23px;
+    width: calc(100% - 17rem);
+    font-size: 0.8rem;
+    line-height: 1.4rem;
     color: rgba(255, 255, 255, 0.3);
 }
 footer ul {
