@@ -94,18 +94,16 @@
                                 <div class="cell">등록날짜</div>
                             </div>
 
-                            <div class="reg-list-row">
-                                <div class="row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}">
-                                    <div class="cell" th:text="1"></div>
-                                    <div class="cell" th:text="${award.f_title}"></div>
-                                    <div class="cell" th:text="${award.f_author}"></div>
-                                    <div class="cell" th:text="${award.f_contest}"></div>
-                                    <div class="cell" th:text="${award.f_award}"></div>
-                                    <div class="cell" th:text="${award.f_code}"></div>
-                                    <div class="cell" th:text="${award.pd_reg_date}"></div>
-                                </div>
-                                <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
+                            <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-contest-no="${award.f_no}">
+                                <div class="cell" th:text="${(currentPage - 1) * 5 + awardStat.index + 1}"></div>
+                                <div class="cell" th:text="${award.f_title}"></div>
+                                <div class="cell" th:text="${award.f_author}"></div>
+                                <div class="cell" th:text="${award.f_contest}"></div>
+                                <div class="cell" th:text="${award.f_award}"></div>
+                                <div class="cell" th:text="${award.f_code}"></div>
+                                <div class="cell" th:text="${award.pd_reg_date}"></div>
                             </div>
+                            <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
                         </div>
 
                         <div class="paging-div" th:if="${cdCnt > 0}">
@@ -135,44 +133,44 @@
                         <div class="work-tb">
                             <div class="row">
                                 <div class="header-cell">작품코드</div>
-                                <div class="cell"></div>
+                                <div class="cell" id="work-code"></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">제목</div>
-                                <div class="cell"><input value="" name="" /></div>
+                                <div class="cell" id="work-title"></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">공모전명</div>
-                                <div class="cell"><input value="" name="" /></div>
+                                <div class="cell" id="work-contest"></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">저작자명</div>
-                                <div class="cell"><input value="" name="" /></div>
+                                <div class="cell" id="work-author"></div>
                                 <div class="header-cell">상권명</div>
-                                <div class="cell"><input value="" name="" /></div>
+                                <div class="cell" id="work-award"></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">주최</div>
-                                <div class="cell"><input value="" name="" /></div>
+                                <div class="cell" id="work-host"></div>
                                 <div class="header-cell">주관</div>
-                                <div class="cell"><input value="" name="" /></div>
+                                <div class="cell" id="work-manager"></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">출품년도</div>
-                                <div class="cell"><input value="" name="" /></div>
+                                <div class="cell" id="work-year"></div>
                                 <div class="header-cell">등록일시</div>
-                                <div class="cell"></div>
+                                <div class="cell" id="work-regdate"></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">등록자</div>
-                                <div class="cell"></div>
+                                <div class="cell" id="work-name"></div>
                                 <div class="header-cell">소속</div>
-                                <div class="cell"></div>
+                                <div class="cell" id="work-dept"></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">사진</div>
                                 <div class="cell img-cell">
-                                    <div class="img-div"><img th:src="@{/images/sample.png}" alt="샘플" /></div>
+                                    <div class="img-div"><img id="work-img" src="/images/sample.png" alt="샘플" /></div>
                                     <div><button class="cell-btn">다운로드</button></div>
                                 </div>
                             </div>
@@ -249,11 +247,15 @@
                     <div class="row">
                         <div class="header-cell">검색</div>
                         <div class="cell">
-                            <select>
-                                <option>선택</option>
-                            </select>
-                            <input type="text" name="modal-keyword" />
-                            <button class="cell-btn">검색</button>
+                            <form id="modalSchForm">
+                                <select>
+                                    <option value="" selected disabled hidden>선택</option>
+                                    <option value="op-name">이름</option>
+                                    <option value="op-id">아이디</option>
+                                </select>
+                                <input type="text" name="modal-keyword" />
+                                <button class="cell-btn">검색</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -288,12 +290,8 @@
                 <button class="cell-btn close">닫기</button>
             </div>
 
-
         </div>
     </div>
-
-
-
 
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>

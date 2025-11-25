@@ -6,72 +6,50 @@
 <mapper namespace="com.example.java_practice.commons.mapper.AdminMapper">
 
     <resultMap type="award" id="awardResultSet">
-        <result column="F_NAME" property="f_name" />
-        <result column="F_ID" property="f_id" />
-        <result column="F_MAIN_ADDRESS" property="f_main_address" />
-        <result column="F_SUB_ADDRESS" property="f_sub_address" />
-        <result column="F_BIRTH" property="f_birth" />
-        <result column="F_PLACE" property="f_place" />
-        <result column="F_PHONE" property="f_phone" />
-        <result column="F_EMAIL" property="f_email" />
+        <result column="F_PRODUCT_NO" property="f_product_no" />
         <result column="F_TITLE" property="f_title" />
         <result column="F_AUTHOR" property="f_author" />
-        <result column="F_YEAR" property="f_year" />
-        <result column="PD_REG_DATE" property="pd_reg_date" />
-        <result column="F_CODE" property="f_code" />
-        <result column="F_PATH" property="f_path" />
         <result column="F_CONTEST" property="f_contest" />
         <result column="F_AWARD" property="f_award" />
-        <result column="F_NATION" property="f_nation" />
+        <result column="F_CODE" property="f_code" />
+        <result column="PD_REG_DATE" property="pd_reg_date" />
+    </resultMap>
+
+    <resultMap type="product" id="productResultSet">
+        <result column="F_TITLE" property="f_title" />
+        <result column="F_CONTEST" property="f_contest" />
+        <result column="F_AUTHOR" property="f_author" />
+        <result column="F_AWARD" property="f_award" />
         <result column="F_CITY" property="f_city" />
+        <result column="F_NATION" property="f_nation" />
+        <result column="F_YEAR" property="f_year" />
+        <result column="F_REG_DATE" property="f_reg_date" />
+        <result column="F_NAME" property="f_name" />
+        <result column="F_DEPT" property="f_dept" />
+        <result column="F_PATH" property="f_path" />
     </resultMap>
 
     <resultMap type="user" id="userResultSet">
         <result column="F_NAME" property="f_name" />
         <result column="F_ID" property="f_id" />
         <result column="F_REG_NUM" property="f_reg_num" />
-        <result column="F_MAIN_ADDRESS" property="f_main_address" />
-        <result column="F_SUB_ADDRESS" property="f_sub_address" />
-        <result column="F_BIRTH" property="f_birth" />
-        <result column="F_PLACE" property="f_place" />
         <result column="F_REG_DATE" property="f_reg_date" />
-        <result column="F_DEPT" property="f_dept" />
-        <result column="F_POSITION" property="f_position" />
         <result column="F_PHONE" property="f_phone" />
         <result column="F_EMAIL" property="f_email" />
-        <result column="F_LOGIN_DATE" property="f_login_date" />
-        <result column="F_MOD_DATE" property="f_mod_date" />
-        <result column="F_MEMO" property="f_memo" />
-        <result column="F_SORT" property="f_sort" />
+        <result column="F_PLACE" property="f_place" />
+        <result column="F_BIRTH" property="f_birth" />
+        <result column="F_MAIN_ADDRESS" property="f_main_address" />
+        <result column="F_SUB_ADDRESS" property="f_sub_address" />
     </resultMap>
 
     <sql id="selAward">
-        T1.F_NAME,
-        T1.F_ID,
-        T1.F_REG_NUM,
-        T1.F_MAIN_ADDRESS,
-        T1.F_SUB_ADDRESS,
-        T1.F_BIRTH,
-        T1.F_PLACE,
-        TO_CHAR(T1.F_REG_DATE, 'YYYYMMDD') AS US_REG_DATE,
-        T1.F_DEPT,
-        T1.F_POSITION,
-        T1.F_PHONE,
-        T1.F_EMAIL,
-        TO_CHAR(T1.F_LOGIN_DATE, 'YYYYMMDD') AS F_LOGIN_DATE,
-        TO_CHAR(T1.F_MOD_DATE, 'YYYYMMDD') AS F_MOD_DATE,
-        T1.F_MEMO,
-        T1.F_SORT AS US_SORT,
-        T2.F_TITLE,
-        T2.F_AUTHOR,
-        T2.F_YEAR,
-        TO_CHAR(T2.F_REG_DATE, 'YYYYMMDD') AS PD_REG_DATE,
-        T2.F_CODE,
-        T2.F_PATH,
+        T3.F_NO,
+        T1.F_TITLE,
+        T1.F_AUTHOR,
         T3.F_CONTEST,
         T3.F_AWARD,
-        T3.F_NATION,
-        T3.F_CITY
+        T1.F_CODE,
+        TO_CHAR(T1.F_REG_DATE, 'YYYYMMDD') AS PD_REG_DATE
     </sql>
 
     <sql id="selAuth">
@@ -86,86 +64,115 @@
     <select id="selAwardList" resultMap="awardResultSet" parameterType="awardsearch">
         SELECT
             <include refid="selAward" />
-        FROM T_USER T1
-             JOIN T_PRODUCT T2
-               ON T1.F_USERNO=T2.F_REG_NO
+          FROM T_PRODUCT T1
+             JOIN T_USER T2
+                 ON T1.F_REG_NO=T2.F_USERNO
              JOIN T_CONTEST T3
-               ON T2.F_PRODUCT_NO=T3.F_PRODUCT_NO
-        WHERE T2.F_DEL_YN = 'N'
+                 ON T1.F_PRODUCT_NO=T3.F_PRODUCT_NO
+         WHERE T1.F_DEL_YN = 'N'
         <choose>
             <when test="sort == 'award'">
-                AND T2.F_SORT = 'A'
+                AND T1.F_SORT = 'A'
             </when>
             <when test="sort == 'invit'">
-                AND T2.F_SORT = 'N'
+                AND T1.F_SORT = 'N'
             </when>
         </choose>
 
         <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-            AND T2.F_REG_DATE BETWEEN #{startDate} AND #{endDate}
+            AND T1.F_REG_DATE BETWEEN #{startDate} AND #{endDate}
         </if>
 
         <if test="keyword != null and keyword != ''">
             <choose>
                 <when test="schFilter != null and schFilter == 'op-title'">
-                    AND T2.F_TITLE LIKE '%' || #{keyword} || '%'
+                    AND T1.F_TITLE LIKE '%' || #{keyword} || '%'
                 </when>
                 <when test="schFilter != null and schFilter == 'op-author'">
-                    AND T2.F_AUTHOR LIKE '%' || #{keyword} || '%'
+                    AND T1.F_AUTHOR LIKE '%' || #{keyword} || '%'
                 </when>
                 <otherwise>
-                    AND (T2.F_TITLE LIKE '%' || #{keyword} || '%'
-                    OR T2.F_AUTHOR LIKE '%' || #{keyword} || '%')
+                    AND (T1.F_TITLE LIKE '%' || #{keyword} || '%'
+                    OR T1.F_AUTHOR LIKE '%' || #{keyword} || '%')
                 </otherwise>
             </choose>
         </if>
-        ORDER BY T2.F_REG_DATE DESC
+        ORDER BY T1.F_REG_DATE DESC
         OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
     </select>
 
     <!--  Award List CNT -->
     <select id="cntAwardList" parameterType="awardsearch">
         SELECT COUNT(*)
-          FROM T_USER T1
-          JOIN T_PRODUCT T2
-              ON T1.F_USERNO=T2.F_REG_NO
-          JOIN T_CONTEST T3
-              ON T2.F_PRODUCT_NO=T3.F_PRODUCT_NO
-         WHERE T2.F_DEL_YN = 'N'
+          FROM T_PRODUCT T1
+             JOIN T_USER T2
+                 ON T1.F_REG_NO=T2.F_USERNO
+             JOIN T_CONTEST T3
+                 ON T1.F_PRODUCT_NO=T3.F_PRODUCT_NO
+         WHERE T1.F_DEL_YN = 'N'
         <choose>
             <when test="sort == 'award'">
-                AND T2.F_SORT = 'A'
+                AND T1.F_SORT = 'A'
             </when>
             <when test="sort == 'invit'">
-                AND T2.F_SORT = 'N'
+                AND T1.F_SORT = 'N'
             </when>
         </choose>
 
         <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-            AND T2.F_REG_DATE BETWEEN #{startDate} AND #{endDate}
+            AND T1.F_REG_DATE BETWEEN #{startDate} AND #{endDate}
         </if>
 
         <if test="keyword != null and keyword != ''">
             <choose>
                 <when test="schFilter != null and schFilter == 'op-title'">
-                    AND T2.F_TITLE LIKE '%' || #{keyword} || '%'
+                    AND T1.F_TITLE LIKE '%' || #{keyword} || '%'
                 </when>
                 <when test="schFilter != null and schFilter == 'op-author'">
-                    AND T2.F_AUTHOR LIKE '%' || #{keyword} || '%'
+                    AND T1.F_AUTHOR LIKE '%' || #{keyword} || '%'
                 </when>
                 <otherwise>
-                    AND (T2.F_TITLE LIKE '%' || #{keyword} || '%'
-                    OR T2.F_AUTHOR LIKE '%' || #{keyword} || '%')
+                    AND (T1.F_TITLE LIKE '%' || #{keyword} || '%'
+                    OR T1.F_AUTHOR LIKE '%' || #{keyword} || '%')
                 </otherwise>
             </choose>
         </if>
     </select>
 
+    <select id="selProduct" resultMap="productResultSet">
+        SELECT T1.F_CODE,
+               T1.F_TITLE,
+               T3.F_CONTEST,
+               T1.F_AUTHOR,
+               T3.F_AWARD,
+               T3.F_CITY,
+               T3.F_NATION,
+               T1.F_YEAR,
+               T1.F_REG_DATE,
+               T2.F_NAME,
+               T2.F_DEPT,
+               T1.F_PATH
+          FROM T_PRODUCT T1
+              JOIN T_USER T2
+                  ON T1.F_REG_NO=T2.F_USERNO
+              JOIN T_CONTEST T3
+                  ON T1.F_PRODUCT_NO=T3.F_PRODUCT_NO
+          WHERE T1.F_DEL_YN='N'
+            AND T3.F_NO = #{contestNo}
+    </select>
+
     <select id="selUserList" resultMap="userResultSet">
-        SELECT F_NAME, F_ID, F_REG_NUM, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_BIRTH, F_PLACE, F_REG_DATE, F_DEPT, F_POSITION, F_PHONE, F_EMAIL, F_LOGIN_DATE, F_MOD_DATE, F_MEMO, F_SORT
+        SELECT F_NAME, F_ID, F_REG_NUM, F_REG_DATE, F_PHONE, F_EMAIL, F_PLACE, F_BIRTH, F_MAIN_ADDRESS, F_SUB_ADDRESS
         FROM T_USER
         WHERE F_DEL_YN = 'N'
-          AND F_SORT = '회원'
+        <choose>
+            <when test="sort == '회원'">
+            AND F_SORT = '회원'
+            </when>
+            <when test="sort == '관리자'">
+            AND F_SORT = '관리자'
+            </when>
+        </choose>
     </select>
 
 </mapper>

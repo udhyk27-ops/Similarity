@@ -3,57 +3,37 @@ flatpickr(".flatpickr", {
     dateFormat: "Y-m-d",
 });
 
-// 작품 검색
-// $('#schPdForm').on('submit', function(e) {
-//     e.preventDefault();
-//
-//     const formData = $(this).serialize();
-//
-//     $.ajax({
-//         url: '/api/admin/search',
-//         type: 'get',
-//         data: formData,
-//         dataType: 'json',
-//         success: function(response) {
-//
-//             console.log('ajax success');
-//             console.log(response);
-//             console.log('response length : ' + response.list.length);
-//             console.log(response.currentPage);
-//
-//             let html = '';
-//
-//             if (response.length === 0) {
-//                 html = '<div class="cell">등록된 수상작이 없습니다.</div>';
-//             } else {
-//                 response.forEach(row => {
-//                     html += `
-//                         <div class="row">
-//                             <div class="cell" th:text="1"></div>
-//                             <div class="cell" th:text="${row.f_title}"></div>
-//                             <div class="cell" th:text="${row.f_author}"></div>
-//                             <div class="cell" th:text="${row.f_contest}"></div>
-//                             <div class="cell" th:text="${row.f_award}"></div>
-//                             <div class="cell" th:text="${row.f_code}"></div>
-//                             <div class="cell" th:text="${row.pd_reg_date}"></div>
-//                         </div>
-//                     `;
-//                 });
-//             }
-//             $('.reg-list-tb > div > .row > .cell').css('justify-content', 'center');
-//             $('.reg-list-row').html(html);
-//         }
-//     });
-// });
+$('.reg-list-row').on('click', function() {
+
+   $.ajax({
+      url: '/api/admin/searchProduct',
+      type: 'GET',
+      data: {
+         contestNo: $(this).data('contest-no')
+      },
+      success: function(response) {
+          const product = response[0];
+
+          $('#work-code').text(product.f_code);
+          $('#work-title').text(product.f_title);
+          $('#work-contest').text(product.f_contest);
+          $('#work-author').text(product.f_author);
+          $('#work-award').text(product.f_award);
+          $('#work-host').text(product.f_city);
+          $('#work-manager').text(product.f_nation);
+          $('#work-year').text(product.f_year);
+          $('#work-regdate').text(product.f_reg_date);
+          $('#work-name').text(product.f_name);
+          $('#work-dept').text(product.f_dept);
+          $('#work-img').attr('src', product.f_path);
+      },
+      error: function(error) {
+         console.error(error);
+      }
+   });
 
 
-
-
-
-
-
-
-
+});
 
 $('#openModal').on('click', function () {
 
@@ -62,6 +42,9 @@ $('#openModal').on('click', function () {
     $.ajax({
         url: '/api/admin/searchUser',
         type: 'GET',
+        data: {
+            sort: $('.select-user').val()
+        },
         success: function(data) {
             $('#user-row').empty();
 
@@ -98,6 +81,8 @@ $('#openModal').on('click', function () {
     $('#myModal').fadeIn();
 });
 
+
+
 $('.close').on('click', function () {
     $('#myModal').fadeOut();
 });
@@ -108,4 +93,11 @@ $(window).on('click', function (e) {
     if ($(e.target).is('#myModal')) {
         $('#myModal').fadeOut();
     }
+});
+
+// MODAL 회원 검색 폼
+$('#modalSchForm').on('submit', function(e) {
+    e.preventDefault();
+
+    
 });
