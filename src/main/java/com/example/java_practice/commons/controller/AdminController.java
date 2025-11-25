@@ -42,7 +42,8 @@ public class AdminController {
 
         return "commons/admin/awardReg";
     }
-
+    
+    // 초대작 등록현황 페이지
     @GetMapping("invit")
     public String invitPage(@ModelAttribute AwardSearch awardSearch, Model model) {
 
@@ -69,6 +70,15 @@ public class AdminController {
         return "commons/admin/invitReg";
     }
 
+    // 유사도 검색 페이지
+    @GetMapping("similar")
+    public String similarPage(){return "commons/admin/similar";}
 
+    // 운영회원 관리 페이지
+    @GetMapping("userManage")
+    public String userManagePage(){return "commons/admin/userManage";}
 
+    // 관리자 등록 관리 페이지
+    @GetMapping("adminManage")
+    public String adminManagePage(){return "commons/admin/adminManage";}
 }

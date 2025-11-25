@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사진공모전 저작물 등록관리 시스템</title>
+
+    <link rel="stylesheet" th:href="@{/css/similar.css}">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
+</header>
+
+<div class="ui">
+    <div class="navbar">
+        <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
+    </div>
+
+    <div class="main">
+        <div class="title">
+            유사도 검색
+        </div>
+
+        <div class="content">
+            <div class="area1">
+                <div class="sec1-1">
+                    <div class="info-text">
+                        <p>업로드한 파일과 과거 수상작 중에서 동일한 특이점을 찾아 매칭하여 결과를 알려드립니다.</p>
+                        <p>유사도는 관리자가 직접 변경하실 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <div class="sec1-2">
+                    <div>
+                        유사도 설정
+
+                        <select>
+                            <option>100%</option>
+                        </select>
+
+                        <button>초기화</button>
+                    </div>
+                </div>
+
+                <div class="sec1-3">
+                    <div>원본 파일 업로드</div>
+                    <div>
+                        <div class="upload-box">
+
+                            <div class="upload-label">
+                                <div class="modal-back-1">
+                                    <p class="upload-warning">*하나의 파일만 업로드 가능합니다.</p>
+
+                                    <img class="fileImg" src="/assets/fileUpload_onStandby.png" alt="file"/>
+
+                                    <p class="upload-text">파일을 이곳에 끌어다 놓으세요.</p>
+                                    <p class="upload-text">(파일 형식 : xlsx, xls)</p>
+
+                                    <div class="file_text"></div>
+                                </div>
+
+                                <div class="modal-back-2">
+
+                                    <p class="modal-or">또는</p>
+                                    <button class="modal-btn">내 컴퓨터 파일에서 선택</button>
+                                </div>
+
+                                <input type="file" id="fileInput" class="upload-input" name="excel_file" />
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="area2">
+                <div class="sec2-1">
+                    <div>매칭결과: 0건</div>
+                </div>
+
+                <div class="sec2-2">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script th:src="@{/js/similar.js}"></script>
+
+
+</body>
+</html>

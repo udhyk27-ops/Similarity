@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사진공모전 저작물 등록관리 시스템</title>
+
+    <link rel="stylesheet" th:href="@{/css/similar.css}">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+
+</head>
+<body>
+<header class="header">
+    <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
+</header>
+
+<div class="ui">
+    <div class="navbar">
+        <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
+    </div>
+
+    <div class="main">
+        <div class="title">
+            유사도 검색
+        </div>
+
+        <div class="content">
+            <div class="area1">
+                <div class="sec1-1">
+
+                </div>
+
+                <div class="sec1-2">
+
+                </div>
+
+                <div class="sec1-3">
+
+                </div>
+            </div>
+
+            <div class="area2">
+                <div class="sec2-1">
+
+                </div>
+
+                <div class="sec2-2">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script th:src="@{/js/similar.js}"></script>
+
+
+</body>
+</html>
