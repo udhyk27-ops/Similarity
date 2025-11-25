@@ -137,27 +137,27 @@
                             </div>
                             <div class="row">
                                 <div class="header-cell">제목</div>
-                                <div class="cell" id="work-title"></div>
+                                <div class="cell"><input id="work-title" /></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">공모전명</div>
-                                <div class="cell" id="work-contest"></div>
+                                <div class="cell"><input id="work-contest" /></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">저작자명</div>
-                                <div class="cell" id="work-author"></div>
+                                <div class="cell"><input id="work-author" /></div>
                                 <div class="header-cell">상권명</div>
-                                <div class="cell" id="work-award"></div>
+                                <div class="cell"><input id="work-award" /></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">주최</div>
-                                <div class="cell" id="work-host"></div>
+                                <div class="cell"><input id="work-host" /></div>
                                 <div class="header-cell">주관</div>
-                                <div class="cell" id="work-manager"></div>
+                                <div class="cell"><input id="work-manager" /></div>
                             </div>
                             <div class="row">
                                 <div class="header-cell">출품년도</div>
-                                <div class="cell" id="work-year"></div>
+                                <div class="cell"><input id="work-year" /></div>
                                 <div class="header-cell">등록일시</div>
                                 <div class="cell" id="work-regdate"></div>
                             </div>
@@ -247,15 +247,13 @@
                     <div class="row">
                         <div class="header-cell">검색</div>
                         <div class="cell">
-                            <form id="modalSchForm">
-                                <select>
-                                    <option value="" selected disabled hidden>선택</option>
-                                    <option value="op-name">이름</option>
-                                    <option value="op-id">아이디</option>
-                                </select>
-                                <input type="text" name="modal-keyword" />
-                                <button class="cell-btn">검색</button>
-                            </form>
+                            <select>
+                                <option value="" selected disabled hidden>선택</option>
+                                <option value="op-name">이름</option>
+                                <option value="op-id">아이디</option>
+                            </select>
+                            <input type="text" name="modal-keyword" />
+                            <button class="cell-btn">검색</button>
                         </div>
                     </div>
                 </div>
@@ -273,6 +271,11 @@
                     </div>
 
                     <div class="row" id="user-template" style="display: none;">
+                        <div class="f_place" style="display: none;"></div>
+                        <div class="f_birth" style="display: none;"></div>
+                        <div class="f_main_address" style="display: none;"></div>
+                        <div class="f_sub_address" style="display: none;"></div>
+
                         <div class="cell f_name"></div>
                         <div class="cell f_id"></div>
                         <div class="cell f_reg_num"></div>

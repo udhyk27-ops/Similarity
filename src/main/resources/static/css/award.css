@@ -164,3 +164,5 @@ select:focus { outline: none; }
 #user-template { height: 100%;}
 #user-template > .row > .cell { display: flex; justify-content: center;}
 
+/*#modalSchForm > input { width: calc(100% - 14.0rem); }*/
+#modalSchForm { width: 100%; }

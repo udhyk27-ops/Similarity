@@ -16,4 +16,5 @@ public class Product {
     private String f_name;
     private String f_dept;
     private String f_path;
+    private String f_id;
 }

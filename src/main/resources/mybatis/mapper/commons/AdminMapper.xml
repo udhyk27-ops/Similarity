@@ -151,6 +151,7 @@
                T1.F_REG_DATE,
                T2.F_NAME,
                T2.F_DEPT,
+               T2.F_ID,
                T1.F_PATH
           FROM T_PRODUCT T1
               JOIN T_USER T2
