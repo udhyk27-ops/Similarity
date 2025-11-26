@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>사진공모전 저작물 등록관리 시스템</title>
-    <link rel="stylesheet" th:href="@{/css/invit.css}">
+    <link rel="stylesheet" th:href="@{/css/award.css}">
     <link rel="stylesheet" th:href="@{/css/layout.css}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,7 @@
 
     <div class="main">
         <div class="title">
-            초대작 등록현황
+            수상작 등록현황
         </div>
 
         <div class="content">
@@ -169,8 +169,8 @@
                         <div class="row">
                             <div class="header-cell">사진</div>
                             <div class="cell img-cell">
-                                <div class="img-div"><img id="work-img" src="/images/sample.png" alt="샘플" /></div>
-                                <div><button class="cell-btn">다운로드</button></div>
+                                <div class="img-div"><img id="work-img" src="" alt="" /></div>
+                                <div><button class="cell-btn download-btn">다운로드</button></div>
                             </div>
                         </div>
                     </div>
@@ -207,12 +207,12 @@
                             <div class="header-cell">주소</div>
                             <div class="cell address-cell">
                                 <div class="address-div1">
-                                    <input value="" name=""/>
-                                    <button class="cell-btn">우편번호</button>
+                                    <input value="" name="" id="sample4_postcode"/>
+                                    <button class="cell-btn post-btn">우편번호</button>
                                 </div>
                                 <div class="address-div2">
-                                    <input value="" name="" />
-                                    <input value="" name="" />
+                                    <input value="" name="" id="sample4_roadAddress" />
+                                    <input value="" name="" id="sample4_extraAddress" />
                                     <input type="hidden" class="info-userNo" value="" />
                                 </div>
                             </div>
@@ -297,7 +297,9 @@
     </div>
 </div>
 
+<span id="guide" style="color:#999;display:none"></span>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script th:src="@{/js/invit.js}"></script>
+<script th:src="@{/js/award.js}"></script>
 </body>
 </html>
