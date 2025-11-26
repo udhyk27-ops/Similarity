@@ -44,44 +44,42 @@
                 <div class="sec1-2">
                     <div>
                         유사도 설정
-
                         <select>
                             <option>100%</option>
+                            <option>50%</option>
                         </select>
-
-                        <button>초기화</button>
+                        <button class="cell-btn">초기화</button>
                     </div>
                 </div>
 
                 <div class="sec1-3">
-                    <div>원본 파일 업로드</div>
-                    <div>
-                        <div class="upload-box">
+                    <div class="file-header">원본 파일 업로드</div>
 
-                            <div class="upload-label">
-                                <div class="modal-back-1">
-                                    <p class="upload-warning">*하나의 파일만 업로드 가능합니다.</p>
-
-                                    <img class="fileImg" src="/assets/fileUpload_onStandby.png" alt="file"/>
-
-                                    <p class="upload-text">파일을 이곳에 끌어다 놓으세요.</p>
-                                    <p class="upload-text">(파일 형식 : xlsx, xls)</p>
-
-                                    <div class="file_text"></div>
-                                </div>
-
-                                <div class="modal-back-2">
-
-                                    <p class="modal-or">또는</p>
-                                    <button class="modal-btn">내 컴퓨터 파일에서 선택</button>
-                                </div>
-
-                                <input type="file" id="fileInput" class="upload-input" name="excel_file" />
-
+                    <div class="upload-box">
+                        <div class="upload-label">
+                            <div class="modal-back-1">
+                                <img class="fileImg" src="/assets/sample.png" alt="file"/>
+                                <p class="upload-text">파일선택</p>
+                                <p class="upload-text">또는 여기로 파일을 끌어오세요</p>
                             </div>
+                            <input type="file" id="fileInput" class="upload-input" name="file" />
                         </div>
                     </div>
+                </div>
 
+                <div class="sec1-4">
+                    <div class="pd-card">
+                        <div class="img-div">
+                            <img src="/images/sample.png" alt="file"/>
+                        </div>
+                        <div class="text-div">
+                            <pre>
+파일명 : 출품작.png
+이미지 사이즈: 50x50
+이미지 크기: 400kb
+                            </pre>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -89,16 +87,112 @@
                 <div class="sec2-1">
                     <div>매칭결과: 0건</div>
                 </div>
-
                 <div class="sec2-2">
-
+                    <div class="pd-card">
+                        <div class="img-div">
+                            <img src="/images/sample.png" alt="file"/>
+                        </div>
+                        <div class="text-div">
+                            <pre>
+작품코드: EMC124502
+비가 내린 오후
+홍길동
+2023 주니어해양피켓챌린지
+대상
+유사도: 78%
+                            </pre>
+                        </div>
+                    </div>
+                    <div class="pd-card">
+                        <div class="img-div">
+                            <img src="/images/sample.png" alt="file"/>
+                        </div>
+                        <div class="text-div">
+                            <pre>
+작품코드: EMC124502
+비가 내린 오후
+홍길동
+2023 주니어해양피켓챌린지
+대상
+유사도: 78%
+                            </pre>
+                        </div>
+                    </div>
+                    <div class="pd-card">
+                        <div class="img-div">
+                            <img src="/images/sample.png" alt="file"/>
+                        </div>
+                        <div class="text-div">
+                            <pre>
+작품코드: EMC124502
+비가 내린 오후
+홍길동
+2023 주니어해양피켓챌린지
+대상
+유사도: 78%
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="area3">
+                <div class="pd-card">
+                    <div class="img-div">
+                        <img src="/images/sample.png" alt="file"/>
+                    </div>
+                    <div class="text-div">
+                            <pre>
+작품코드: EMC124502
+비가 내린 오후
+홍길동
+2023 주니어해양피켓챌린지
+대상
+유사도: 78%
+                            </pre>
+                    </div>
+                </div>
+                <div class="pd-card">
+                    <div class="img-div">
+                        <img src="/images/sample.png" alt="file"/>
+                    </div>
+                    <div class="text-div">
+                            <pre>
+작품코드: EMC124502
+비가 내린 오후
+홍길동
+2023 주니어해양피켓챌린지
+대상
+유사도: 78%
+                            </pre>
+                    </div>
+                </div>
+            </div>
+            <div class="area4">
+                <div class="pd-card">
+                    <div class="img-div">
+                        <img src="/images/sample.png" alt="file"/>
+                    </div>
+                    <div class="text-div">
+                            <pre>
+작품코드: EMC124502
+비가 내린 오후
+홍길동
+2023 주니어해양피켓챌린지
+대상
+유사도: 78%
+                            </pre>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <img class="modal-img" src="" alt="sample">
+    </div>
+</div>
 
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
