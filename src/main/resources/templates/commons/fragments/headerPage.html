@@ -8,7 +8,9 @@
             <span class="admin-name">관리자 ▼</span>
             <div class="dropdown">
                 <a href="#" class="mypage-link">마이페이지</a>
-                <a href="#" class="logout-link">로그아웃</a>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="logout-link">로그아웃</button>
+                </form>
             </div>
         </div>
     </div>

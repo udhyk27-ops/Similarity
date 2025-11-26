@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.java_practice.commons.mapper.NoticeMapper">
+
+    <resultMap id="noticeWithNameMap" type="Notice">
+        <id property="f_id" column="F_ID"/>
+        <result property="f_title" column="F_TITLE"/>
+        <result property="f_content" column="F_CONTENT"/>
+        <result property="f_regid" column="F_REGID"/>
+        <result property="f_regdate" column="F_REGDATE"/>
+        <result property="f_modiid" column="F_MODIID"/>
+        <result property="f_modidate" column="F_MODIDATE"/>
+        <result property="f_viewcnt" column="F_VIEWCNT"/>
+
+        <association property="writer" javaType="com.example.java_practice.commons.dto.User">
+            <result property="f_name" column="F_NAME"/>
+        </association>
+    </resultMap>
+
+
+    <insert id="insertNotice">
+        <selectKey keyProperty="f_id" resultType="int" order="BEFORE">
+            SELECT NVL(MAX(F_ID), 0) + 1 FROM T_NOTICE
+        </selectKey>
+        insert into T_NOTICE (F_ID, F_TITLE, F_CONTENT, F_REGID)
+        values((SELECT NVL(MAX(F_ID), 0) + 1 FROM T_NOTICE), #{f_title}, #{f_content}, #{f_regid})
+    </insert>
+
+    <insert id="insertNoticeFile">
+        insert into T_NOTICE_FILE(F_ID, F_NOTICE_ID, F_FILENAME, F_ORI_FILENAME, F_FILEPATH, F_FILESIZE)
+        VALUES ((SELECT NVL(MAX(F_ID), 0) + 1 FROM T_NOTICE_FILE), #{f_notice_id}, #{f_filename}, #{f_ori_filename}, #{f_filepath}, #{f_filesize})
+    </insert>
+
+    <select id="selectNoticeList" resultMap="noticeWithNameMap">
+        select t1.F_ID, t1.F_TITLE, t2.F_NAME, t1.F_REGID, t1.F_REGDATE, t1.F_VIEWCNT
+        from T_NOTICE t1
+        join T_USER t2 on t1.F_REGID = t2.F_ID
+        order by f_id desc
+    </select>
+
+    <update id="updateViewCnt">
+        update T_NOTICE set F_VIEWCNT = F_VIEWCNT + 1
+        where F_ID = #{noticeId}
+    </update>
+</mapper>

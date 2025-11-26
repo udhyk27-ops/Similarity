@@ -81,20 +81,20 @@
                             <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('공지사항')}"></th:block>
                         </div>
                         <div class="notice-detail-wrap">
-                            <form class="notice-form" method="post" enctype="multipart/form-data">
+                            <form th:action="@{/regNoticeProcess}" class="notice-form" method="post" enctype="multipart/form-data">
                                 <div class="notice-container">
                                     <table class="layout">
                                         <tr>
                                             <td class="label">제목</td>
                                             <td class="content" colspan="3">
-                                                <input type="text" class="form-control" name="title" value="">
+                                                <input type="text" class="form-control" name="f_title" value="">
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td class="label">내용</td>
                                             <td class="content" colspan="3">
-                                                <textarea rows="10" class="form-control textarea" name="content" value=""></textarea>
+                                                <textarea rows="10" class="form-control textarea" name="f_content" ></textarea>
                                             </td>
                                         </tr>
 
@@ -102,7 +102,7 @@
                                             <td class="label">첨부파일</td>
                                             <td class="attach" colspan="3">
                                                 <label class="file-box">
-                                                    <input type="file" id="fileInput" name="files" multiple style="display:none;">
+                                                    <input type="file" id="fileInput" name="noticeFiles" multiple style="display:none;">
                                                     📁 파일첨부
                                                 </label>
 
@@ -112,13 +112,13 @@
                                         </tr>
                                     </table>
                                 </div>
-                            </form>
-                            <div class="buttons">
-                                <div class="right-btns">
-                                    <a href="/notice" class="btn btn-white">취소</a>
-                                    <button class="btn btn-navy">저장</button>
+                                <div class="buttons">
+                                    <div class="right-btns">
+                                        <a href="/notice" class="btn btn-white">취소</a>
+                                        <button type="submit" class="btn btn-navy">저장</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -128,14 +128,33 @@
 
     </div>
     <script>
-        const fileInput = document.getElementById("fileInput");
-        const fileList = document.getElementById("fileList");
+        document.addEventListener("DOMContentLoaded", function () {
+            const fileInput = document.getElementById("fileInput");
+            const fileList = document.getElementById("fileList");
 
-        fileUpload.init({ enablePreview: false });
-        fileInput.addEventListener("change", function () {
-            fileUpload.renderFileList();
-        });
+            fileUpload.init({ enablePreview: false });
+            fileInput.addEventListener("change", function () {
+                fileUpload.renderFileList();
+            });
 
+            document.querySelector('.notice-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                if(validate.checkEmpty()) {
+                    this.submit();
+                }
+            });
+        })
+        const validate = {
+            checkEmpty : function() {
+                const title = document.querySelector('input[name="f_title"]');
+                if(title.value.trim() === ""){
+                    alert("제목을 입력해주세요");
+                    return false;
+                }
+                alert("공지가 등록되었습니다.")
+                return true;
+            }
+        }
     </script>
 </body>
 </html>

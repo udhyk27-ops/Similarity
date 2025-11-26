@@ -51,7 +51,7 @@
             border-radius: 0.7rem;
             box-sizing: border-box;
             border: 1px solid #edc0c0;
-            background: #f5f5f5;
+            background: #fffdfd;
         }
         .form .form-elements input:focus {
             border: 1px solid #fd4242;
@@ -87,7 +87,7 @@
             <div class="form-header">
                 <h3>사진공모전 저작물 등록관리 시스템</h3>
             </div>
-            <form id="login_frm" action="#" method="post">
+            <form id="login_frm" th:action="@{/login}" method="post">
                 <div class="form-elements">
                     <div class="form-element">
                         <input type="text" id="f_id" name="f_id" placeholder="아이디">
@@ -204,6 +204,7 @@
                const urlParams = new URLSearchParams(window.location.search);
                if(urlParams.get('error') === 'true'){
                    alert("로그인에 실패했습니다");
+                   window.location.href = "/login";
                }
             }
         }

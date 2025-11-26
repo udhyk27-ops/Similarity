@@ -42,7 +42,9 @@
             display: flex;
             gap: 0.25rem;
         }
-
+        .align-start{
+            text-align: start;!important;
+        }
     </style>
 </head>
 <body>
@@ -104,75 +106,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>10</td>
-                                    <td><a href="/detail">공지사항제목입니다</a></td>
-                                    <td>관리자</td>
-                                    <td>2022-08-01 16:15</td>
-                                    <td>152</td>
+                                <tr th:if="${#lists.isEmpty(noticeList)}">
+                                    <td colspan="5">등록된 공지가 없습니다</td>
                                 </tr>
-                                <tr>
-                                    <td>9</td>
-                                    <td><a href="/detail">공지사항제목입니다</a></td>
-                                    <td>관리자</td>
-                                    <td>2022-08-01 16:15</td>
-                                    <td>152</td>
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td><a href="/detail">공지사항제목입니다</a></td>
-                                    <td>관리자</td>
-                                    <td>2022-08-01 16:15</td>
-                                    <td>152</td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td><a href="/detail">공지사항제목입니다</a></td>
-                                    <td>관리자</td>
-                                    <td>2022-08-01 16:15</td>
-                                    <td>152</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td><a href="/detail">공지사항제목입니다</a></td>
-                                    <td>관리자</td>
-                                    <td>2022-08-01 16:15</td>
-                                    <td>152</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td><a href="/detail">공지사항제목입니다</a></td>
-                                    <td>관리자</td>
-                                    <td>2022-08-01 16:15</td>
-                                    <td>152</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><a href="/detail">공지사항제목입니다</a></td>
-                                    <td>관리자</td>
-                                    <td>2022-08-01 16:15</td>
-                                    <td>152</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td><a href="/detail">공지사항제목입니다</a></td>
-                                    <td>관리자</td>
-                                    <td>2022-08-01 16:15</td>
-                                    <td>152</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td><a href="/detail">공지사항제목입니다</a></td>
-                                    <td>관리자</td>
-                                    <td>2022-08-01 16:15</td>
-                                    <td>152</td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td><a href="/detail">공지사항제목입니다</a></td>
-                                    <td>관리자</td>
-                                    <td>2022-08-01 16:15</td>
-                                    <td>152</td>
+                                <tr th:each="notice:${noticeList}" th:unless="${#lists.isEmpty(noticeList)}">
+                                    <td th:text="${notice.f_id}"></td>
+                                    <td style="text-align: start;!important"><a th:href="@{/detail/{id}(id=${notice.f_id})}" th:text="${notice.f_title}"></a></td>
+                                    <td th:text="${notice.writer.f_name}"></td>
+                                    <td th:text="${#temporals.format(notice.f_regdate, 'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${notice.f_viewcnt}"></td>
                                 </tr>
                             </tbody>
                         </table>

@@ -1,6 +1,7 @@
-package com.example.java_practice.commons.service;
+package com.example.java_practice.commons.security;
 
 import com.example.java_practice.commons.dto.User;
+import com.example.java_practice.commons.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,12 +19,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         User user = authService.getUserInfoById(username);
 
-        if(user == null) throw new UsernameNotFoundException("해당하는 회원이 없습니다");
+        if (user == null) throw new UsernameNotFoundException("해당하는 회원이 없습니다");
 
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getF_id())
-                .password(user.getF_id())
-                .roles("USER")
-                .build();
+        return new CustomUserDetails(user);
     }
 }
