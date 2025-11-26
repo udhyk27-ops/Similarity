@@ -77,13 +77,14 @@ public class AdminController {
     // 운영회원 관리 페이지
     @GetMapping("userManage")
     public String userManagePage(@ModelAttribute AwardSearch awardSearch, Model model) {
+
         // paging
         int limit = 10;
         int offset = (awardSearch.getPage() - 1) * limit;
 
         awardSearch.setLimit(limit);
         awardSearch.setOffset(offset);
-        awardSearch.setSort("award");
+//        awardSearch.setSort("award");
 
         ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
         int cdCnt = adminService.cntAwardList(awardSearch);
@@ -102,5 +103,28 @@ public class AdminController {
 
     // 관리자 등록 관리 페이지
     @GetMapping("adminManage")
-    public String adminManagePage(){ return "commons/admin/adminManage"; }
+    public String adminManagePage(@ModelAttribute AwardSearch awardSearch, Model model){
+
+        // paging
+        int limit = 10;
+        int offset = (awardSearch.getPage() - 1) * limit;
+
+        awardSearch.setLimit(limit);
+        awardSearch.setOffset(offset);
+//        awardSearch.setSort("award");
+
+        ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
+        int cdCnt = adminService.cntAwardList(awardSearch);
+        int totalCnt = adminService.cntAwardList(new AwardSearch()); // 전체 건수
+        int totalPages = (int) Math.ceil((double) cdCnt / limit);
+
+        model.addAttribute("awardSearch", awardSearch);
+        model.addAttribute("awardList", awardList);
+        model.addAttribute("currentPage", awardSearch.getPage());
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("cdCnt", cdCnt);
+        model.addAttribute("totalCnt", totalCnt);
+
+        return "commons/admin/adminManage";
+    }
 }

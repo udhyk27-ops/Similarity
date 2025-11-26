@@ -28,26 +28,19 @@
         <div class="content">
             <div class="area1">
                 <div class="sec1-1">
-                    <div class="sch-tb">
-
-                        <form id="schPdForm" method="/award" autocomplete="off">
-                            <input type="hidden" name="sort" value="award" />
-                            <input type="hidden" name="page" value="1" />
-                            <div class="row">
-                                <div class="header-cell">검색</div>
-                                <div class="cell">
-                                    <select name="schFilter">
-                                        <option value="" selected disabled hidden>선택</option>
-                                        <option value="op-title">제목</option>
-                                        <option value="op-author">저작자명</option>
-                                    </select>
-                                    <input type="text" name="keyword" th:value="${awardSearch.keyword}" />
-                                    <button class="cell-btn">검색</button>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
+                    <form id="schPdForm" method="/userManage" autocomplete="off">
+<!--                        <input type="hidden" name="sort" value="award" />-->
+                        <input type="hidden" name="page" value="1" />
+                        <div class="cell">
+                            <select name="schFilter">
+                                <option value="" selected disabled hidden>선택</option>
+                                <option value="op-title">제목</option>
+                                <option value="op-author">저작자명</option>
+                            </select>
+                            <input type="text" name="keyword" th:value="${awardSearch.keyword}" />
+                            <button class="cell-btn">검색</button>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="sec1-2">
@@ -83,18 +76,18 @@
                         <a th:if="${currentPage > 1}" th:href="@{/award(page=1)}">처음</a>
 
                         <a th:if="${currentPage > 1}"
-                           th:href="@{/award(page=${currentPage - 1})}">이전</a>
+                           th:href="@{/userManage(page=${currentPage - 1})}">이전</a>
 
                         <!-- 페이지 번호 반복 -->
                         <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-                           th:href="@{/award(page=${i})}"
+                           th:href="@{/userManage(page=${i})}"
                            th:text="${i}"
                            th:classappend="${i == currentPage} ? 'current' : ''"></a>
 
                         <a th:if="${currentPage < totalPages}"
-                           th:href="@{/award(page=${currentPage + 1})}">다음</a>
+                           th:href="@{/userManage(page=${currentPage + 1})}">다음</a>
 
-                        <a th:if="${currentPage < totalPages}" th:href="@{/award(page=${totalPages})}">끝</a>
+                        <a th:if="${currentPage < totalPages}" th:href="@{/userManage(page=${totalPages})}">끝</a>
                     </div>
                 </div>
             </div>

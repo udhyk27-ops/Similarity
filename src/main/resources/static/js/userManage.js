@@ -1,10 +1,4 @@
-flatpickr(".flatpickr", {
-    locale: 'ko',
-    dateFormat: "Y-m-d",
-});
-
 $('.reg-list-row').on('click', function() {
-
     $.ajax({
         url: '/api/admin/searchProduct',
         type: 'GET',
@@ -31,8 +25,6 @@ $('.reg-list-row').on('click', function() {
             console.error(error);
         }
     });
-
-
 });
 
 $('#openModal').on('click', function () {
