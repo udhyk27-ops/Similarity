@@ -119,15 +119,19 @@
                             </tbody>
                         </table>
                         <div class="pagination">
-                            <a href="#" class="page-btn prev">«</a>
+                            <a th:if="${currentPage > 1}"
+                               th:href="@{/notice(page=${currentPage - 1}, size=${size})}"
+                               class="page-btn prev">«</a>
 
-                            <a href="#" class="page-btn active">1</a>
-                            <a href="#" class="page-btn">2</a>
-                            <a href="#" class="page-btn">3</a>
-                            <a href="#" class="page-btn">4</a>
-                            <a href="#" class="page-btn">5</a>
+                            <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+                               th:href="@{/notice(page=${i}, size=${size})}"
+                               th:text="${i}"
+                               th:classappend="${i == currentPage} ? ' active' : ''"
+                               class="page-btn"></a>
 
-                            <a href="#" class="page-btn next">»</a>
+                            <a th:if="${currentPage < totalPages}"
+                               th:href="@{/notice(page=${currentPage+1}, size=${size})}"
+                               class="page-btn next">»</a>
                         </div>
                     </div>
                 </div>

@@ -5,12 +5,30 @@
 
 <mapper namespace="com.example.java_practice.commons.mapper.AuthMapper">
     <resultMap id="userResultMap" type="User">
-        <id property="f_id" column="F_ID"/>
-    </resultMap>
+        <id property="f_user_no" column="F_USER_NO"/>
+        <result property="f_id" column="F_ID"/>
+        <result property="f_name" column="F_NAME"/>
 
+        <association property="auth" javaType="com.example.java_practice.commons.dto.Auth">
+            <result property="f_auth_award" column="f_auth_award" />
+            <result property="f_auth_invit" column="f_auth_invit" />
+            <result property="f_auth_reg" column="f_auth_reg" />
+            <result property="f_auth_sim" column="f_auth_sim" />
+            <result property="f_auth_user" column="f_auth_user" />
+            <result property="f_auth_admin" column="f_auth_admin" />
+        </association>
+    </resultMap>
+    <!-- 나중에 패스워드, resultMap 추가 -->
     <select id="selectUserById" resultMap="userResultMap">
-        SELECT F_ID
-        FROM T_USER
+        SELECT t1.F_USER_NO, F_ID, F_NAME,
+               NVL(t2.F_AUTH_AWARD, 'N') as F_AUTH_AWARD,
+               NVL(t2.F_AUTH_INVIT, 'N') as F_AUTH_INVIT,
+               NVL(t2.F_AUTH_REG, 'N') as F_AUTH_REG,
+               NVL(t2.F_AUTH_SIM, 'N') as F_AUTH_SIM,
+               NVL(t2.F_AUTH_USER, 'N') as F_AUTH_USER,
+               NVL(t2.F_AUTH_ADMIN, 'N') as F_AUTH_ADMIN
+        FROM T_USER T1
+        LEFT JOIN T_AUTH t2 on t1.F_USER_NO = t2.F_USER_NO
         WHERE F_ID = #{userId}
     </select>
 </mapper>

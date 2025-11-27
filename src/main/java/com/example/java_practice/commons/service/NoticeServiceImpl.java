@@ -13,9 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +36,9 @@ public class NoticeServiceImpl implements NoticeService {
         noticeFiles.forEach(file -> {
             try {
                 String originalFileName = file.getOriginalFilename();
-                String storedFileName = UUID.randomUUID() + "_" + originalFileName;
+                long currentTime = System.currentTimeMillis();
+                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String storedFileName = UUID.randomUUID() + "_" + currentTime + ext;
                 Path dirPath = Paths.get(uploadDir + "/notice");
                 Path filePath = dirPath.resolve(storedFileName);
 
@@ -64,9 +64,35 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public ArrayList<Notice> selNoticeList() {
-        ArrayList<Notice> noticeList = noticeMapper.selectNoticeList();
+    public ArrayList<Notice> selNoticeList(int page, int size) {
+        int startRow = (page - 1) * size + 1;
+        int endRow = page * size;
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("startRow", startRow);
+        params.put("endRow", endRow);
+        ArrayList<Notice> noticeList = noticeMapper.selectNoticeList(params);
         return noticeList;
+    }
+
+    @Override
+    public int selNoticeCnt() {
+        return noticeMapper.selectNoticeCnt();
+    }
+
+    @Override
+    public Notice selectNoticeDetailById(int noticeId) {
+        Notice notice = noticeMapper.selectNoticeDetailById(noticeId);
+        // 조회수 올리기
+        noticeMapper.updateViewCnt(noticeId);
+
+        return notice;
+    }
+
+    @Override
+    public ArrayList<NoticeFile> selectNoticeFilesByNoticeId(int noticeId) {
+        ArrayList<NoticeFile> noticeFiles = noticeMapper.selectNoticeFilesByNoticeId(noticeId);
+        return noticeFiles;
     }
 
 

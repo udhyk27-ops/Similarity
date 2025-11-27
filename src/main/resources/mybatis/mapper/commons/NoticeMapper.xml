@@ -5,7 +5,7 @@
 
 <mapper namespace="com.example.java_practice.commons.mapper.NoticeMapper">
 
-    <resultMap id="noticeWithNameMap" type="Notice">
+    <resultMap id="noticeWithUserMap" type="Notice">
         <id property="f_id" column="F_ID"/>
         <result property="f_title" column="F_TITLE"/>
         <result property="f_content" column="F_CONTENT"/>
@@ -18,6 +18,12 @@
         <association property="writer" javaType="com.example.java_practice.commons.dto.User">
             <result property="f_name" column="F_NAME"/>
         </association>
+    </resultMap>
+    <resultMap id="noticeFileResultMap" type="NoticeFile">
+        <result property="f_filename" column="F_FILENAME"></result>
+        <result property="f_ori_filename" column="F_ORI_FILENAME"></result>
+        <result property="f_filepath" column="F_FILEPATH"></result>
+        <result property="f_filesize" column="F_FILESIZE"></result>
     </resultMap>
 
 
@@ -34,15 +40,35 @@
         VALUES ((SELECT NVL(MAX(F_ID), 0) + 1 FROM T_NOTICE_FILE), #{f_notice_id}, #{f_filename}, #{f_ori_filename}, #{f_filepath}, #{f_filesize})
     </insert>
 
-    <select id="selectNoticeList" resultMap="noticeWithNameMap">
-        select t1.F_ID, t1.F_TITLE, t2.F_NAME, t1.F_REGID, t1.F_REGDATE, t1.F_VIEWCNT
-        from T_NOTICE t1
-        join T_USER t2 on t1.F_REGID = t2.F_ID
-        order by f_id desc
+    <select id="selectNoticeList" resultMap="noticeWithUserMap">
+        select * from
+            (
+            select t1.F_ID, t1.F_TITLE, t2.F_NAME, t1.F_REGDATE, t1.F_VIEWCNT, ROW_NUMBER() over (order by t1.f_id desc) as rn
+             from T_NOTICE t1
+                 join T_USER t2
+                     on t1.F_REGID = t2.F_USER_NO
+             )
+        where rn between #{startRow} and #{endRow}
+    </select>
+
+    <select id="selectNoticeCnt" resultType="int">
+        select count(*) from T_NOTICE
     </select>
 
     <update id="updateViewCnt">
         update T_NOTICE set F_VIEWCNT = F_VIEWCNT + 1
         where F_ID = #{noticeId}
     </update>
+
+    <select id="selectNoticeDetailById" resultMap="noticeWithUserMap">
+        select F_TITLE, F_CONTENT, t2.F_NAME, F_REGDATE
+        from T_NOTICE t1
+        join T_USER t2 on t1.F_REGID = t2.F_USER_NO
+        where t1.F_ID = #{noticeId}
+    </select>
+
+    <select id="selectNoticeFilesByNoticeId" resultMap="noticeFileResultMap">
+        select F_ORI_FILENAME, F_FILEPATH from T_NOTICE_FILE where F_NOTICE_ID = #{noticeId}
+    </select>
+
 </mapper>
