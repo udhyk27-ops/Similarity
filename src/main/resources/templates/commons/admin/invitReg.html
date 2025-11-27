@@ -38,14 +38,14 @@
                     <div class="sch-tb">
 
                         <form id="schPdForm" method="/award" autocomplete="off">
-                            <input type="hidden" name="sort" value="award" />
+                            <input type="hidden" name="sort" value="invit" />
                             <input type="hidden" name="page" value="1" />
                             <div class="row">
                                 <div class="header-cell">등록날짜</div>
                                 <div class="cell">
-                                    <input class="flatpickr" type="date" name="startDate" placeholder="전체" th:value="${awardSearch.startDate}" />
+                                    <input class="flatpickr" type="date" name="startDate" placeholder="전체" th:value="${invitSearch.startDate}" />
                                     ~
-                                    <input class="flatpickr" type="date" name="endDate" placeholder="전체" th:value="${awardSearch.endDate}" />
+                                    <input class="flatpickr" type="date" name="endDate" placeholder="전체" th:value="${invitSearch.endDate}" />
                                 </div>
                             </div>
                             <div class="row">
@@ -56,7 +56,7 @@
                                         <option value="op-title">제목</option>
                                         <option value="op-author">저작자명</option>
                                     </select>
-                                    <input type="text" name="keyword" th:value="${awardSearch.keyword}" />
+                                    <input type="text" name="keyword" th:value="${invitSearch.keyword}" />
                                     <button class="cell-btn">검색</button>
                                 </div>
                             </div>
@@ -92,14 +92,14 @@
                             <div class="cell">등록날짜</div>
                         </div>
 
-                        <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-contest-no="${award.f_no}">
-                            <div class="cell" th:text="${(currentPage - 1) * 5 + awardStat.index + 1}"></div>
-                            <div class="cell" th:text="${award.f_title}"></div>
-                            <div class="cell" th:text="${award.f_author}"></div>
-                            <div class="cell" th:text="${award.f_code}"></div>
-                            <div class="cell" th:text="${award.pd_reg_date}"></div>
+                        <div class="row reg-list-row" th:if="${!#lists.isEmpty(invitList)}" th:each="invit:${invitList}" th:data-work-no="${invit.f_work_no}">
+                            <div class="cell" th:text="${(currentPage - 1) * 5 + invitStat.index + 1}"></div>
+                            <div class="cell" th:text="${invit.f_title}"></div>
+                            <div class="cell" th:text="${invit.f_author}"></div>
+                            <div class="cell" th:text="${invit.f_code}"></div>
+                            <div class="cell" th:text="${invit.f_reg_date}"></div>
                         </div>
-                        <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
+                        <div class="row" th:if="${#lists.isEmpty(invitList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
                     </div>
 
                     <div class="paging-div" th:if="${cdCnt > 0}">
@@ -256,15 +256,15 @@
                 </div>
 
                 <div class="row" id="user-template" style="display: none;">
-                    <div class="f_userNo" style="display: none;"></div>
-                    <div class="f_place" style="display: none;"></div>
+                    <div class="f_user_no" style="display: none;"></div>
+                    <div class="f_area" style="display: none;"></div>
                     <div class="f_birth" style="display: none;"></div>
                     <div class="f_main_address" style="display: none;"></div>
                     <div class="f_sub_address" style="display: none;"></div>
 
                     <div class="cell f_name"></div>
                     <div class="cell f_id"></div>
-                    <div class="cell f_reg_num"></div>
+                    <div class="cell f_personal_num"></div>
                     <div class="cell f_reg_date"></div>
                     <div class="cell f_phone"></div>
                     <div class="cell f_email"></div>

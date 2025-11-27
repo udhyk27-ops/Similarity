@@ -1,9 +1,6 @@
 package com.example.java_practice.commons.service;
 
-import com.example.java_practice.commons.dto.Award;
-import com.example.java_practice.commons.dto.AwardSearch;
-import com.example.java_practice.commons.dto.Product;
-import com.example.java_practice.commons.dto.User;
+import com.example.java_practice.commons.dto.*;
 
 import java.util.ArrayList;
 
@@ -13,10 +10,10 @@ public interface AdminService {
     ArrayList<Award> selAwardList(AwardSearch awardSearch);
 
     // 수상작 CNT
-    int cntAwardList(AwardSearch awardSearch);
+    int cntAwardList(AwardSearch cntWorks);
 
     // 작품 조회
-    ArrayList<Product> selProduct(int contestNo);
+    ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo);
 
     // 회원 조회(모달)
     ArrayList<User> selUserList(String sort);

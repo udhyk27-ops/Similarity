@@ -1,9 +1,6 @@
 package com.example.java_practice.commons.mapper;
 
-import com.example.java_practice.commons.dto.Award;
-import com.example.java_practice.commons.dto.AwardSearch;
-import com.example.java_practice.commons.dto.Product;
-import com.example.java_practice.commons.dto.User;
+import com.example.java_practice.commons.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.ArrayList;
 
@@ -12,9 +9,9 @@ public interface AdminMapper {
 
     ArrayList<Award> selAwardList(AwardSearch awardSearch);
 
-    int cntAwardList(AwardSearch awardSearch);
+    int cntAwardList(AwardSearch cntWorks);
 
-    ArrayList<Product> selProduct(int contestNo);
+    ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo);
 
     ArrayList<User> selUserList(String sort);
 

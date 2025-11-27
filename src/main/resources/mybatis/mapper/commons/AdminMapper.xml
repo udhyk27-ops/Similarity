@@ -6,51 +6,58 @@
 <mapper namespace="com.example.java_practice.commons.mapper.AdminMapper">
 
     <resultMap type="award" id="awardResultSet">
-        <result column="F_PRODUCT_NO" property="f_product_no" />
+        <result column="F_WORK_NO" property="f_work_no" />
         <result column="F_TITLE" property="f_title" />
         <result column="F_AUTHOR" property="f_author" />
         <result column="F_CONTEST" property="f_contest" />
         <result column="F_AWARD" property="f_award" />
         <result column="F_CODE" property="f_code" />
-        <result column="PD_REG_DATE" property="pd_reg_date" />
+        <result column="F_REG_DATE" property="f_reg_date" />
     </resultMap>
 
-    <resultMap type="product" id="productResultSet">
+    <resultMap type="workwithuser" id="workResultSet">
+        <result column="F_CODE" property="f_code" />
         <result column="F_TITLE" property="f_title" />
         <result column="F_CONTEST" property="f_contest" />
         <result column="F_AUTHOR" property="f_author" />
         <result column="F_AWARD" property="f_award" />
-        <result column="F_CITY" property="f_city" />
-        <result column="F_NATION" property="f_nation" />
+        <result column="F_HOST" property="f_host" />
+        <result column="F_MANAGER" property="f_manager" />
         <result column="F_YEAR" property="f_year" />
         <result column="F_REG_DATE" property="f_reg_date" />
+        <result column="F_FILEPATH" property="f_filepath" />
         <result column="F_NAME" property="f_name" />
         <result column="F_DEPT" property="f_dept" />
-        <result column="F_PATH" property="f_path" />
-    </resultMap>
-
-    <resultMap type="user" id="userResultSet">
-        <result column="F_USERNO" property="f_userNo" />
-        <result column="F_NAME" property="f_name" />
         <result column="F_ID" property="f_id" />
-        <result column="F_REG_NUM" property="f_reg_num" />
-        <result column="F_REG_DATE" property="f_reg_date" />
+        <result column="F_AREA" property="f_area" />
+        <result column="F_BIRTH" property="f_birth" />
         <result column="F_PHONE" property="f_phone" />
         <result column="F_EMAIL" property="f_email" />
-        <result column="F_PLACE" property="f_place" />
-        <result column="F_BIRTH" property="f_birth" />
         <result column="F_MAIN_ADDRESS" property="f_main_address" />
         <result column="F_SUB_ADDRESS" property="f_sub_address" />
     </resultMap>
 
-    <sql id="selAward">
-        T3.F_NO,
-        T1.F_TITLE,
-        T1.F_AUTHOR,
-        T3.F_CONTEST,
-        T3.F_AWARD,
-        T1.F_CODE,
-        TO_CHAR(T1.F_REG_DATE, 'YYYYMMDD') AS PD_REG_DATE
+    <resultMap type="user" id="userResultSet">
+        <result column="F_USER_NO" property="f_user_no" />
+        <result column="F_ID" property="f_id" />
+        <result column="F_NAME" property="f_name" />
+        <result column="F_PERSONAL_NUM" property="f_personal_num" />
+        <result column="F_AREA" property="f_area" />
+        <result column="F_BIRTH" property="f_birth" />
+        <result column="F_PHONE" property="f_phone" />
+        <result column="F_EMAIL" property="f_email" />
+        <result column="F_DEPT" property="f_dept" />
+        <result column="F_POSITION" property="f_position" />
+        <result column="F_MAIN_ADDRESS" property="f_main_address" />
+        <result column="F_SUB_ADDRESS" property="f_sub_address" />
+        <result column="F_LOGIN_DATE" property="f_login_date" />
+        <result column="F_MOD_DATE" property="f_mod_date" />
+        <result column="F_STATUS" property="f_status" />
+        <result column="F_MEMO" property="f_memo" />
+    </resultMap>
+
+    <sql id="selWork">
+        F_WORK_NO, F_TITLE, F_AUTHOR, F_CODE, TO_CHAR(F_REG_DATE, 'YYYYMMDD') AS F_REG_DATE
     </sql>
 
     <sql id="selAuth">
@@ -62,123 +69,132 @@
         T4.F_AUTH_ADMIN
     </sql>
 
+    <!--  Award List -->
     <select id="selAwardList" resultMap="awardResultSet" parameterType="awardsearch">
         SELECT
-            <include refid="selAward" />
-          FROM T_PRODUCT T1
-             JOIN T_USER T2
-                 ON T1.F_REG_NO=T2.F_USERNO
-             JOIN T_CONTEST T3
-                 ON T1.F_PRODUCT_NO=T3.F_PRODUCT_NO
-         WHERE T1.F_DEL_YN = 'N'
-        <choose>
-            <when test="sort == 'award'">
-                AND T1.F_SORT = 'A'
-            </when>
-            <when test="sort == 'invit'">
-                AND T1.F_SORT = 'N'
-            </when>
-        </choose>
+            <include refid="selWork" />
+            <if test="sort == 'award'">
+            , F_CONTEST
+            , F_AWARD
+            </if>
+        FROM
+            <if test="sort == 'award'">
+                T_AWARD_WORK
+            </if>
+            <if test="sort == 'invit'">
+                T_INVIT_WORK
+            </if>
+         WHERE F_STATUS = 'N'
 
         <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-            AND T1.F_REG_DATE BETWEEN #{startDate} AND #{endDate}
+            AND F_REG_DATE BETWEEN #{startDate} AND #{endDate}
         </if>
 
         <if test="keyword != null and keyword != ''">
             <choose>
                 <when test="schFilter != null and schFilter == 'op-title'">
-                    AND T1.F_TITLE LIKE '%' || #{keyword} || '%'
+                    AND F_TITLE LIKE '%' || #{keyword} || '%'
                 </when>
                 <when test="schFilter != null and schFilter == 'op-author'">
-                    AND T1.F_AUTHOR LIKE '%' || #{keyword} || '%'
+                    AND F_AUTHOR LIKE '%' || #{keyword} || '%'
                 </when>
                 <otherwise>
-                    AND (T1.F_TITLE LIKE '%' || #{keyword} || '%'
-                    OR T1.F_AUTHOR LIKE '%' || #{keyword} || '%')
+                    AND (F_TITLE LIKE '%' || #{keyword} || '%'
+                    OR F_AUTHOR LIKE '%' || #{keyword} || '%')
                 </otherwise>
             </choose>
         </if>
-        ORDER BY T1.F_REG_DATE DESC
+        ORDER BY F_REG_DATE DESC
         OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
     </select>
 
     <!--  Award List CNT -->
     <select id="cntAwardList" parameterType="awardsearch">
         SELECT COUNT(*)
-          FROM T_PRODUCT T1
-             JOIN T_USER T2
-                 ON T1.F_REG_NO=T2.F_USERNO
-             JOIN T_CONTEST T3
-                 ON T1.F_PRODUCT_NO=T3.F_PRODUCT_NO
-         WHERE T1.F_DEL_YN = 'N'
-        <choose>
-            <when test="sort == 'award'">
-                AND T1.F_SORT = 'A'
-            </when>
-            <when test="sort == 'invit'">
-                AND T1.F_SORT = 'N'
-            </when>
-        </choose>
+          FROM
+            <if test="sort == 'award'">
+                T_AWARD_WORK
+            </if>
+            <if test="sort == 'invit'">
+                T_INVIT_WORK
+            </if>
+         WHERE F_STATUS = 'N'
 
         <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-            AND T1.F_REG_DATE BETWEEN #{startDate} AND #{endDate}
+            AND F_REG_DATE BETWEEN #{startDate} AND #{endDate}
         </if>
 
         <if test="keyword != null and keyword != ''">
             <choose>
                 <when test="schFilter != null and schFilter == 'op-title'">
-                    AND T1.F_TITLE LIKE '%' || #{keyword} || '%'
+                    AND F_TITLE LIKE '%' || #{keyword} || '%'
                 </when>
                 <when test="schFilter != null and schFilter == 'op-author'">
-                    AND T1.F_AUTHOR LIKE '%' || #{keyword} || '%'
+                    AND F_AUTHOR LIKE '%' || #{keyword} || '%'
                 </when>
                 <otherwise>
-                    AND (T1.F_TITLE LIKE '%' || #{keyword} || '%'
-                    OR T1.F_AUTHOR LIKE '%' || #{keyword} || '%')
+                    AND (F_TITLE LIKE '%' || #{keyword} || '%'
+                    OR F_AUTHOR LIKE '%' || #{keyword} || '%')
                 </otherwise>
             </choose>
         </if>
     </select>
 
-    <select id="selProduct" resultMap="productResultSet">
+    <select id="selWorkWithUser" resultMap="workResultSet">
         SELECT T1.F_CODE,
                T1.F_TITLE,
-               T3.F_CONTEST,
                T1.F_AUTHOR,
-               T3.F_AWARD,
-               T3.F_CITY,
-               T3.F_NATION,
                T1.F_YEAR,
                T1.F_REG_DATE,
+               T1.F_FILEPATH,
                T2.F_NAME,
                T2.F_DEPT,
                T2.F_ID,
-               T1.F_PATH
-          FROM T_PRODUCT T1
+               T2.F_AREA,
+               T2.F_BIRTH,
+               T2.F_PHONE,
+               T2.F_EMAIL,
+               T2.F_MAIN_ADDRESS,
+               T2.F_SUB_ADDRESS
+                <if test="sort == 'award'">
+                    , T1.F_CONTEST
+                    , T1.F_AWARD
+                    , T1.F_HOST
+                    , T1.F_MANAGER
+                </if>
+          FROM
+            <if test="sort == 'award'">
+                T_AWARD_WORK T1
+            </if>
+            <if test="sort == 'invit'">
+                T_INVIT_WORK T1
+            </if>
               JOIN T_USER T2
-                  ON T1.F_REG_NO=T2.F_USERNO
-              JOIN T_CONTEST T3
-                  ON T1.F_PRODUCT_NO=T3.F_PRODUCT_NO
-          WHERE T1.F_DEL_YN='N'
-            AND T3.F_NO = #{contestNo}
+                  ON T1.F_USER_NO=T2.F_USER_NO
+          WHERE T1.F_STATUS = 'N'
+            AND T1.F_WORK_NO = #{workNo}
     </select>
 
     <select id="selUserList" resultMap="userResultSet">
-        SELECT F_USERNO, F_NAME, F_ID, F_REG_NUM, F_REG_DATE, F_PHONE, F_EMAIL, F_PLACE, F_BIRTH, F_MAIN_ADDRESS, F_SUB_ADDRESS
+        SELECT F_USER_NO, F_ID, F_NAME, F_PERSONAL_NUM, F_AREA, F_BIRTH, F_PHONE, F_EMAIL, F_DEPT, F_POSITION, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_LOGIN_DATE, F_MOD_DATE, F_STATUS, F_MEMO
         FROM T_USER
-        WHERE F_DEL_YN = 'N'
-        <choose>
-            <when test="sort == '회원'">
-            AND F_SORT = '회원'
-            </when>
-            <when test="sort == '관리자'">
-            AND F_SORT = '관리자'
-            </when>
-        </choose>
+        WHERE 1=1
+        <if test="sort != null">
+            AND F_STATUS = 'N'
+            <choose>
+                <when test="sort == '회원'">
+                AND F_SORT = '회원'
+                </when>
+                <when test="sort == '관리자'">
+                AND F_SORT = '관리자'
+                </when>
+            </choose>
+        </if>
+
     </select>
 
     <update id="delUser" parameterType="int">
-        UPDATE T_USER SET F_DEL_YN = 'Y' WHERE F_USERNO = #{userNo}
+        UPDATE T_USER SET F_STATUS = 'Y' WHERE F_USER_NO = #{userNo}
     </update>
 
 </mapper>

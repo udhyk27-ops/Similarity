@@ -6,26 +6,27 @@ flatpickr(".flatpickr", {
 $('.reg-list-row').on('click', function() {
 
    $.ajax({
-      url: '/api/admin/searchProduct',
+      url: '/api/admin/searchWork',
       type: 'GET',
       data: {
-         contestNo: $(this).data('contest-no')
+         sort: 'award',
+         workNo: $(this).data('work-no')
       },
       success: function(response) {
-          const product = response[0];
+          const work = response[0];
 
-          $('#work-code').text(product.f_code);
-          $('#work-title').val(product.f_title);
-          $('#work-contest').val(product.f_contest);
-          $('#work-author').val(product.f_author);
-          $('#work-award').val(product.f_award);
-          $('#work-host').val(product.f_city);
-          $('#work-manager').val(product.f_nation);
-          $('#work-year').val(product.f_year);
-          $('#work-regdate').text(product.f_reg_date);
-          $('#work-name').text(product.f_name + "(" + product.f_id + ")");
-          $('#work-dept').text(product.f_dept);
-          $('#work-img').attr('src', product.f_path);
+          $('#work-code').text(work.f_code);
+          $('#work-title').val(work.f_title);
+          $('#work-contest').val(work.f_contest);
+          $('#work-author').val(work.f_author);
+          $('#work-award').val(work.f_award);
+          $('#work-host').val(work.f_host);
+          $('#work-manager').val(work.f_manager);
+          $('#work-year').val(work.f_year);
+          $('#work-regdate').text(work.f_reg_date);
+          $('#work-name').text(work.f_name + "(" + work.f_id + ")");
+          $('#work-dept').text(work.f_dept);
+          $('#work-img').attr('src', work.f_filepath);
       },
       error: function(error) {
          console.error(error);
@@ -63,7 +64,7 @@ $('#openModal').on('click', function () {
                         'display': 'flex',
                         'justify-content': 'center'
                     });
-                    row.find('.f_userNo').text(user.f_userNo);
+                    row.find('.f_userNo').text(user.f_user_no);
                     row.find('.f_place').text(user.f_place);
                     row.find('.f_birth').text(user.f_birth);
                     row.find('.f_main_address').text(user.f_main_address);
@@ -71,7 +72,7 @@ $('#openModal').on('click', function () {
 
                     row.find('.f_name').text(user.f_name);
                     row.find('.f_id').text(user.f_id);
-                    row.find('.f_reg_num').text(user.f_reg_num);
+                    row.find('.f_personal_num').text(user.f_personal_num);
                     row.find('.f_reg_date').text(user.f_reg_date);
                     row.find('.f_phone').text(user.f_phone);
                     row.find('.f_email').text(user.f_email);
@@ -148,7 +149,7 @@ $('#user-row').on('click', '.cell-btn', function() {
     let $row = $(this).closest('.row'); // 클릭한 버튼의 row
 
     // 모달 row 데이터 가져오기
-    let userNo = $row.find('.f_userNo').text();
+    let userNo = $row.find('.f_user_no').text();
     let name = $row.find('.f_name').text();
     let phone = $row.find('.f_phone').text();
     let email = $row.find('.f_email').text();

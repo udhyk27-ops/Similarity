@@ -93,14 +93,14 @@
                             <div class="cell">등록날짜</div>
                         </div>
 
-                        <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-contest-no="${award.f_no}">
+                        <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-work-no="${award.f_work_no}">
                             <div class="cell" th:text="${(currentPage - 1) * 5 + awardStat.index + 1}"></div>
                             <div class="cell" th:text="${award.f_title}"></div>
                             <div class="cell" th:text="${award.f_author}"></div>
                             <div class="cell" th:text="${award.f_contest}"></div>
                             <div class="cell" th:text="${award.f_award}"></div>
                             <div class="cell" th:text="${award.f_code}"></div>
-                            <div class="cell" th:text="${award.pd_reg_date}"></div>
+                            <div class="cell" th:text="${award.f_reg_date}"></div>
                         </div>
                         <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
                     </div>
@@ -271,15 +271,15 @@
                 </div>
 
                 <div class="row" id="user-template" style="display: none;">
-                    <div class="f_userNo" style="display: none;"></div>
-                    <div class="f_place" style="display: none;"></div>
+                    <div class="f_user_no" style="display: none;"></div>
+                    <div class="f_area" style="display: none;"></div>
                     <div class="f_birth" style="display: none;"></div>
                     <div class="f_main_address" style="display: none;"></div>
                     <div class="f_sub_address" style="display: none;"></div>
 
                     <div class="cell f_name"></div>
                     <div class="cell f_id"></div>
-                    <div class="cell f_reg_num"></div>
+                    <div class="cell f_personal_num"></div>
                     <div class="cell f_reg_date"></div>
                     <div class="cell f_phone"></div>
                     <div class="cell f_email"></div>

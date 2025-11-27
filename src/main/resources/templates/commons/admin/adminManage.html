@@ -62,12 +62,12 @@
                             <div class="cell">연락처</div>
                         </div>
 
-                        <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-contest-no="${award.f_no}">
+                        <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-work-no="${award.f_work_no}">
                             <div class="cell" th:text="${(currentPage - 1) * 5 + awardStat.index + 1}"></div>
                             <div class="cell" th:text="${award.f_title}"></div>
                             <div class="cell" th:text="${award.f_author}"></div>
                             <div class="cell" th:text="${award.f_code}"></div>
-                            <div class="cell" th:text="${award.pd_reg_date}"></div>
+                            <div class="cell" th:text="${award.f_reg_date}"></div>
                         </div>
                         <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
                     </div>
