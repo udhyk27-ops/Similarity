@@ -209,25 +209,26 @@
     <!-- 작품 정보수정 -->
     <update id="updateWork" parameterType="java.util.List">
         UPDATE
-        <if test="sort == 'award'">
+        <if test="work[0] == 'award'">
             T_AWARD_WORK
         </if>
-        <if test="sort == 'invit'">
+        <if test="work[0] == 'invit'">
             T_INVIT_WORK
         </if>
         SET
-            F_TITLE = #{[0]},
-            F_CONTEST = #{[1]},
-            F_AUTHOR = #{[2]},
-            F_AWARD = #{[3]},
-            F_HOST = #{[4]},
-            F_MANAGER = #{[5]},
-            F_YEAR = #{[6]}
-        WHERE F_WORK_NO = #{[7]}
+            F_TITLE = #{work[1]},
+            F_CONTEST = #{work[2]},
+            F_AUTHOR = #{work[3]},
+            F_AWARD = #{work[4]},
+            F_HOST = #{work[5]},
+            F_MANAGER = #{work[6]},
+            F_YEAR = #{work[7]}
+        WHERE F_WORK_NO = #{work[8]}
     </update>
 
     <!-- 회원 정보수정 -->
     <update id="updateUser" parameterType="java.util.List">
+        <!-- T_AWARD_WORK에서 F_USER_NO도 같이 수정되어야 함 -->
         UPDATE T_USER
         SET
             F_AREA = #{[0]},

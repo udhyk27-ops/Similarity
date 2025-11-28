@@ -22,5 +22,5 @@ public interface AdminService {
     int delWork(String sort, int workNo);
 
     // 정보 수정
-    int modInfo(String sort, ArrayList<String> work, ArrayList<String> user);
+    int modInfo(ArrayList<String> work, ArrayList<String> user);
 }

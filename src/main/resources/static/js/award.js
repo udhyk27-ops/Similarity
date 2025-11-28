@@ -297,13 +297,14 @@ $('.mod-btn').on('click', function() {
 
     // console.log('수정 workno :: ' + $('.info-workNo').val());
     if ($('.info-workNo').val()) {
+
         let userValues = [];
-        let workValues = $('.work-tb input').map(function() {
+        let sort = 'award, ';
+        let workValues = sort.concat($('.work-tb input').map(function() {
             return $(this).val();
-        }).get().concat($('.info-workNo').val());
+        }).get().concat($('.info-workNo').val()));
 
 
-        // console.log(workValues);
 
         if ($('.info-userNo').val()) {
             userValues = $('.user-tb input').map(function() {
@@ -311,11 +312,6 @@ $('.mod-btn').on('click', function() {
             }).get();
 
         }
-        // console.log(userValues);
-
-        // const allValues = workValues.concat(userValues);\
-        // console.log(allValues);
-
 
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
@@ -324,7 +320,6 @@ $('.mod-btn').on('click', function() {
             url: '/api/admin/modifyInfo',
             type: 'POST',
             data: {
-                sort: 'award',
                 work: workValues,
                 user: userValues
             },
@@ -332,6 +327,12 @@ $('.mod-btn').on('click', function() {
                 xhr.setRequestHeader(header, token);
             },
             success: function(response) {
+
+                if (response === 1) {
+                    alert('수정 완료');
+                } else {
+                    alert('수정 실패');
+                }
 
                 console.log(response);
 

@@ -1,6 +1,7 @@
 package com.example.java_practice.commons.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.example.java_practice.commons.dto.User;
 import com.example.java_practice.commons.dto.WorkWithUser;
@@ -30,16 +31,11 @@ public class AdminRestController {
     // 정보 수정
     @PostMapping("/modifyInfo")
     public int modInfo(
-            @RequestParam String sort,
             @RequestParam ArrayList<String> work,
             @RequestParam(required = false) ArrayList<String> user
     ) {
-
-        System.out.println("sort : " + sort);
         System.out.println("work : " + work);
         System.out.println("user : " + user);
-
-        return adminService.modInfo(sort, work, user);
-//        return adminService.modInfo(sort);
+        return adminService.modInfo(work, user);
     }
 }
