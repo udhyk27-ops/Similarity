@@ -8,6 +8,7 @@ public class User {
     private String f_id;
     private String f_name;
     private String f_personal_num;
+    private String f_reg_date;
     private String f_area;
     private String f_birth;
     private String f_phone;

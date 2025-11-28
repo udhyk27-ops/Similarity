@@ -32,16 +32,20 @@ public class AdminController {
         ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
         int cdCnt = adminService.cntAwardList(awardSearch);
 
-        // COUNT
-        AwardSearch cntWorks = new AwardSearch();
-        cntWorks.setSort("award");
+        System.out.println(awardList);
 
-        int totalCnt = adminService.cntAwardList(cntWorks); // 전체 건수
+        int totalCnt = adminService.cntAwardList(new AwardSearch(){{
+            setSort("award");
+        }}); // 전체 건수
+
         int totalPages = (int) Math.ceil((double) cdCnt / limit);
 
         model.addAttribute("awardSearch", awardSearch);
         model.addAttribute("awardList", awardList);
-        model.addAttribute("currentPage", awardSearch.getPage());
+
+        model.addAttribute("currentPage", awardSearch.getPage() == 0 ? 1 : awardSearch.getPage());
+        model.addAttribute("pageSize", limit);
+
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("cdCnt", cdCnt);
         model.addAttribute("totalCnt", totalCnt);
@@ -74,7 +78,10 @@ public class AdminController {
 
         model.addAttribute("invitSearch", invitSearch);
         model.addAttribute("invitList", invitList);
+
         model.addAttribute("currentPage", invitSearch.getPage());
+        model.addAttribute("pageSize", limit);
+
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("cdCnt", cdCnt);
         model.addAttribute("totalCnt", totalCnt);
@@ -111,7 +118,8 @@ public class AdminController {
 
         model.addAttribute("awardSearch", awardSearch);
         model.addAttribute("awardList", awardList);
-        model.addAttribute("currentPage", awardSearch.getPage());
+        model.addAttribute("currentPage", awardSearch.getPage() == 0 ? 1 : awardSearch.getPage());
+        model.addAttribute("pageSize", limit);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("cdCnt", cdCnt);
         model.addAttribute("totalCnt", totalCnt);
@@ -144,7 +152,8 @@ public class AdminController {
 
         model.addAttribute("awardSearch", awardSearch);
         model.addAttribute("awardList", awardList);
-        model.addAttribute("currentPage", awardSearch.getPage());
+        model.addAttribute("currentPage", awardSearch.getPage() == 0 ? 1 : awardSearch.getPage());
+        model.addAttribute("pageSize", limit);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("cdCnt", cdCnt);
         model.addAttribute("totalCnt", totalCnt);

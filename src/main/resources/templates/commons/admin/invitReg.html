@@ -93,7 +93,7 @@
                         </div>
 
                         <div class="row reg-list-row" th:if="${!#lists.isEmpty(invitList)}" th:each="invit:${invitList}" th:data-work-no="${invit.f_work_no}">
-                            <div class="cell" th:text="${(currentPage - 1) * 5 + invitStat.index + 1}"></div>
+                            <div class="cell" th:text="${(currentPage - 1) * pageSize + invitStat.index + 1}"></div>
                             <div class="cell" th:text="${invit.f_title}"></div>
                             <div class="cell" th:text="${invit.f_author}"></div>
                             <div class="cell" th:text="${invit.f_code}"></div>

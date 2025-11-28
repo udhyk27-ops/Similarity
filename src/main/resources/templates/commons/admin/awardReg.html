@@ -94,7 +94,7 @@
                         </div>
 
                         <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-work-no="${award.f_work_no}">
-                            <div class="cell" th:text="${(currentPage - 1) * 5 + awardStat.index + 1}"></div>
+                            <div class="cell" th:text="${(currentPage - 1) * pageSize + awardStat.index + 1}"></div>
                             <div class="cell" th:text="${award.f_title}"></div>
                             <div class="cell" th:text="${award.f_author}"></div>
                             <div class="cell" th:text="${award.f_contest}"></div>
@@ -136,7 +136,7 @@
                         </div>
                         <div class="row">
                             <div class="header-cell">제목</div>
-                            <div class="cell"><input id="work-title" /></div>
+                            <div class="cell"><input id="work-title" name="" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">공모전명</div>
@@ -189,19 +189,19 @@
                                 <button class="cell-btn" id="openModal" type="button">조회</button>
                             </div>
                             <div class="header-cell">지역</div>
-                            <div class="cell"><input value="" name="" /></div>
+                            <div class="cell"><input value="" name="" id="user-area" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">회원명</div>
-                            <div class="cell"><input value="" name="" /></div>
+                            <div class="cell"><input value="" name="" id="user-name" /></div>
                             <div class="header-cell">생년월일</div>
-                            <div class="cell"><input value="" name="" /></div>
+                            <div class="cell"><input value="" name="" id="user-birth" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">연락처</div>
-                            <div class="cell"><input value="" name="" /></div>
+                            <div class="cell"><input value="" name="" id="user-phone" /></div>
                             <div class="header-cell">이메일</div>
-                            <div class="cell"><input value="" name="" /></div>
+                            <div class="cell"><input value="" name="" id="user-email" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">주소</div>

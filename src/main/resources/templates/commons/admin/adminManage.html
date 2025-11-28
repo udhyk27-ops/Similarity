@@ -63,7 +63,7 @@
                         </div>
 
                         <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-work-no="${award.f_work_no}">
-                            <div class="cell" th:text="${(currentPage - 1) * 5 + awardStat.index + 1}"></div>
+                            <div class="cell" th:text="${(currentPage - 1) * pageSize + awardStat.index + 1}"></div>
                             <div class="cell" th:text="${award.f_title}"></div>
                             <div class="cell" th:text="${award.f_author}"></div>
                             <div class="cell" th:text="${award.f_code}"></div>

@@ -15,6 +15,8 @@ $('.reg-list-row').on('click', function() {
       success: function(response) {
           const work = response[0];
 
+          console.log(work);
+
           $('#work-code').text(work.f_code);
           $('#work-title').val(work.f_title);
           $('#work-contest').val(work.f_contest);
@@ -27,6 +29,16 @@ $('.reg-list-row').on('click', function() {
           $('#work-name').text(work.f_name + "(" + work.f_id + ")");
           $('#work-dept').text(work.f_dept);
           $('#work-img').attr('src', work.f_filepath);
+
+          $('#user-area').val(work.f_area);
+          $('#user-name').val(work.f_name);
+
+          $('#user-birth').val(work.f_birth);
+          $('#user-phone').val(work.f_phone);
+          $('#user-email').val(work.f_email);
+          $('#sample4_roadAddress').val(work.f_main_address);
+          $('#sample4_extraAddress').val(work.f_sub_address);
+
       },
       error: function(error) {
          console.error(error);
