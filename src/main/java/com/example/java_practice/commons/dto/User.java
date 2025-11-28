@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class User {
-    private String f_user_no;
+    private int f_user_no;
     private String f_id;
     private String f_name;
     private String f_personal_num;
@@ -21,4 +21,5 @@ public class User {
     private String f_mod_date;
     private String f_status;
     private String f_memo;
+    private String f_sort;
 }
