@@ -82,19 +82,20 @@
                         </div>
                         <div class="notice-detail-wrap">
                             <form th:action="@{/regNoticeProcess}" class="notice-form" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="f_id" th:value="${noticeDetail.f_id}">
                                 <div class="notice-container">
                                     <table class="layout">
                                         <tr>
                                             <td class="label">제목</td>
                                             <td class="content" colspan="3">
-                                                <input type="text" class="form-control" name="f_title" value="">
+                                                <input type="text" class="form-control" name="f_title" th:value="${noticeDetail.f_title}">
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td class="label">내용</td>
                                             <td class="content" colspan="3">
-                                                <textarea rows="10" class="form-control textarea" name="f_content" ></textarea>
+                                                <textarea rows="10" class="form-control textarea" name="f_content" th:text="${noticeDetail.f_content}"></textarea>
                                             </td>
                                         </tr>
 
@@ -106,8 +107,15 @@
                                                     📁 파일첨부
                                                 </label>
 
-                                                <div id="fileList"></div>
-
+                                                <div id="fileList">
+                                                    <div class="file-list" id="fileListContainer" th:each="file : ${noticeFiles}" th:unless="${#lists.isEmpty(noticeFiles)}">
+                                                        <div class="file-item">
+                                                            <a th:href="@{/file/download/{fileId}(fileId=${file.f_id})}"
+                                                               th:text="${file.f_ori_filename}"></a>
+                                                            <a href="#" class="delete-btn" onclick="">X</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     </table>
@@ -134,7 +142,7 @@
 
             fileUpload.init({ enablePreview: false });
             fileInput.addEventListener("change", function () {
-                fileUpload.renderFileList();
+                fileUpload.chkSize();
             });
 
             document.querySelector('.notice-form').addEventListener('submit', function(e) {
@@ -151,7 +159,10 @@
                     alert("제목을 입력해주세요");
                     return false;
                 }
-                alert("공지가 등록되었습니다.")
+                const f_id = document.querySelector('input[name="f_id"]').value;
+                if(f_id > 0) alert("공지가 수정되었습니다")
+                else alert("공지가 등록되었습니다.");
+
                 return true;
             }
         }

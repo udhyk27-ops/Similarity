@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>NoticeDetail</title>
     <link rel="stylesheet" th:href="@{/css/layout.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,89 +87,142 @@
     </style>
 </head>
 <body>
-<!-- HEADER FRAGMENT -->
-<header class="header">
-    <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
-</header>
+    <!-- HEADER FRAGMENT -->
+    <header class="header">
+        <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
+    </header>
 
-<div class="container">
+    <div class="container">
 
-    <!-- SIDEBAR FRAGMENT -->
-    <div class="navbar">
-        <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
-    </div>
+        <!-- SIDEBAR FRAGMENT -->
+        <div class="navbar">
+            <th:block th:replace="~{commons/fragments/navbarPage.html :: navbar}"></th:block>
+        </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="main">
-
-
-        <!-- CONTENT AREA -->
-        <div class="content">
-            <div class="dashboard-grid">
-
-                <div class="card">
-
-                    <div class="main-title">
-                        <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('공지사항')}"></th:block>
-                    </div>
-                    <div class="notice-detail-wrap">
-
-                        <div class="notice-container">
-                            <table class="layout">
-                                <tr class="title-row">
-                                    <td class="title">제목</td>
-                                    <td class="title-text" colspan="3"  th:text="${noticeDetail.f_title}"></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="label">작성자</td>
-                                    <td th:text="${noticeDetail.writer.f_name}"></td>
-                                    <td class="label">등록일</td>
-                                    <td th:text="${#temporals.format(noticeDetail.f_regdate, 'yyyy-MM-dd HH:mm')}"></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="label">내용</td>
-                                    <td class="content" colspan="3"><pre th:text="${noticeDetail.f_content}"></pre>
-
-                                        <!-- 필요하면 이미지 넣기 -->
-                                        <!-- <img class="screenshot-preview" src="/mnt/data/2025-11-24 09 30 34.png" alt="스크린샷"> -->
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="label">첨부파일</td>
-                                    <td class="attach" colspan="3" th:if="${#lists.isEmpty(noticeFiles)}">
-                                        <span></span>
-                                    </td>
-                                    <td class="attach" colspan="3">
-                                        <ul th:each="file:${noticeFiles}" th:unless="${#lists.isEmpty(noticeFiles)}">
-                                            <li><a class="attach-item" href="#" th:text="${file.f_ori_filename}"></a></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            </table>
+        <!-- MAIN CONTENT -->
+        <main class="main">
 
 
+            <!-- CONTENT AREA -->
+            <div class="content">
+                <div class="dashboard-grid">
+
+                    <div class="card">
+
+                        <div class="main-title">
+                            <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('공지사항')}"></th:block>
                         </div>
-                        <div class="buttons">
-                            <div>
-                                <button class="btn btn-pink">삭제</button>
+                        <div class="notice-detail-wrap">
+
+                            <div class="notice-container">
+                                <table class="layout">
+                                    <tr class="title-row">
+                                        <td class="title">제목</td>
+                                        <td class="title-text" colspan="3"  th:text="${noticeDetail.f_title}"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="label">작성자</td>
+                                        <td th:text="${noticeDetail.writer.f_name}"></td>
+                                        <td class="label">등록일</td>
+                                        <td th:text="${#temporals.format(noticeDetail.f_regdate, 'yyyy-MM-dd HH:mm')}"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="label">내용</td>
+                                        <td class="content" colspan="3"><pre th:text="${noticeDetail.f_content}"></pre>
+
+                                            <!-- 필요하면 이미지 넣기 -->
+                                            <!-- <img class="screenshot-preview" src="/mnt/data/2025-11-24 09 30 34.png" alt="스크린샷"> -->
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="label">첨부파일</td>
+                                        <td class="attach" colspan="3" th:if="${#lists.isEmpty(noticeFiles)}">
+                                            <span></span>
+                                        </td>
+                                        <td class="attach" colspan="3"th:each="file:${noticeFiles}" th:unless="${#lists.isEmpty(noticeFiles)}">
+                                            <ul>
+                                                <li><a class="attach-item" th:href="@{/file/download/{fileId}(fileId=${file.f_id})}" th:text="${file.f_ori_filename}"></a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
                             </div>
-                            <div class="right-btns">
-                                <a href="/notice" class="btn btn-white">목록</a>
-                                <a class="btn btn-navy">수정</a>
+                            <input type="hidden" id="noticeId" th:value="${noticeDetail.f_id}">
+                            <div class="buttons">
+                                <div>
+                                    <button class="btn btn-pink" onclick="frm.deleteNotice()">삭제</button>
+                                </div>
+                                <div class="right-btns">
+                                    <a href="/notice" class="btn btn-white">목록</a>
+                                    <a th:href="@{/noticeReg/{id}(id=${noticeDetail.f_id})}" class="btn btn-navy">수정</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </main>
+        </main>
 
-</div>
-<script>
-</script>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            frm.addViewCnt();
+        })
+
+        const frm = {
+            addViewCnt : function () {
+                const id = document.getElementById("noticeId").value;
+                const viewedKey = "viewed_notice_" + id;
+
+                // 이미 본 글이면 return
+                if (localStorage.getItem(viewedKey)) return;
+
+                const token = document.querySelector('meta[name="_csrf"]').content;
+                const header = document.querySelector('meta[name="_csrf_header"]').content;
+                const url = "/notice/viewCnt/" + id;
+                console.log("실행1");
+                // 조회수 증가 API 호출
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        [header]: token
+                    }
+                });
+                console.log("실행2");
+
+                // 조회 처리 기록
+                localStorage.setItem(viewedKey, "true");
+
+            },
+            deleteNotice : function () {
+                const id = document.getElementById("noticeId").value;
+                if(!confirm("공지를 삭제하시겠습니까?")) return;
+
+                const token = document.querySelector('meta[name="_csrf"]').content;
+                const header = document.querySelector('meta[name="_csrf_header"]').content;
+                const url = "/notice/" + id;
+
+                fetch(url, {
+                    method: "DELETE",
+                    headers: {
+                        [header]: token
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        alert(data.msg);
+                        if(data.status){
+                            location.href = "/notice";
+                        }
+                    });
+            }
+        }
+    </script>
 </body>
 </html>

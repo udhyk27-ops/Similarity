@@ -4,6 +4,7 @@ import com.example.java_practice.commons.dto.Notice;
 import com.example.java_practice.commons.dto.NoticeFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,14 @@ public interface NoticeService {
     int selNoticeCnt();
     // 공지사항 보기
     Notice selectNoticeDetailById(int noticeId);
+    // 조회수 증가
+    void updateViewCnt(int noticeId);
     // 공지사항 첨부파일
     ArrayList<NoticeFile> selectNoticeFilesByNoticeId(int noticeId);
+    // 공지사항 삭제
+    boolean deleteNoticeById(int noticeId);
+    // 공지사항 수정
+    Notice updateNoticeById(Notice notice);
+    // 파일 전체 삭제
+    void deleteNoticeFilesByNoticeId(int noticeId);
 }

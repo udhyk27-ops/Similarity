@@ -17,5 +17,8 @@ public interface NoticeMapper {
     void updateViewCnt(@Param("noticeId") int id);
     Notice selectNoticeDetailById(@Param("noticeId") int id);
     ArrayList<NoticeFile> selectNoticeFilesByNoticeId(@Param("noticeId") int id);
-
+    NoticeFile selectNoticeFileById(@Param("fileId") int id);
+    int deleteNoticeById(@Param("noticeId") int id);
+    void updateNoticeById(Notice notice);
+    void deleteNoticeFileByNoticeId(@Param("noticeId") int id);
 }

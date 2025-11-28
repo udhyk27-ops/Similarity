@@ -20,10 +20,11 @@
         </association>
     </resultMap>
     <resultMap id="noticeFileResultMap" type="NoticeFile">
-        <result property="f_filename" column="F_FILENAME"></result>
-        <result property="f_ori_filename" column="F_ORI_FILENAME"></result>
-        <result property="f_filepath" column="F_FILEPATH"></result>
-        <result property="f_filesize" column="F_FILESIZE"></result>
+        <id property="f_id" column="F_ID"/>
+        <result property="f_filename" column="F_FILENAME"/>
+        <result property="f_ori_filename" column="F_ORI_FILENAME"/>
+        <result property="f_filepath" column="F_FILEPATH"/>
+        <result property="f_filesize" column="F_FILESIZE"/>
     </resultMap>
 
 
@@ -61,14 +62,30 @@
     </update>
 
     <select id="selectNoticeDetailById" resultMap="noticeWithUserMap">
-        select F_TITLE, F_CONTENT, t2.F_NAME, F_REGDATE
+        select t1.F_ID, F_TITLE, F_CONTENT, t2.F_NAME, F_REGDATE
         from T_NOTICE t1
         join T_USER t2 on t1.F_REGID = t2.F_USER_NO
         where t1.F_ID = #{noticeId}
     </select>
 
     <select id="selectNoticeFilesByNoticeId" resultMap="noticeFileResultMap">
-        select F_ORI_FILENAME, F_FILEPATH from T_NOTICE_FILE where F_NOTICE_ID = #{noticeId}
+        select F_ID, F_FILENAME, F_ORI_FILENAME, F_FILESIZE from T_NOTICE_FILE where F_NOTICE_ID = #{noticeId}
     </select>
+
+    <select id="selectNoticeFileById" resultMap="noticeFileResultMap">
+        select F_FILENAME, F_ORI_FILENAME, F_FILEPATH from T_NOTICE_FILE where F_ID = #{fileId}
+    </select>
+
+    <delete id="deleteNoticeById" parameterType="int">
+        delete from T_NOTICE where F_ID = #{noticeId}
+    </delete>
+
+    <update id="updateNoticeById">
+        update T_NOTICE set F_TITLE = #{f_title}, F_CONTENT = #{f_content}, F_MODIID = #{f_modiid}, F_MODIDATE = sysdate where F_ID = #{f_id}
+    </update>
+
+    <delete id="deleteNoticeFileByNoticeId">
+        delete from T_NOTICE_FILE where F_NOTICE_ID = #{noticeId}
+    </delete>
 
 </mapper>

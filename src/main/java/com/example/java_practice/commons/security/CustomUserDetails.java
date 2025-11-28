@@ -1,60 +1,72 @@
 package com.example.java_practice.commons.security;
 
 import com.example.java_practice.commons.dto.User;
+import com.example.java_practice.commons.dto.UserWithAuth;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+    private final UserWithAuth userWithAuth;
 
-    public CustomUserDetails(User user) {
-        this.user = user;
+    public CustomUserDetails(UserWithAuth userWithAuth) {
+        this.userWithAuth = userWithAuth;
     }
 
-//    public int getUserNo() {
-//        return user.getF_userNo();
-//    }
+    public int getUserNo() { return userWithAuth.getF_user_no(); }
 
     public String getName() {
-        return user.getF_name();
+        return userWithAuth.getF_name();
     }
+
+    public String getSort(){ return userWithAuth.getF_sort(); }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        if("Y".equals((userWithAuth.getF_auth_award()))) authorities.add(new SimpleGrantedAuthority("ROLE_AWARD"));
+        if("Y".equals((userWithAuth.getF_auth_invit()))) authorities.add(new SimpleGrantedAuthority("ROLE_INVIT"));
+        if("Y".equals((userWithAuth.getF_auth_reg()))) authorities.add(new SimpleGrantedAuthority("ROLE_REG"));
+        if("Y".equals((userWithAuth.getF_auth_sim()))) authorities.add(new SimpleGrantedAuthority("ROLE_SIM"));
+        if("Y".equals((userWithAuth.getF_auth_user()))) authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        if("Y".equals((userWithAuth.getF_auth_admin()))) authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return "{noop}" + user.getF_id(); // 실습용. 실제 서비스는 암호화 필요
+        return "{noop}" + userWithAuth.getF_id(); // 실습용. 실제 서비스는 암호화 필요
     }
 
     @Override
     public String getUsername() {
-        return user.getF_id();
+        return userWithAuth.getF_id();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
 }

@@ -4,11 +4,14 @@ import com.example.java_practice.commons.dto.Notice;
 import com.example.java_practice.commons.dto.NoticeFile;
 import com.example.java_practice.commons.mapper.NoticeMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.beans.Transient;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,24 +20,31 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NoticeServiceImpl implements NoticeService {
 
     @Value("${file.upload-dir}")
     private String uploadDir;
 
     private final NoticeMapper noticeMapper;
+    private final FileService fileService;
 
     @Override
+    @Transactional
     public Notice insertNotice(Notice notice) {
         noticeMapper.insertNotice(notice);
         return notice;
     }
 
     @Override
+    @Transactional
     public void insertNoticeFile(int noticeId, List<MultipartFile> noticeFiles) {
+
+        List<Path> uploadedFiles = new ArrayList<>();
 
         noticeFiles.forEach(file -> {
             try {
+
                 String originalFileName = file.getOriginalFilename();
                 long currentTime = System.currentTimeMillis();
                 String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -47,6 +57,7 @@ public class NoticeServiceImpl implements NoticeService {
                 }
 
                 file.transferTo(filePath);
+                uploadedFiles.add(filePath); // 업로드된 파일 기록
 
                 NoticeFile noticeFile = new NoticeFile();
                 noticeFile.setF_notice_id(noticeId);
@@ -56,7 +67,10 @@ public class NoticeServiceImpl implements NoticeService {
                 noticeFile.setF_filesize(String.valueOf(file.getSize()));
 
                 noticeMapper.insertNoticeFile(noticeFile);
+
             } catch (IOException e) {
+                // insert 실패 시 이미 업로드된 파일도 삭제
+                fileService.deleteFiles(uploadedFiles);
                 throw new RuntimeException("파일 업로드 중 오류 발생: " + file.getOriginalFilename(), e);
             }
 
@@ -83,16 +97,37 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public Notice selectNoticeDetailById(int noticeId) {
         Notice notice = noticeMapper.selectNoticeDetailById(noticeId);
-        // 조회수 올리기
-        noticeMapper.updateViewCnt(noticeId);
-
         return notice;
+    }
+
+    @Override
+    public void updateViewCnt(int noticeId) {
+        noticeMapper.updateViewCnt(noticeId);
     }
 
     @Override
     public ArrayList<NoticeFile> selectNoticeFilesByNoticeId(int noticeId) {
         ArrayList<NoticeFile> noticeFiles = noticeMapper.selectNoticeFilesByNoticeId(noticeId);
         return noticeFiles;
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteNoticeById(int noticeId) {
+        int rows = noticeMapper.deleteNoticeById(noticeId);
+        return rows > 0;
+    }
+
+    @Override
+    public Notice updateNoticeById(Notice notice) {
+        noticeMapper.updateNoticeById(notice);
+        return notice;
+    }
+    @Override
+    public void deleteNoticeFilesByNoticeId(int noticeId) {
+        noticeMapper.deleteNoticeFileByNoticeId(noticeId);
+        ArrayList<NoticeFile> noticeFiles = this.selectNoticeFilesByNoticeId(noticeId);
+        fileService.deleteFiles(noticeFiles.stream().map(f -> Path.of(uploadDir + "/notice", f.getF_filename())).toList());
     }
 
 
