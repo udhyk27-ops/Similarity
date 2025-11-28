@@ -194,8 +194,16 @@
 
     </select>
 
-    <update id="delUser" parameterType="int">
-        UPDATE T_USER SET F_STATUS = 'Y' WHERE F_USER_NO = #{userNo}
+    <update id="delWork" parameterType="int">
+        UPDATE
+        <if test="sort == 'award'">
+            T_AWARD_WORK
+        </if>
+        <if test="sort == 'invit'">
+            T_INVIT_WORK
+        </if>
+           SET F_STATUS = 'Y'
+         WHERE F_WORK_NO = #{workNo}
     </update>
 
 </mapper>

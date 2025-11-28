@@ -15,5 +15,5 @@ public interface AdminMapper {
 
     ArrayList<User> selUserList(String sort);
 
-    int delUser(int userNo);
+    int delWork(String sort, int workNo);
 }

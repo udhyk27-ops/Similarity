@@ -18,6 +18,6 @@ public interface AdminService {
     // 회원 조회(모달)
     ArrayList<User> selUserList(String sort);
 
-    // 회원 삭제
-    int delUser(int userNo);
+    // 작품 삭제
+    int delWork(String sort, int workNo);
 }

@@ -29,7 +29,7 @@ public class AdminServiceImpl implements AdminService {
     public ArrayList<User> selUserList(String sort) { return adminMapper.selUserList(sort); }
 
     @Override
-    public int delUser(int userNo) { return adminMapper.delUser(userNo); }
+    public int delWork(String sort, int workNo) { return adminMapper.delWork(sort, workNo); }
 
 
 
