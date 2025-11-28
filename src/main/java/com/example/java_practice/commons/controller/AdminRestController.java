@@ -17,7 +17,12 @@ public class AdminRestController {
 
     // 기본정보 조회
     @GetMapping("/searchWork")
-    public ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo) { return adminService.selWorkWithUser(sort, workNo); }
+    public ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo) {
+
+        ArrayList<WorkWithUser> list = adminService.selWorkWithUser(sort, workNo);
+        System.out.println("searchWork : " + list);
+        return list;
+    }
     
     // 회원정보 조회 모달
     @GetMapping("/searchUser")

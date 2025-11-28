@@ -14,7 +14,6 @@ $('.reg-list-row').on('click', function() {
       },
       success: function(response) {
           const work = response[0];
-
           console.log(work);
 
           $('#work-code').text(work.f_code);
@@ -28,7 +27,7 @@ $('.reg-list-row').on('click', function() {
           $('#work-regdate').text(work.f_reg_date);
           $('#work-name').text(work.f_name + "(" + work.f_id + ")");
           $('#work-dept').text(work.f_dept);
-          $('#work-img').attr('src', work.f_filepath);
+          $('#work-img').attr('src', work.f_filepath ?? '');
 
           $('#user-area').val(work.f_area);
           $('#user-name').val(work.f_name);
