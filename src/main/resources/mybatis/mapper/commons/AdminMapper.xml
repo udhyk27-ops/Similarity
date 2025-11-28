@@ -206,4 +206,39 @@
          WHERE F_WORK_NO = #{workNo}
     </update>
 
+    <!-- 작품 정보수정 -->
+    <update id="updateWork" parameterType="java.util.List">
+        UPDATE
+        <if test="sort == 'award'">
+            T_AWARD_WORK
+        </if>
+        <if test="sort == 'invit'">
+            T_INVIT_WORK
+        </if>
+        SET
+            F_TITLE = #{[0]},
+            F_CONTEST = #{[1]},
+            F_AUTHOR = #{[2]},
+            F_AWARD = #{[3]},
+            F_HOST = #{[4]},
+            F_MANAGER = #{[5]},
+            F_YEAR = #{[6]}
+        WHERE F_WORK_NO = #{[7]}
+    </update>
+
+    <!-- 회원 정보수정 -->
+    <update id="updateUser" parameterType="java.util.List">
+        UPDATE T_USER
+        SET
+            F_AREA = #{[0]},
+            F_NAME = #{[1]},
+            F_BIRTH = #{[2]},
+            F_PHONE = #{[3]},
+            F_EMAIL = #{[4]},
+            F_MAIN_ADDRESS = #{[6]},
+            F_SUB_ADDRESS = #{[7]}
+        WHERE F_USER_NO = #{[8]}
+    </update>
+
+
 </mapper>

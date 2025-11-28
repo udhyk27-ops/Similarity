@@ -20,4 +20,7 @@ public interface AdminService {
 
     // 작품 삭제
     int delWork(String sort, int workNo);
+
+    // 정보 수정
+    int modInfo(String sort, ArrayList<String> work, ArrayList<String> user);
 }

@@ -295,23 +295,56 @@ $('.post-btn').on('click', function() {
 // 수정 버튼 클릭
 $('.mod-btn').on('click', function() {
 
-    let userValues = [];
-    let workValues = $('.work-tb input').map(function() {
-        return $(this).val();
-    }).get();
-
-    // console.log(workValues);
-
-    if ($('.info-userNo').val()) {
-        userValues = $('.user-tb input').map(function() {
+    // console.log('수정 workno :: ' + $('.info-workNo').val());
+    if ($('.info-workNo').val()) {
+        let userValues = [];
+        let workValues = $('.work-tb input').map(function() {
             return $(this).val();
-        }).get();
+        }).get().concat($('.info-workNo').val());
 
+
+        // console.log(workValues);
+
+        if ($('.info-userNo').val()) {
+            userValues = $('.user-tb input').map(function() {
+                return $(this).val();
+            }).get();
+
+        }
+        // console.log(userValues);
+
+        // const allValues = workValues.concat(userValues);\
+        // console.log(allValues);
+
+
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajax({
+            url: '/api/admin/modifyInfo',
+            type: 'POST',
+            data: {
+                sort: 'award',
+                work: workValues,
+                user: userValues
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function(response) {
+
+                console.log(response);
+
+            }, error: function(error) {
+                console.error(error);
+            }
+        });
+
+    } else {
+        alert('작품을 선택해주세요.');
     }
 
-    const allValues = workValues.concat(userValues);
 
-    console.log(allValues);
 
 
 

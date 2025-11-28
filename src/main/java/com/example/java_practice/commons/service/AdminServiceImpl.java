@@ -31,7 +31,20 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int delWork(String sort, int workNo) { return adminMapper.delWork(sort, workNo); }
 
+    @Override
+    public int modInfo(String sort, ArrayList<String> work, ArrayList<String> user) {
 
+
+        // work 업데이트
+        adminMapper.updateWork(sort, work);
+
+        // user가 존재하면 추가 쿼리
+        if (user != null && !user.isEmpty()) {
+            adminMapper.updateUser(user);
+        }
+
+        return 1; // 성공
+    }
 
 
 }
