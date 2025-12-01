@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 public class AwardSearch {
-    private String sort; // 수상작 / 초대작
+    private String sort;
     private int offset;
     private int limit;
     private int page;
@@ -20,4 +20,5 @@ public class AwardSearch {
     private String schFilter;
     private String startDate;
     private String endDate;
+    private String filter;
 }

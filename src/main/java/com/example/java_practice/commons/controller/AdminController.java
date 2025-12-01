@@ -20,6 +20,8 @@ public class AdminController {
     @GetMapping("award")
     public String awardPage(@ModelAttribute AwardSearch awardSearch, Model model) {
 
+//        System.out.println("awardSearch.filter : " + awardSearch.getFilter());
+
         // paging
         int limit = 5;
         int offset = (awardSearch.getPage() - 1) * limit;
@@ -32,7 +34,7 @@ public class AdminController {
         ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
         int cdCnt = adminService.cntAwardList(awardSearch);
 
-        System.out.println(awardList);
+//        System.out.println(awardList);
 
         int totalCnt = adminService.cntAwardList(new AwardSearch(){{
             setSort("award");

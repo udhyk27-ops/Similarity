@@ -106,7 +106,17 @@
                 </otherwise>
             </choose>
         </if>
-        ORDER BY F_REG_DATE DESC
+        <choose>
+            <when test="filter != null and filter == 'filter_year'">
+                ORDER BY F_YEAR ASC
+            </when>
+             <when test="filter != null and filter == 'filter_date'">
+                ORDER BY F_REG_DATE ASC
+             </when>
+            <otherwise>
+                ORDER BY F_REG_DATE DESC
+            </otherwise>
+        </choose>
         OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
     </select>
 

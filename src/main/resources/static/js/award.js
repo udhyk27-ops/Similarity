@@ -3,60 +3,64 @@ flatpickr(".flatpickr", {
     dateFormat: "Y-m-d",
 });
 
+let path = window.location.pathname.split('/').pop();
+// console.log(path);
+
+
 // 테이블 행 클릭
-$('.reg-list-row').on('click', function() {
+$('.reg-list-row').on('click', function () {
 
-   $('.info-workNo').val($(this).data('work-no'));
+    $('.info-workNo').val($(this).data('work-no'));
 
-   $.ajax({
-      url: '/api/admin/searchWork',
-      type: 'GET',
-      data: {
-         sort: 'award',
-         workNo: $(this).data('work-no')
-      },
-      success: function(response) {
-          const work = response[0];
+    $.ajax({
+        url: '/api/admin/searchWork',
+        type: 'GET',
+        data: {
+            sort: path,
+            workNo: $(this).data('work-no')
+        },
+        success: function (response) {
+            const work = response[0];
 
-          $('#work-code').text(work.f_code);
-          $('#work-title').val(work.f_title);
-          $('#work-contest').val(work.f_contest);
-          $('#work-author').val(work.f_author);
-          $('#work-award').val(work.f_award);
-          $('#work-host').val(work.f_host);
-          $('#work-manager').val(work.f_manager);
-          $('#work-year').val(work.f_year);
-          $('#work-regdate').text(work.f_reg_date);
-          $('#work-name').text(work.f_name + "(" + work.f_id + ")");
-          $('#work-dept').text(work.f_dept);
-          $('#work-img').attr('src', work.f_filepath);
+            $('#work-code').text(work.f_code);
+            $('#work-title').val(work.f_title);
+            $('#work-contest').val(work.f_contest);
+            $('#work-author').val(work.f_author);
+            $('#work-award').val(work.f_award);
+            $('#work-host').val(work.f_host);
+            $('#work-manager').val(work.f_manager);
+            $('#work-year').val(work.f_year);
+            $('#work-regdate').text(work.f_reg_date);
+            $('#work-name').text(work.f_name + "(" + work.f_id + ")");
+            $('#work-dept').text(work.f_dept);
+            $('#work-img').attr('src', work.f_filepath);
 
-          $('#user-area').val(work.f_area);
-          $('#user-name').val(work.f_name);
+            $('#user-area').val(work.f_area);
+            $('#user-name').val(work.f_name);
 
-          $('#user-birth').val(work.f_birth);
-          $('#user-phone').val(work.f_phone);
-          $('#user-email').val(work.f_email);
-          $('#sample4_roadAddress').val(work.f_main_address);
-          $('#sample4_extraAddress').val(work.f_sub_address);
-          $('#info-userNo').val(work.f_user_no);
+            $('#user-birth').val(work.f_birth);
+            $('#user-phone').val(work.f_phone);
+            $('#user-email').val(work.f_email);
+            $('#sample4_roadAddress').val(work.f_main_address);
+            $('#sample4_extraAddress').val(work.f_sub_address);
+            $('#info-userNo').val(work.f_user_no);
 
-          if (work.f_filepath) {
-              $('.img-div').show();
-              $('.download-btn').show();
-          } else {
-              $('.img-div').hide();
-              $('.download-btn').hide();
-          }
-      },
-      error: function(error) {
-         console.error(error);
-      }
-   });
+            if (work.f_filepath) {
+                $('.img-div').show();
+                $('.download-btn').show();
+            } else {
+                $('.img-div').hide();
+                $('.download-btn').hide();
+            }
+        },
+        error: function (error) {
+            console.error(error);
+        }
+    });
 });
 
 // 작품 이미지 다운로드
-$('.download-btn').on('click', function() {
+$('.download-btn').on('click', function () {
     const img = $('#work-img').attr('src');
 
     if (!img) {
@@ -68,7 +72,7 @@ $('.download-btn').on('click', function() {
     link.href = img;
 
     // 파일 이름 고정
-    link.download = 'work_image.png';
+    link.download = $('#work-title').val() + '.png';
 
     document.body.appendChild(link);
     link.click();
@@ -88,13 +92,13 @@ $('#openModal').on('click', function () {
             data: {
                 sort: $('.select-user').val()
             },
-            success: function(data) {
+            success: function (data) {
                 $('#user-row').empty();
 
                 if (data.length === 0) {
                     $('#user-row').append('<div class="row"><div class="cell" style="justify-content: center">등록된 회원이 없습니다.</div></div>');
                 } else {
-                    data.forEach(function(user) {
+                    data.forEach(function (user) {
                         let row = $template.clone().removeAttr('id').show(); // 템플릿 복제
                         row.css('display', 'flex');
                         row.find('.cell').css({
@@ -118,8 +122,8 @@ $('#openModal').on('click', function () {
                     });
                 }
             },
-            error: function(error) {
-               console.error(error);
+            error: function (error) {
+                console.error(error);
             }
         });
         $('#myModal').fadeIn();
@@ -170,6 +174,16 @@ function doSearch() {
     });
 }
 
+// 필터링
+$('.filter').on('change', function() {
+    var selectedValue = $(this).val();
+    console.log('선택된 값:', selectedValue);
+
+    window.location.href = '/award?filter=' + selectedValue;
+
+})
+
+
 // 모달 내 검색
 $('.modal-sch .cell-btn').on('click', function () {
     doSearch();
@@ -182,7 +196,7 @@ $('input[name="modal-keyword"]').on('keypress', function (e) {
 });
 
 // 모달 내 회원 정보 선택
-$('#user-row').on('click', '.cell-btn', function() {
+$('#user-row').on('click', '.cell-btn', function () {
     $('#myModal').fadeOut();
 
     let $row = $(this).closest('.row'); // 클릭한 버튼의 row
@@ -212,7 +226,7 @@ $('#user-row').on('click', '.cell-btn', function() {
 });
 
 // 삭제 버튼 클릭
-$('.del-btn').on('click', function() {
+$('.del-btn').on('click', function () {
 
     const token = $("meta[name='_csrf']").attr("content");
     const header = $("meta[name='_csrf_header']").attr("content");
@@ -223,20 +237,20 @@ $('.del-btn').on('click', function() {
             url: '/api/admin/deleteWork',
             type: 'POST',
             data: {
-                sort: 'award',
+                sort: path,
                 workNo: workNo
             },
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
-            success: function(response) {
+            success: function (response) {
                 if (response === 1) {
                     alert('삭제되었습니다.');
                     window.location.reload();
                 } else {
                     alert('삭제 실패');
                 }
-            }, error: function(error) {
+            }, error: function (error) {
                 console.error(error);
             }
         })
@@ -248,35 +262,35 @@ $('.del-btn').on('click', function() {
 // 우편번호 API
 function sample4_execDaumPostcode() {
     new daum.Postcode({
-        oncomplete: function(data) {
+        oncomplete: function (data) {
             var roadAddr = data.roadAddress; // 도로명 주소 변수
             var extraRoadAddr = ''; // 참고 항목 변수
-            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+            if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
                 extraRoadAddr += data.bname;
             }
-            if(data.buildingName !== '' && data.apartment === 'Y'){
+            if (data.buildingName !== '' && data.apartment === 'Y') {
                 extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
             }
-            if(extraRoadAddr !== ''){
+            if (extraRoadAddr !== '') {
                 extraRoadAddr = ' (' + extraRoadAddr + ')';
             }
 
             document.getElementById('sample4_postcode').value = data.zonecode;
             document.getElementById("sample4_roadAddress").value = roadAddr;
 
-            if(roadAddr !== ''){
+            if (roadAddr !== '') {
                 document.getElementById("sample4_extraAddress").value = extraRoadAddr;
             } else {
                 document.getElementById("sample4_extraAddress").value = '';
             }
 
             var guideTextBox = document.getElementById("guide");
-            if(data.autoRoadAddress) {
+            if (data.autoRoadAddress) {
                 var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
                 guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
                 guideTextBox.style.display = 'block';
 
-            } else if(data.autoJibunAddress) {
+            } else if (data.autoJibunAddress) {
                 var expJibunAddr = data.autoJibunAddress;
                 guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
                 guideTextBox.style.display = 'block';
@@ -288,31 +302,29 @@ function sample4_execDaumPostcode() {
     }).open();
 }
 
-$('.post-btn').on('click', function() {
+$('.post-btn').on('click', function () {
     sample4_execDaumPostcode();
 });
 
 
 // 수정 버튼 클릭
-$('.mod-btn').on('click', function() {
+$('.mod-btn').on('click', function () {
 
     if ($('.info-workNo').val()) {
-        // let userValues = [];
-        let sort = 'award, ';
-
-        let workValues = sort.concat($('.work-tb input').map(function() {
+        // 작품 정보
+        let workValues = path.concat(', ' + $('.work-tb input').map(function () {
             return $(this).val();
         }).get().concat($('.info-workNo').val()));
-
-        // 회원정보 있으면
-        // if ($('#info-userNo').val()) {
-        let userValues = sort.concat($('.user-tb input').map(function() {
+        // 회원 정보
+        let userValues = path.concat(', ' + $('.user-tb input').map(function () {
             return $(this).val();
         }).get().concat($('.info-workNo').val()));
-        // }
 
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
+
+        console.log('workValues : ' + workValues);
+        console.log('userValues: ' + userValues);
 
         $.ajax({
             url: '/api/admin/modifyInfo',
@@ -321,10 +333,10 @@ $('.mod-btn').on('click', function() {
                 work: workValues,
                 user: userValues
             },
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
-            success: function(response) {
+            success: function (response) {
 
                 if (response === 1) {
                     alert('수정 완료');
@@ -335,7 +347,7 @@ $('.mod-btn').on('click', function() {
 
                 console.log(response);
 
-            }, error: function(error) {
+            }, error: function (error) {
                 console.error(error);
             }
         });
@@ -345,13 +357,9 @@ $('.mod-btn').on('click', function() {
     }
 
 
-
-
-
-
 });
 
 // 작품 등록 페이지 이동
-$('.ins-btn').on('click', function() {
+$('.ins-btn').on('click', function () {
     window.location.href = '/single';
 });
