@@ -32,7 +32,7 @@ public class AdminRestController {
     @PostMapping("/modifyInfo")
     public int modInfo(
             @RequestParam ArrayList<String> work,
-            @RequestParam(required = false) ArrayList<String> user
+            @RequestParam ArrayList<String> user
     ) {
         System.out.println("work : " + work);
         System.out.println("user : " + user);

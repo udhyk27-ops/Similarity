@@ -3,6 +3,7 @@ flatpickr(".flatpickr", {
     dateFormat: "Y-m-d",
 });
 
+// 테이블 행 클릭
 $('.reg-list-row').on('click', function() {
 
    $('.info-workNo').val($(this).data('work-no'));
@@ -38,6 +39,7 @@ $('.reg-list-row').on('click', function() {
           $('#user-email').val(work.f_email);
           $('#sample4_roadAddress').val(work.f_main_address);
           $('#sample4_extraAddress').val(work.f_sub_address);
+          $('#info-userNo').val(work.f_user_no);
 
           if (work.f_filepath) {
               $('.img-div').show();
@@ -55,7 +57,6 @@ $('.reg-list-row').on('click', function() {
 
 // 작품 이미지 다운로드
 $('.download-btn').on('click', function() {
-    console.log('download');
     const img = $('#work-img').attr('src');
 
     if (!img) {
@@ -295,23 +296,20 @@ $('.post-btn').on('click', function() {
 // 수정 버튼 클릭
 $('.mod-btn').on('click', function() {
 
-    // console.log('수정 workno :: ' + $('.info-workNo').val());
     if ($('.info-workNo').val()) {
-
-        let userValues = [];
+        // let userValues = [];
         let sort = 'award, ';
+
         let workValues = sort.concat($('.work-tb input').map(function() {
             return $(this).val();
         }).get().concat($('.info-workNo').val()));
 
-
-
-        if ($('.info-userNo').val()) {
-            userValues = $('.user-tb input').map(function() {
-                return $(this).val();
-            }).get();
-
-        }
+        // 회원정보 있으면
+        // if ($('#info-userNo').val()) {
+        let userValues = sort.concat($('.user-tb input').map(function() {
+            return $(this).val();
+        }).get().concat($('.info-workNo').val()));
+        // }
 
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
@@ -330,6 +328,7 @@ $('.mod-btn').on('click', function() {
 
                 if (response === 1) {
                     alert('수정 완료');
+                    window.location.reload();
                 } else {
                     alert('수정 실패');
                 }

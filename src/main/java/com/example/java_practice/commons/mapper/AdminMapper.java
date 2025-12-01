@@ -19,4 +19,5 @@ public interface AdminMapper {
 
     int updateWork(ArrayList<String> work);
     int updateUser(ArrayList<String> user);
+    int updateWorkUserNo(ArrayList<String> user);
 }

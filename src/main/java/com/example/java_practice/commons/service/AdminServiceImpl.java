@@ -34,13 +34,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int modInfo(ArrayList<String> work, ArrayList<String> user) {
         int workResult = adminMapper.updateWork(work);
-        int userResult = 1;
+        int userResult = adminMapper.updateUser(user);
+        int userNoResult = adminMapper.updateWorkUserNo(user);
 
-        if (user != null && !user.isEmpty()) {
-            userResult = adminMapper.updateUser(user);
-        }
-
-        if (workResult == 1 && userResult == 1) {
+        if (workResult == 1 && userResult == 1 && userNoResult == 1) {
             return 1;
         } else {
             return 0;

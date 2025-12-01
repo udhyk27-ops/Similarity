@@ -23,4 +23,5 @@ public class WorkWithUser {
     private String f_email;
     private String f_main_address;
     private String f_sub_address;
+    private String f_user_no;
 }
