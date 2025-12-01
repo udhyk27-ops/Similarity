@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <title>사진공모전 저작물 등록관리 시스템</title>
 
     <link rel="stylesheet" th:href="@{/css/invit.css}">
@@ -106,18 +109,18 @@
                         <a th:if="${currentPage > 1}" th:href="@{/award(page=1)}">처음</a>
 
                         <a th:if="${currentPage > 1}"
-                           th:href="@{/award(page=${currentPage - 1})}">이전</a>
+                           th:href="@{/invit(page=${currentPage - 1})}">이전</a>
 
                         <!-- 페이지 번호 반복 -->
                         <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-                           th:href="@{/award(page=${i})}"
+                           th:href="@{/invit(page=${i})}"
                            th:text="${i}"
                            th:classappend="${i == currentPage} ? 'current' : ''"></a>
 
                         <a th:if="${currentPage < totalPages}"
-                           th:href="@{/award(page=${currentPage + 1})}">다음</a>
+                           th:href="@{/invit(page=${currentPage + 1})}">다음</a>
 
-                        <a th:if="${currentPage < totalPages}" th:href="@{/award(page=${totalPages})}">끝</a>
+                        <a th:if="${currentPage < totalPages}" th:href="@{/invit(page=${totalPages})}">끝</a>
                     </div>
                 </div>
             </div>
@@ -154,8 +157,8 @@
                         <div class="row">
                             <div class="header-cell">사진</div>
                             <div class="cell img-cell">
-                                <div class="img-div"><img id="work-img" src="" alt="" /></div>
-                                <div><button class="cell-btn">다운로드</button></div>
+                                <div class="img-div" style="display: none;"><img id="work-img" src="" alt="" /></div>
+                                <div><button class="cell-btn download-btn" style="display: none;">다운로드</button></div>
                             </div>
                         </div>
                     </div>
@@ -174,19 +177,19 @@
                                 <button class="cell-btn" id="openModal" type="button">조회</button>
                             </div>
                             <div class="header-cell">지역</div>
-                            <div class="cell"><input value="" name="" /></div>
+                            <div class="cell"><input value="" name="" id="user-area" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">회원명</div>
-                            <div class="cell"><input value="" name="" /></div>
+                            <div class="cell"><input value="" name="" id="user-name" /></div>
                             <div class="header-cell">생년월일</div>
-                            <div class="cell"><input value="" name="" /></div>
+                            <div class="cell"><input value="" name="" id="user-birth" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">연락처</div>
-                            <div class="cell"><input value="" name="" /></div>
+                            <div class="cell"><input value="" name="" id="user-phone" /></div>
                             <div class="header-cell">이메일</div>
-                            <div class="cell"><input value="" name="" /></div>
+                            <div class="cell"><input value="" name="" id="user-email" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">주소</div>

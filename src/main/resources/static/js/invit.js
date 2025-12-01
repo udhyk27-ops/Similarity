@@ -3,13 +3,17 @@ flatpickr(".flatpickr", {
     dateFormat: "Y-m-d",
 });
 
+let path = window.location.pathname.split('/').pop();
+
 $('.reg-list-row').on('click', function() {
+
+    $('.info-workNo').val($(this).data('work-no'));
 
     $.ajax({
         url: '/api/admin/searchWork',
         type: 'GET',
         data: {
-            sort: 'invit',
+            sort: path,
             workNo: $(this).data('work-no')
         },
         success: function(response) {
@@ -23,6 +27,24 @@ $('.reg-list-row').on('click', function() {
             $('#work-name').text(work.f_name + "(" + work.f_id + ")");
             $('#work-dept').text(work.f_dept);
             $('#work-img').attr('src', work.f_filepath);
+
+            $('#user-area').val(work.f_area);
+            $('#user-name').val(work.f_name);
+
+            $('#user-birth').val(work.f_birth);
+            $('#user-phone').val(work.f_phone);
+            $('#user-email').val(work.f_email);
+            $('#sample4_roadAddress').val(work.f_main_address);
+            $('#sample4_extraAddress').val(work.f_sub_address);
+            $('#info-userNo').val(work.f_user_no);
+
+            if (work.f_filepath) {
+                $('.img-div').show();
+                $('.download-btn').show();
+            } else {
+                $('.img-div').hide();
+                $('.download-btn').hide();
+            }
         },
         error: function(error) {
             console.error(error);
@@ -34,51 +56,56 @@ $('.reg-list-row').on('click', function() {
 
 $('#openModal').on('click', function () {
 
+    let $workNo = $('.info-workNo').val();
     let $template = $('#user-template');
 
-    $.ajax({
-        url: '/api/admin/searchUser',
-        type: 'GET',
-        data: {
-            sort: $('.select-user').val()
-        },
-        success: function(data) {
-            $('#user-row').empty();
+    if ($workNo) {
+        $.ajax({
+            url: '/api/admin/searchUser',
+            type: 'GET',
+            data: {
+                sort: $('.select-user').val()
+            },
+            success: function (data) {
+                $('#user-row').empty();
 
-            if (data.length === 0) {
-                $('#user-row').append('<div class="row"><div class="cell" style="justify-content: center">등록된 회원이 없습니다.</div></div>');
-            } else {
-                data.forEach(function(user) {
-                    let row = $template.clone().removeAttr('id').show(); // 템플릿 복제
-                    row.css('display', 'flex');
-                    row.find('.cell').css({
-                        'display': 'flex',
-                        'justify-content': 'center'
+                if (data.length === 0) {
+                    $('#user-row').append('<div class="row"><div class="cell" style="justify-content: center">등록된 회원이 없습니다.</div></div>');
+                } else {
+                    data.forEach(function (user) {
+                        let row = $template.clone().removeAttr('id').show(); // 템플릿 복제
+                        row.css('display', 'flex');
+                        row.find('.cell').css({
+                            'display': 'flex',
+                            'justify-content': 'center'
+                        });
+                        row.find('.f_user_no').text(user.f_user_no);
+                        row.find('.f_area').text(user.f_area);
+                        row.find('.f_birth').text(user.f_birth);
+                        row.find('.f_main_address').text(user.f_main_address);
+                        row.find('.f_sub_address').text(user.f_sub_address);
+
+                        row.find('.f_name').text(user.f_name);
+                        row.find('.f_id').text(user.f_id);
+                        row.find('.f_personal_num').text(user.f_personal_num);
+                        row.find('.f_reg_date').text(user.f_reg_date);
+                        row.find('.f_phone').text(user.f_phone);
+                        row.find('.f_email').text(user.f_email);
+
+                        $('#user-row').append(row);
                     });
-                    row.find('.f_user_no').text(user.f_user_no);
-                    row.find('.f_area').text(user.f_area);
-                    row.find('.f_birth').text(user.f_birth);
-                    row.find('.f_main_address').text(user.f_main_address);
-                    row.find('.f_sub_address').text(user.f_sub_address);
-
-                    row.find('.f_name').text(user.f_name);
-                    row.find('.f_id').text(user.f_id);
-                    row.find('.f_personal_num').text(user.f_personal_num);
-                    row.find('.f_reg_date').text(user.f_reg_date);
-                    row.find('.f_phone').text(user.f_phone);
-                    row.find('.f_email').text(user.f_email);
-
-                    $('#user-row').append(row);
-                });
+                }
+            },
+            error: function (error) {
+                console.error(error);
             }
-        },
-        error: function(error) {
-            console.error(error);
-        }
 
-    });
+        });
+        $('#myModal').fadeIn();
+    } else {
+        alert('작품을 선택해주세요.');
+    }
 
-    $('#myModal').fadeIn();
 });
 
 $('.close').on('click', function () {
@@ -210,63 +237,142 @@ $('.post-btn').on('click', function() {
 
 
 // 삭제 버튼 클릭
-$('.del-btn').on('click', function() {
-    let $userNo = $('.info-userNo');
-    if ($userNo.val() !== '') {
+$('.del-btn').on('click', function () {
+
+    const token = $("meta[name='_csrf']").attr("content");
+    const header = $("meta[name='_csrf_header']").attr("content");
+    let workNo = $('.info-workNo').val();
+
+    if (workNo) {
         $.ajax({
-            url: '/api/admin/deleteUser',
+            url: '/api/admin/deleteWork',
             type: 'POST',
             data: {
-                userNo: $userNo.val()
+                sort: path,
+                workNo: workNo
             },
-            success: function(response) {
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (response) {
                 if (response === 1) {
                     alert('삭제되었습니다.');
                     window.location.reload();
                 } else {
                     alert('삭제 실패');
                 }
-            }, error: function(error) {
+            }, error: function (error) {
                 console.error(error);
             }
         })
     } else {
-        alert('선택된 회원이 없습니다.');
+        alert('선택된 작품이 없습니다.');
     }
 });
+
+// 우편번호 API
+function sample4_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function (data) {
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            var extraRoadAddr = ''; // 참고 항목 변수
+            if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                extraRoadAddr += data.bname;
+            }
+            if (data.buildingName !== '' && data.apartment === 'Y') {
+                extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            }
+            if (extraRoadAddr !== '') {
+                extraRoadAddr = ' (' + extraRoadAddr + ')';
+            }
+
+            document.getElementById('sample4_postcode').value = data.zonecode;
+            document.getElementById("sample4_roadAddress").value = roadAddr;
+
+            if (roadAddr !== '') {
+                document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+            } else {
+                document.getElementById("sample4_extraAddress").value = '';
+            }
+
+            var guideTextBox = document.getElementById("guide");
+            if (data.autoRoadAddress) {
+                var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                guideTextBox.style.display = 'block';
+
+            } else if (data.autoJibunAddress) {
+                var expJibunAddr = data.autoJibunAddress;
+                guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                guideTextBox.style.display = 'block';
+            } else {
+                guideTextBox.innerHTML = '';
+                guideTextBox.style.display = 'none';
+            }
+        }
+    }).open();
+}
+
+$('.post-btn').on('click', function () {
+    sample4_execDaumPostcode();
+});
+
 
 // 수정 버튼 클릭
-$('.mod-btn').on('click', function() {
+$('.mod-btn').on('click', function () {
 
-    let userNo = $('.info-userNo').val();
+    if ($('.info-workNo').val()) {
+        // 작품 정보
+        let workValues = path.concat(', ' + $('.work-tb input').map(function () {
+            return $(this).val();
+        }).get().concat($('.info-workNo').val()));
+        // 회원 정보
+        let userValues = path.concat(', ' + $('.user-tb input').map(function () {
+            return $(this).val();
+        }).get().concat($('.info-workNo').val()));
 
-    console.log('aa');
-    console.log(userNo);
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
 
-    if (userNo != '') {
-        console.log('회원정보있음');
+        console.log('workValues : ' + workValues);
+        console.log('userValues: ' + userValues);
 
-        console.log($('#work-title').val());
+        return;
 
+        $.ajax({
+            url: '/api/admin/modifyInfo',
+            type: 'POST',
+            data: {
+                work: workValues,
+                user: userValues
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (response) {
+
+                if (response === 1) {
+                    alert('수정 완료');
+                    window.location.reload();
+                } else {
+                    alert('수정 실패');
+                }
+
+                console.log(response);
+
+            }, error: function (error) {
+                console.error(error);
+            }
+        });
 
     } else {
-        console.log('회원정보 없음');
+        alert('작품을 선택해주세요.');
     }
-
-    // $user_tb.find('input').eq(1).val(name);
-    // $user_tb.find('input').eq(2).val(birth);
-    // $user_tb.find('input').eq(3).val(phone);
-    // $user_tb.find('input').eq(4).val(email);
-    // $user_tb.find('input').eq(6).val(mainAddress);
-    // $user_tb.find('input').eq(7).val(subAddress);
-    // $user_tb.find('input').eq(8).val(userNo);
-
-
 
 
 });
 
-// 작품 등록 버튼
-$('.ins-btn').on('click', function() {
-
+// 작품 등록 페이지 이동
+$('.ins-btn').on('click', function () {
+    window.location.href = '/single';
 });

@@ -223,10 +223,6 @@
         UPDATE
         <if test="work[0] == 'award'">
             T_AWARD_WORK
-        </if>
-        <if test="work[0] == 'invit'">
-            T_INVIT_WORK
-        </if>
         SET
             F_TITLE = #{work[1]},
             F_CONTEST = #{work[2]},
@@ -236,6 +232,16 @@
             F_MANAGER = #{work[6]},
             F_YEAR = #{work[7]}
         WHERE F_WORK_NO = #{work[8]}
+        </if>
+        <if test="work[0] == 'invit'">
+            T_INVIT_WORK
+        SET
+            F_TITLE = #{work[1]},
+            F_AUTHOR = #{work[2]},
+            F_MANAGER = #{work[3]},
+            F_YEAR = #{work[4]}
+        WHERE F_WORK_NO = #{work[5]}
+        </if>
     </update>
 
     <!-- 회원 정보수정 -->

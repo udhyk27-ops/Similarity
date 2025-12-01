@@ -76,10 +76,10 @@
                     </div>
                     <div class="filter-div">
                         <label>
-                            <select class="filter">
+                            <select class="filter" th:selected="${filter == null or filter == ''}">
                                 <option value="" selected disabled hidden>전체</option>
-                                <option value="filter_year">연도</option>
-                                <option value="filter_date">일자</option>
+                                <option value="filter_year" th:selected="${filter == 'filter_year'}">출품년도</option>
+                                <option value="filter_date" th:selected="${filter == 'filter_date'}">일자</option>
                             </select>
                         </label>
                     </div>

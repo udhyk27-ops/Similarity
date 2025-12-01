@@ -42,6 +42,8 @@ public class AdminController {
 
         int totalPages = (int) Math.ceil((double) cdCnt / limit);
 
+        model.addAttribute("filter", awardSearch.getFilter());
+
         model.addAttribute("awardSearch", awardSearch);
         model.addAttribute("awardList", awardList);
 
@@ -71,17 +73,21 @@ public class AdminController {
         ArrayList<Award> invitList = adminService.selAwardList(invitSearch);
         int cdCnt = adminService.cntAwardList(invitSearch);
 
-        // COUNT
-        AwardSearch cntWorks = new AwardSearch();
-        cntWorks.setSort("award");
+//        System.out.println("invitList : " + invitList);
 
-        int totalCnt = adminService.cntAwardList(cntWorks); // 전체 건수
+        // COUNT
+        int totalCnt = adminService.cntAwardList(new AwardSearch(){{
+            setSort("invit");
+        }}); // 전체 건수
+
         int totalPages = (int) Math.ceil((double) cdCnt / limit);
+
+        model.addAttribute("filter", invitSearch.getFilter());
 
         model.addAttribute("invitSearch", invitSearch);
         model.addAttribute("invitList", invitList);
 
-        model.addAttribute("currentPage", invitSearch.getPage());
+        model.addAttribute("currentPage", invitSearch.getPage() == 0 ? 1 : invitSearch.getPage());
         model.addAttribute("pageSize", limit);
 
         model.addAttribute("totalPages", totalPages);

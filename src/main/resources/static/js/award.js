@@ -4,8 +4,6 @@ flatpickr(".flatpickr", {
 });
 
 let path = window.location.pathname.split('/').pop();
-// console.log(path);
-
 
 // 테이블 행 클릭
 $('.reg-list-row').on('click', function () {
@@ -355,8 +353,6 @@ $('.mod-btn').on('click', function () {
     } else {
         alert('작품을 선택해주세요.');
     }
-
-
 });
 
 // 작품 등록 페이지 이동
