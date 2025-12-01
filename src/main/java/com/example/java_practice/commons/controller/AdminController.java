@@ -2,6 +2,7 @@ package com.example.java_practice.commons.controller;
 
 import com.example.java_practice.commons.dto.Award;
 import com.example.java_practice.commons.dto.AwardSearch;
+import com.example.java_practice.commons.dto.User;
 import com.example.java_practice.commons.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -103,33 +104,42 @@ public class AdminController {
 
     // 운영회원 관리 페이지
     @GetMapping("userManage")
-    public String userManagePage(@ModelAttribute AwardSearch awardSearch, Model model) {
+    public String userManagePage(@ModelAttribute AwardSearch userSearch, Model model) {
+
+        System.out.println("userSearch : " + userSearch);
 
         // paging
         int limit = 10;
-        int offset = (awardSearch.getPage() - 1) * limit;
+        int offset = (userSearch.getPage() - 1) * limit;
 
-        awardSearch.setLimit(limit);
-        awardSearch.setOffset(offset);
-        awardSearch.setSort("award");
+        userSearch.setLimit(limit);
+        userSearch.setOffset(offset);
+        userSearch.setSort("회원");
 
         // LIST
-        ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
-        int cdCnt = adminService.cntAwardList(awardSearch);
+//        ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
+//        int cdCnt = adminService.cntAwardList(awardSearch);
+        ArrayList<User> userList = adminService.selUserList(userSearch.getSort());
+        int userCnt = adminService.cntUserList(userSearch);
+
+        System.out.println("userList : " + userList);
+        System.out.println("userCnt : " + userCnt);
 
         // COUNT
-        AwardSearch cntWorks = new AwardSearch();
-        cntWorks.setSort("award");
+        int totalCnt = adminService.cntUserList(new AwardSearch(){{
+            setSort("회원");
+        }}); // 전체 건수
 
-        int totalCnt = adminService.cntAwardList(cntWorks); // 전체 건수
-        int totalPages = (int) Math.ceil((double) cdCnt / limit);
+//        cntWorks.setSort("award");
+//        int totalCnt = adminService.cntAwardList(cntWorks); // 전체 건수
+        int totalPages = (int) Math.ceil((double) userCnt / limit);
 
-        model.addAttribute("awardSearch", awardSearch);
-        model.addAttribute("awardList", awardList);
-        model.addAttribute("currentPage", awardSearch.getPage() == 0 ? 1 : awardSearch.getPage());
+        model.addAttribute("userSearch", userSearch);
+        model.addAttribute("userList", userList);
+        model.addAttribute("currentPage", userSearch.getPage() == 0 ? 1 : userSearch.getPage());
         model.addAttribute("pageSize", limit);
         model.addAttribute("totalPages", totalPages);
-        model.addAttribute("cdCnt", cdCnt);
+        model.addAttribute("userCnt", userCnt);
         model.addAttribute("totalCnt", totalCnt);
 
         return "commons/admin/userManage";
@@ -137,33 +147,40 @@ public class AdminController {
 
     // 관리자 등록 관리 페이지
     @GetMapping("adminManage")
-    public String adminManagePage(@ModelAttribute AwardSearch awardSearch, Model model){
+    public String adminManagePage(@ModelAttribute AwardSearch userSearch, Model model){
 
         // paging
         int limit = 10;
-        int offset = (awardSearch.getPage() - 1) * limit;
+        int offset = (userSearch.getPage() - 1) * limit;
 
-        awardSearch.setLimit(limit);
-        awardSearch.setOffset(offset);
-        awardSearch.setSort("award");
+        userSearch.setLimit(limit);
+        userSearch.setOffset(offset);
+        userSearch.setSort("관리자");
 
         // LIST
-        ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
-        int cdCnt = adminService.cntAwardList(awardSearch);
+//        ArrayList<Award> awardList = adminService.selAwardList(awardSearch);
+//        int cdCnt = adminService.cntAwardList(awardSearch);
+        ArrayList<User> userList = adminService.selUserList(userSearch.getSort());
+        int userCnt = adminService.cntUserList(userSearch);
+
+        System.out.println("userList : " + userList);
+        System.out.println("userCnt : " + userCnt);
 
         // COUNT
-        AwardSearch cntWorks = new AwardSearch();
-        cntWorks.setSort("award");
+        int totalCnt = adminService.cntUserList(new AwardSearch(){{
+            setSort("관리자");
+        }}); // 전체 건수
 
-        int totalCnt = adminService.cntAwardList(cntWorks); // 전체 건수
-        int totalPages = (int) Math.ceil((double) cdCnt / limit);
+//        cntWorks.setSort("award");
+//        int totalCnt = adminService.cntAwardList(cntWorks); // 전체 건수
+        int totalPages = (int) Math.ceil((double) userCnt / limit);
 
-        model.addAttribute("awardSearch", awardSearch);
-        model.addAttribute("awardList", awardList);
-        model.addAttribute("currentPage", awardSearch.getPage() == 0 ? 1 : awardSearch.getPage());
+        model.addAttribute("userSearch", userSearch);
+        model.addAttribute("userList", userList);
+        model.addAttribute("currentPage", userSearch.getPage() == 0 ? 1 : userSearch.getPage());
         model.addAttribute("pageSize", limit);
         model.addAttribute("totalPages", totalPages);
-        model.addAttribute("cdCnt", cdCnt);
+        model.addAttribute("userCnt", userCnt);
         model.addAttribute("totalCnt", totalCnt);
 
         return "commons/admin/adminManage";

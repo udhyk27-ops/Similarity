@@ -1,25 +1,30 @@
+$('.title span').on('click', function() {
+    window.location.href = '/award';
+});
+
+
 $('.reg-list-row').on('click', function() {
     $.ajax({
-        url: '/api/admin/searchProduct',
+        url: '/api/admin/searchUser',
         type: 'GET',
         data: {
-            contestNo: $(this).data('contest-no')
+            userNo: $(this).data('work-no')
         },
         success: function(response) {
-            const product = response[0];
+            const work = response[0];
 
-            $('#work-code').text(product.f_code);
-            $('#work-title').val(product.f_title);
-            $('#work-contest').val(product.f_contest);
-            $('#work-author').val(product.f_author);
-            $('#work-award').val(product.f_award);
-            $('#work-host').val(product.f_city);
-            $('#work-manager').val(product.f_nation);
-            $('#work-year').val(product.f_year);
-            $('#work-regdate').text(product.f_reg_date);
-            $('#work-name').text(product.f_name + "(" + product.f_id + ")");
-            $('#work-dept').text(product.f_dept);
-            $('#work-img').attr('src', product.f_path);
+            $('#work-code').text(work.f_code);
+            $('#work-title').val(work.f_title);
+            $('#work-contest').val(work.f_contest);
+            $('#work-author').val(work.f_author);
+            $('#work-award').val(work.f_award);
+            $('#work-host').val(work.f_city);
+            $('#work-manager').val(work.f_nation);
+            $('#work-year').val(work.f_year);
+            $('#work-regdate').text(work.f_reg_date);
+            $('#work-name').text(work.f_name + "(" + work.f_id + ")");
+            $('#work-dept').text(work.f_dept);
+            $('#work-img').attr('src', work.f_path);
         },
         error: function(error) {
             console.error(error);
@@ -156,6 +161,54 @@ $('#user-row').on('click', '.cell-btn', function() {
     $tb.find('input').eq(7).val(subAddress);
     $tb.find('input').eq(8).val(userNo);
 });
+
+// 우편번호 API
+function sample4_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function (data) {
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            var extraRoadAddr = ''; // 참고 항목 변수
+            if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                extraRoadAddr += data.bname;
+            }
+            if (data.buildingName !== '' && data.apartment === 'Y') {
+                extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+            }
+            if (extraRoadAddr !== '') {
+                extraRoadAddr = ' (' + extraRoadAddr + ')';
+            }
+
+            document.getElementById('sample4_postcode').value = data.zonecode;
+            document.getElementById("sample4_roadAddress").value = roadAddr;
+
+            if (roadAddr !== '') {
+                document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+            } else {
+                document.getElementById("sample4_extraAddress").value = '';
+            }
+
+            var guideTextBox = document.getElementById("guide");
+            if (data.autoRoadAddress) {
+                var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                guideTextBox.style.display = 'block';
+
+            } else if (data.autoJibunAddress) {
+                var expJibunAddr = data.autoJibunAddress;
+                guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                guideTextBox.style.display = 'block';
+            } else {
+                guideTextBox.innerHTML = '';
+                guideTextBox.style.display = 'none';
+            }
+        }
+    }).open();
+}
+
+$('.post-btn').on('click', function () {
+    sample4_execDaumPostcode();
+});
+
 
 // 삭제 버튼 클릭
 $('.del-btn').on('click', function() {

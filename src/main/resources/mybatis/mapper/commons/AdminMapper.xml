@@ -192,7 +192,7 @@
         SELECT F_USER_NO, F_ID, F_NAME, F_PERSONAL_NUM, F_REG_DATE, F_AREA, F_BIRTH, F_PHONE, F_EMAIL, F_DEPT, F_POSITION, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_LOGIN_DATE, F_MOD_DATE, F_STATUS, F_MEMO
         FROM T_USER
         WHERE 1=1
-        <if test="sort != null">
+        <if test="sort != null and sort != ''">
             AND F_STATUS = 'N'
             <choose>
                 <when test="sort == '회원'">
@@ -271,5 +271,10 @@
     WHERE F_WORK_NO = #{user[10]}
     </update>
 
+    <select id="cntUserList" parameterType="awardsearch" >
+        SELECT COUNT(*)
+        FROM T_USER
+
+    </select>
 
 </mapper>

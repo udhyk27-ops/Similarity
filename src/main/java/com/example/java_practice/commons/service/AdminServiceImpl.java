@@ -44,5 +44,8 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+    @Override
+    public int cntUserList(AwardSearch cntUsers) { return adminMapper.cntUserList(cntUsers); }
+
 
 }

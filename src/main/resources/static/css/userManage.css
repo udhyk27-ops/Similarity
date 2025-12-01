@@ -46,8 +46,9 @@ select:focus { outline: none; }
 
 /* area1 start */
 /* sec1-1 start */
-#schPdForm > .cell { border: none;}
-#schPdForm > .cell > input { width: 20%; }
+.title span { cursor: pointer; }
+form > .cell { border: none;}
+form > .cell > input { width: 20%; }
 /* sec1-2 start */
 .sch-result {flex: 1; padding: 0.5rem 0; display: flex; justify-content: flex-start; align-items: center;}
 .excel-div {flex: 1; padding: 0.5rem 0; display: flex; justify-content: flex-end; align-items: center;}

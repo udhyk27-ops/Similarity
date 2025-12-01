@@ -361,5 +361,5 @@ $('.mod-btn').on('click', function () {
 
 // 작품 등록 페이지 이동
 $('.ins-btn').on('click', function () {
-    window.location.href = '/single';
+    window.location.href = '/single/award';
 });
