@@ -32,7 +32,7 @@
 
     <div class="main">
         <div class="title">
-            초대작 등록현황
+            <span>초대작 등록현황</span>
         </div>
 
         <div class="content">
@@ -102,7 +102,7 @@
                             <div class="cell" th:text="${invit.f_code}"></div>
                             <div class="cell" th:text="${invit.f_reg_date}"></div>
                         </div>
-                        <div class="row" th:if="${#lists.isEmpty(invitList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
+                        <div class="row" th:if="${#lists.isEmpty(invitList)}"><div class="cell">등록된 초대작이 없습니다.</div></div>
                     </div>
 
                     <div class="paging-div" th:if="${cdCnt > 0}">
@@ -166,6 +166,7 @@
 
                 <div class="sec2-2">
                     <div class="info">회원정보</div>
+                    <input type="hidden" class="info-workNo" value="" />
                     <div class="user-tb">
                         <div class="row">
                             <div class="header-cell">회원구분</div>
@@ -201,7 +202,7 @@
                                 <div class="address-div2">
                                     <input value="" name="" id="sample4_roadAddress" />
                                     <input value="" name="" id="sample4_extraAddress" />
-                                    <input type="hidden" class="info-userNo" value="" />
+                                    <input type="hidden" id="info-userNo" value="" />
                                 </div>
                             </div>
                         </div>

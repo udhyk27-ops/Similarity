@@ -1,3 +1,8 @@
+$('.title span').on('click', function() {
+    window.location.href = '/invit';
+});
+
+
 flatpickr(".flatpickr", {
     locale: 'ko',
     dateFormat: "Y-m-d",
@@ -47,10 +52,29 @@ $('.reg-list-row').on('click', function() {
             }
         },
         error: function(error) {
-            console.error(error);
+            console.error(error);ㄷ
         }
     });
+});
 
+// 작품 이미지 다운로드
+$('.download-btn').on('click', function () {
+    const img = $('#work-img').attr('src');
+
+    if (!img) {
+        alert('이미지가 없습니다.');
+        return;
+    }
+
+    const link = document.createElement('a');
+    link.href = img;
+
+    // 파일 이름 고정
+    link.download = $('#work-title').val() + '.png';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
 });
 
@@ -167,11 +191,11 @@ $('#user-row').on('click', '.cell-btn', function() {
     let $row = $(this).closest('.row'); // 클릭한 버튼의 row
 
     // 모달 row 데이터 가져오기
-    let userNo = $row.find('.f_userNo').text();
+    let userNo = $row.find('.f_user_no').text();
     let name = $row.find('.f_name').text();
     let phone = $row.find('.f_phone').text();
     let email = $row.find('.f_email').text();
-    let place = $row.find('.f_place').text();
+    let area = $row.find('.f_area').text();
     let birth = $row.find('.f_birth').text();
     let mainAddress = $row.find('.f_main_address').text();
     let subAddress = $row.find('.f_sub_address').text();
@@ -179,7 +203,7 @@ $('#user-row').on('click', '.cell-btn', function() {
     // 뷰 input에 채우기
     let $tb = $('.user-tb');
 
-    $tb.find('input').eq(0).val(place);
+    $tb.find('input').eq(0).val(area);
     $tb.find('input').eq(1).val(name);
     $tb.find('input').eq(2).val(birth);
     $tb.find('input').eq(3).val(phone);
@@ -337,8 +361,6 @@ $('.mod-btn').on('click', function () {
         console.log('workValues : ' + workValues);
         console.log('userValues: ' + userValues);
 
-        return;
-
         $.ajax({
             url: '/api/admin/modifyInfo',
             type: 'POST',
@@ -358,7 +380,7 @@ $('.mod-btn').on('click', function () {
                     alert('수정 실패');
                 }
 
-                console.log(response);
+                // console.log(response);
 
             }, error: function (error) {
                 console.error(error);

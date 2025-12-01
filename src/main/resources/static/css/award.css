@@ -54,7 +54,7 @@ select:focus { outline: none; }
 
 /* area1 start */
 /* sec1-1 start */
-
+.title span { cursor: pointer; }
 /* sec1-2 start */
 .sch-result {flex: 1; padding: 0.5rem 0; display: flex; justify-content: flex-start; align-items: center;}
 .filter-div {flex: 1; padding: 0.5rem 0; display: flex; justify-content: flex-end; align-items: center;}
