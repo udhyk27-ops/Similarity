@@ -40,6 +40,7 @@
         }
         .textarea {
             height: auto;
+            padding-top: 0.5rem;
         }
         .buttons {
             padding-top: 1rem;
@@ -107,15 +108,17 @@
                                                     📁 파일첨부
                                                 </label>
 
-                                                <div id="fileList">
-                                                    <div class="file-list" id="fileListContainer" th:each="file : ${noticeFiles}" th:unless="${#lists.isEmpty(noticeFiles)}">
-                                                        <div class="file-item">
+                                                <div id="exFileList">
+                                                    <input type="hidden" id="deleteFileIds" name="deleteFileIds"/>
+                                                    <div class="file-list" th:unless="${#lists.isEmpty(noticeFiles)}">
+                                                        <div class="file-item" th:each="file : ${noticeFiles}" th:attr="data-file-id=${file.f_id}">
                                                             <a th:href="@{/file/download/{fileId}(fileId=${file.f_id})}"
                                                                th:text="${file.f_ori_filename}"></a>
-                                                            <a href="#" class="delete-btn" onclick="">X</a>
+                                                            <a href="#" class="delete-btn ex-btn">X</a>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div id="fileList"></div>
                                             </td>
                                         </tr>
                                     </table>
@@ -136,6 +139,9 @@
 
     </div>
     <script>
+
+        let deleteFileIds = [];
+
         document.addEventListener("DOMContentLoaded", function () {
             const fileInput = document.getElementById("fileInput");
             const fileList = document.getElementById("fileList");
@@ -151,6 +157,20 @@
                     this.submit();
                 }
             });
+
+            document.querySelectorAll(".ex-btn").forEach(btn => {
+                btn.addEventListener("click", function(e) {
+                    e.preventDefault();
+
+                    const fileItem = this.closest(".file-item");
+                    const fileId = fileItem.dataset.fileId;
+
+                    deleteFileIds.push(fileId);
+                    document.getElementById("deleteFileIds").value = deleteFileIds.join(",");
+
+                    fileItem.remove();
+                });
+            })
         })
         const validate = {
             checkEmpty : function() {

@@ -8,6 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" th:href="@{/css/customFlatpickr.css}">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <style>
         .search-box {
             width: 100%;
@@ -73,23 +77,24 @@
                             <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('공지사항')}"></th:block>
                         </div>
                         <div class="search-box">
-                            <form class="sch-form">
+                            <form action="/notice" method="get" class="sch-form">
                                 <input type="hidden" name="perPage" value="">
                                 <input type="hidden" name="page" value="">
 
                                 <div class="sch-row">
                                     <div class="date-group">
-                                        <input type="date" name="staDate" class="form-control" value="">
+                                        <input type="text" id="dateInput" name="staDate" class="form-control" placeholder="년도-월-일" th:value="${search.staDate}">
                                         <span class="date-separator">~</span>
-                                        <input type="date" name="endDate" class="form-control" value="">
+                                        <input type="text" id="dateInput2" name="endDate" class="form-control" placeholder="년도-월-일" th:value="${search.endDate}">
                                     </div>
 
                                     <div class="sch-group keyword-group">
-                                        <input type="search" class="form-control" name="keyword" placeholder="검색 키워드" value="">
+                                        <input type="search" class="form-control" name="keyword" placeholder="검색 키워드" th:value="${search.keyword}">
                                     </div>
 
                                     <div class="btn-group">
-                                        <a class="btn-pink">검색</a>
+                                        <button type="submit" class="btn-pink">검색</button>
+<!--                                        <a href="/noticeReg" class="btn-navy" th:if="${user.sort == '관리자'}">등록</a>-->
                                         <a href="/noticeReg" class="btn-navy">등록</a>
                                     </div>
                                 </div>
@@ -120,17 +125,26 @@
                         </table>
                         <div class="pagination">
                             <a th:if="${currentPage > 1}"
-                               th:href="@{/notice(page=${currentPage - 1}, size=${size})}"
+                               th:href="@{/notice(page=${currentPage - 1}, size=${size},
+                                            keyword=${search.keyword},
+                                            staDate=${search.staDate},
+                                            endDate=${search.endDate})}"
                                class="page-btn prev">«</a>
 
                             <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-                               th:href="@{/notice(page=${i}, size=${size})}"
+                               th:href="@{/notice(page=${i}, size=${size},
+                                            keyword=${search.keyword},
+                                            staDate=${search.staDate},
+                                            endDate=${search.endDate})}"
                                th:text="${i}"
                                th:classappend="${i == currentPage} ? ' active' : ''"
                                class="page-btn"></a>
 
                             <a th:if="${currentPage < totalPages}"
-                               th:href="@{/notice(page=${currentPage+1}, size=${size})}"
+                               th:href="@{/notice(page=${currentPage+1}, size=${size},
+                                            keyword=${search.keyword},
+                                            staDate=${search.staDate},
+                                            endDate=${search.endDate})}"
                                class="page-btn next">»</a>
                         </div>
                     </div>
@@ -140,7 +154,15 @@
         </main>
 
     </div>
-<script>
-</script>
+    <script>
+        flatpickr("#dateInput", {
+            dateFormat: "Y-m-d",
+            locale: "ko",
+        });
+        flatpickr("#dateInput2", {
+            dateFormat: "Y-m-d",
+            locale: "ko",
+        })
+    </script>
 </body>
 </html>

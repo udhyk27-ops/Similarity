@@ -59,11 +59,12 @@
             text-decoration: underline;
         }
         .attach ul{
-            padding-left: 0.5rem;
+            padding-left: 0.1rem;
         }
         .attach li{
             list-style: none;
             line-height: 0.5;
+
         }
 
         /* 이미지 (옵션) */
@@ -142,8 +143,8 @@
                                         <td class="attach" colspan="3" th:if="${#lists.isEmpty(noticeFiles)}">
                                             <span></span>
                                         </td>
-                                        <td class="attach" colspan="3"th:each="file:${noticeFiles}" th:unless="${#lists.isEmpty(noticeFiles)}">
-                                            <ul>
+                                        <td class="attach" colspan="3" th:unless="${#lists.isEmpty(noticeFiles)}">
+                                            <ul th:each="file:${noticeFiles}">
                                                 <li><a class="attach-item" th:href="@{/file/download/{fileId}(fileId=${file.f_id})}" th:text="${file.f_ori_filename}"></a></li>
                                             </ul>
                                         </td>
@@ -155,10 +156,12 @@
                             <input type="hidden" id="noticeId" th:value="${noticeDetail.f_id}">
                             <div class="buttons">
                                 <div>
+<!--                                    <button class="btn btn-pink" onclick="frm.deleteNotice()" th:if="${user.sort == '관리자'}">삭제</button>-->
                                     <button class="btn btn-pink" onclick="frm.deleteNotice()">삭제</button>
                                 </div>
                                 <div class="right-btns">
                                     <a href="/notice" class="btn btn-white">목록</a>
+<!--                                    <a th:href="@{/noticeReg/{id}(id=${noticeDetail.f_id})}" class="btn btn-navy" th:if="${user.sort == '관리자'}">수정</a>-->
                                     <a th:href="@{/noticeReg/{id}(id=${noticeDetail.f_id})}" class="btn btn-navy">수정</a>
                                 </div>
                             </div>
@@ -180,13 +183,16 @@
                 const id = document.getElementById("noticeId").value;
                 const viewedKey = "viewed_notice_" + id;
 
+                const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+                localStorage.setItem(viewedKey, today);
+
                 // 이미 본 글이면 return
-                if (localStorage.getItem(viewedKey)) return;
+                const viewedDate = localStorage.getItem(viewedKey);
+                if (viewedDate === today) return;
 
                 const token = document.querySelector('meta[name="_csrf"]').content;
                 const header = document.querySelector('meta[name="_csrf_header"]').content;
                 const url = "/notice/viewCnt/" + id;
-                console.log("실행1");
                 // 조회수 증가 API 호출
                 fetch(url, {
                     method: 'POST',
@@ -194,7 +200,6 @@
                         [header]: token
                     }
                 });
-                console.log("실행2");
 
                 // 조회 처리 기록
                 localStorage.setItem(viewedKey, "true");

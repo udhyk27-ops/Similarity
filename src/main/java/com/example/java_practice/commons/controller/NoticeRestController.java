@@ -29,7 +29,6 @@ public class NoticeRestController {
 
     @PostMapping("/viewCnt/{id}")
     public void addViewCnt(@PathVariable("id") int noticeId){
-        System.out.println("noticeId : " + noticeId);
         noticeService.updateViewCnt(noticeId);
     }
 

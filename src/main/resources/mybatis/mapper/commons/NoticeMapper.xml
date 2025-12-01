@@ -41,19 +41,44 @@
         VALUES ((SELECT NVL(MAX(F_ID), 0) + 1 FROM T_NOTICE_FILE), #{f_notice_id}, #{f_filename}, #{f_ori_filename}, #{f_filepath}, #{f_filesize})
     </insert>
 
-    <select id="selectNoticeList" resultMap="noticeWithUserMap">
+    <select id="selectNoticeListBySearch" parameterType="NoticeSearch" resultMap="noticeWithUserMap">
         select * from
             (
             select t1.F_ID, t1.F_TITLE, t2.F_NAME, t1.F_REGDATE, t1.F_VIEWCNT, ROW_NUMBER() over (order by t1.f_id desc) as rn
              from T_NOTICE t1
                  join T_USER t2
                      on t1.F_REGID = t2.F_USER_NO
+                 <where>
+                     <if test="staDate != null and staDate != ''">
+                         AND TO_CHAR(t1.F_REGDATE, 'YYYY-MM-DD') <![CDATA[>=]]> #{staDate}
+                     </if>
+                     <if test="endDate != null and endDate != ''">
+                         AND TO_CHAR(t1.F_REGDATE, 'YYYY-MM-DD') <![CDATA[<=]]> #{endDate}
+                     </if>
+                     <if test="keyword != null and keyword != ''">
+                         AND (t1.F_TITLE LIKE '%' || #{keyword} || '%'
+                         OR t1.F_CONTENT LIKE '%' || #{keyword} || '%')
+                     </if>
+                 </where>
              )
         where rn between #{startRow} and #{endRow}
     </select>
 
-    <select id="selectNoticeCnt" resultType="int">
-        select count(*) from T_NOTICE
+    <select id="selectNoticeCntBySearch" resultType="int">
+        select count(*)
+        from T_NOTICE
+        <where>
+            <if test="staDate != null and staDate != ''">
+                AND TO_CHAR(F_REGDATE, 'YYYY-MM-DD') <![CDATA[>=]]> #{staDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND TO_CHAR(F_REGDATE, 'YYYY-MM-DD') <![CDATA[<=]]> #{endDate}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (F_TITLE LIKE '%' || #{keyword} || '%'
+                OR F_CONTENT LIKE '%' || #{keyword} || '%')
+            </if>
+        </where>
     </select>
 
     <update id="updateViewCnt">
@@ -84,8 +109,8 @@
         update T_NOTICE set F_TITLE = #{f_title}, F_CONTENT = #{f_content}, F_MODIID = #{f_modiid}, F_MODIDATE = sysdate where F_ID = #{f_id}
     </update>
 
-    <delete id="deleteNoticeFileByNoticeId">
-        delete from T_NOTICE_FILE where F_NOTICE_ID = #{noticeId}
+    <delete id="deleteNoticeFileById">
+        delete from T_NOTICE_FILE where F_ID = #{fileId}
     </delete>
 
 </mapper>

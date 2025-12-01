@@ -2,6 +2,7 @@ package com.example.java_practice.commons.service;
 
 import com.example.java_practice.commons.dto.Notice;
 import com.example.java_practice.commons.dto.NoticeFile;
+import com.example.java_practice.commons.dto.NoticeSearch;
 import com.example.java_practice.commons.mapper.NoticeMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,21 +79,18 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public ArrayList<Notice> selNoticeList(int page, int size) {
+    public ArrayList<Notice> selNoticeList(NoticeSearch noticeSearch, int page, int size) {
         int startRow = (page - 1) * size + 1;
         int endRow = page * size;
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("startRow", startRow);
-        params.put("endRow", endRow);
-        ArrayList<Notice> noticeList = noticeMapper.selectNoticeList(params);
+        noticeSearch.setStartRow(startRow);
+        noticeSearch.setEndRow(endRow);
+        ArrayList<Notice> noticeList = noticeMapper.selectNoticeListBySearch(noticeSearch);
         return noticeList;
     }
 
     @Override
-    public int selNoticeCnt() {
-        return noticeMapper.selectNoticeCnt();
-    }
+    public int selNoticeCnt(NoticeSearch noticeSearch) {return noticeMapper.selectNoticeCntBySearch(noticeSearch);}
 
     @Override
     public Notice selectNoticeDetailById(int noticeId) {
@@ -119,15 +117,18 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
+    @Transactional
     public Notice updateNoticeById(Notice notice) {
         noticeMapper.updateNoticeById(notice);
         return notice;
     }
     @Override
-    public void deleteNoticeFilesByNoticeId(int noticeId) {
-        noticeMapper.deleteNoticeFileByNoticeId(noticeId);
-        ArrayList<NoticeFile> noticeFiles = this.selectNoticeFilesByNoticeId(noticeId);
-        fileService.deleteFiles(noticeFiles.stream().map(f -> Path.of(uploadDir + "/notice", f.getF_filename())).toList());
+    @Transactional
+    public void deleteNoticeFilesById(int fileId) {
+        NoticeFile noticeFile = noticeMapper.selectNoticeFileById(fileId);
+        Path filePath = Paths.get(uploadDir + "/notice", noticeFile.getF_filename());
+        fileService.deleteFile(filePath);
+        noticeMapper.deleteNoticeFileById(fileId);
     }
 
 
