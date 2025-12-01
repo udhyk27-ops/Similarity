@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.java_practice.commons.mapper.AwardWorkMapper">
+    <resultMap id="awardResultMap" type="Award">
+        <id property="f_work_no" column="F_WORK_NO"/>
+        <result property="f_title" column="F_TITLE"/>
+        <result property="f_author" column="F_AUTHOR"/>
+        <result property="f_year" column="F_YEAR"/>
+        <result property="f_contest" column="F_CONTEST"/>
+        <result property="f_award" column="F_AWARD"/>
+        <result property="f_code" column="F_CODE"/>
+        <result property="f_manage" column="F_MANAGE"/>
+        <result property="f_host" column="F_HOST"/>
+        <result property="f_reg_date" column="F_REG_DATE"/>
+        <result property="f_filepath" column="F_FILEPATH"/>
+    </resultMap>
+
+    <select id="selectAwardListBySearch" resultMap="awardResultMap">
+        select *
+        from (
+              select
+                  F_WORK_NO,
+                  F_TITLE,
+                  F_AUTHOR,
+                  F_YEAR,
+                  F_CONTEST,
+                  F_AWARD,
+                  F_MANAGER,
+                  F_HOST,
+                  F_REG_DATE,
+                  F_FILEPATH,
+                  ROW_NUMBER() over (order by F_WORK_NO desc) as rn
+              from T_AWARD_WORK
+              where F_STATUS = 'N')
+    </select>
+</mapper>

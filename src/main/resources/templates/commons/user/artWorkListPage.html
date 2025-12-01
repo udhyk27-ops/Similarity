@@ -104,8 +104,11 @@
 
                 <div class="card">
 
-                    <div class="main-title">
-                        <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('등록현황')}"></th:block>
+                    <div class="main-title" th:if="${type == 'award'}">
+                        <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('수상작 등록현황')}"></th:block>
+                    </div>
+                    <div class="main-title" th:unless="${type == 'award'}">
+                        <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('초대작 등록현황')}"></th:block>
                     </div>
                     <div class="search-box">
                         <form class="sch-form">
@@ -140,8 +143,8 @@
                                                 <option value="">선택</option>
                                                 <option value="title">제목</option>
                                                 <option value="author">저작자명</option>
-                                                <option value="host">주죄사</option>
-                                                <option value="manage">주관사</option>
+                                                <option value="host" th:if="${type == 'award'}">주죄사</option>
+                                                <option value="manage" th:if="${type == 'award'}">주관사</option>
                                             </select>
                                             <input type="search" class="form-control sch-control" name="keyword" value="">
                                             <button class="btn-navy sch-btn">검색</button>
@@ -180,14 +183,18 @@
                                 <th>이미지</th>
                                 <th>제목</th>
                                 <th>저작자명</th>
-                                <th>공모전명/상권명</th>
-                                <th>주최/주관</th>
+                                <th th:text="${type == 'award' ? '공모전명/상권명' : '코드'}">공모전명/상권명</th>
+                                <th th:if="${type == 'award'}">주최/주관</th>
                                 <th>발표년도</th>
                                 <th>등록일시</th>
                                 <th>삭제</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <tr th:if="${(type=='award' && #lists.isEmpty(awardList)) || (type=='invit' && #lists.isEmpty(invitList))}">
+                                <td th:colspan="${type == 'award' ? '9' : '8'}">등록된 정보가 없습니다</td>
+                            </tr>
+                            <tr th:each="award:${awardList}"></tr>
                             <tr>
                                 <td>3</td>
                                 <td>이미지</td>
