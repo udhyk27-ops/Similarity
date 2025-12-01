@@ -1,3 +1,8 @@
+$('.title span').on('click', function() {
+   window.location.href = '/award';
+});
+
+
 flatpickr(".flatpickr", {
     locale: 'ko',
     dateFormat: "Y-m-d",
@@ -201,7 +206,6 @@ $('#user-row').on('click', '.cell-btn', function () {
 
     // 모달 row 데이터 가져오기
     let userNo = $row.find('.f_user_no').text();
-
     let name = $row.find('.f_name').text();
     let phone = $row.find('.f_phone').text();
     let email = $row.find('.f_email').text();
