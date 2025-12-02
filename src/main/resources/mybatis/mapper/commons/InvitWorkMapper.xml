@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.java_practice.commons.mapper.InvitWorkMapper">
+    <resultMap id="invitResultMap" type="Invit">
+        <id property="f_work_no" column="F_WORK_NO"/>
+        <result property="f_title" column="F_TITLE"/>
+        <result property="f_author" column="F_AUTHOR"/>
+        <result property="f_year" column="F_YEAR"/>
+        <result property="f_code" column="F_CODE"/>
+        <result property="f_reg_date" column="F_REG_DATE"/>
+        <result property="f_filepath" column="F_FILEPATH"/>
+    </resultMap>
+
+    <select id="selectInvitListBySearch" parameterType="WorkSearch" resultMap="invitResultMap">
+        select *
+        from (
+                 select
+                     F_WORK_NO,
+                     F_TITLE,
+                     F_AUTHOR,
+                     F_YEAR,
+                     F_CODE,
+                     F_REG_DATE,
+                     F_FILEPATH,
+                     ROW_NUMBER() over (order by F_WORK_NO desc) as rn
+                 from T_INVIT_WORK
+                 where F_STATUS = 'N'
+                    <if test="staDate != null and staDate != ''">
+                        AND TO_CHAR(F_REG_DATE, 'YYYY-MM-DD') <![CDATA[>=]]> #{staDate}
+                    </if>
+                    <if test="endDate != null and endDate != ''">
+                        AND TO_CHAR(F_REG_DATE, 'YYYY-MM-DD') <![CDATA[<=]]> #{endDate}
+                    </if>
+                    <if test="staYear != null and staYear != ''">
+                        AND F_YEAR <![CDATA[>=]]> #{staYear}
+                    </if>
+                    <if test="endYear != null and endYear != ''">
+                        AND F_YEAR <![CDATA[<=]]> #{endYear}
+                    </if>
+                    <if test="keyword != null and keyword != ''">
+                        <choose>
+                            <when test="schKeyword != null and schKeyword == 'title'">
+                                AND F_TITLE like '%' || #{keyword} || '%'
+                            </when>
+                            <when test="schKeyword != null and schKeyword == 'author'">
+                                AND F_AUTHOR like '%' || #{keyword} || '%'
+                            </when>
+                            <otherwise>
+                                AND (F_TITLE like '%' || #{keyword} || '%'
+                                OR F_AUTHOR like '%' || #{keyword} || '%')
+                            </otherwise>
+                        </choose>
+                    </if>
+                 )
+    </select>
+
+    <select id="selectInvitListCnt" resultType="int">
+        select count(*) from T_INVIT_WORK where F_STATUS = 'N'
+    </select>
+
+    <select id="selectInvitListCntBySearch" resultType="int">
+        select count(*)
+        from T_INVIT_WORK
+        where F_STATUS = 'N'
+            <if test="staDate != null and staDate != ''">
+                AND TO_CHAR(F_REG_DATE, 'YYYY-MM-DD') <![CDATA[>=]]> #{staDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND TO_CHAR(F_REG_DATE, 'YYYY-MM-DD') <![CDATA[<=]]> #{endDate}
+            </if>
+            <if test="staYear != null and staYear != ''">
+                AND F_YEAR <![CDATA[>=]]> #{staYear}
+            </if>
+            <if test="endYear != null and endYear != ''">
+                AND F_YEAR <![CDATA[<=]]> #{endYear}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                <choose>
+                    <when test="schKeyword != null and schKeyword == 'title'">
+                        AND F_TITLE like '%' || #{keyword} || '%'
+                    </when>
+                    <when test="schKeyword != null and schKeyword == 'author'">
+                        AND F_AUTHOR like '%' || #{keyword} || '%'
+                    </when>
+                    <otherwise>
+                        AND (F_TITLE like '%' || #{keyword} || '%'
+                        OR F_AUTHOR like '%' || #{keyword} || '%')
+                    </otherwise>
+                </choose>
+            </if>
+    </select>
+
+    <select id="selectInvitYearList" resultType="string">
+        select f_year from T_INVIT_WORK group by f_year order by F_YEAR desc
+    </select>
+</mapper>

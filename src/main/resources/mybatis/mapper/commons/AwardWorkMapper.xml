@@ -18,7 +18,7 @@
         <result property="f_filepath" column="F_FILEPATH"/>
     </resultMap>
 
-    <select id="selectAwardListBySearch" resultMap="awardResultMap">
+    <select id="selectAwardListBySearch" parameterType="WorkSearch" resultMap="awardResultMap">
         select *
         from (
               select
@@ -34,6 +34,89 @@
                   F_FILEPATH,
                   ROW_NUMBER() over (order by F_WORK_NO desc) as rn
               from T_AWARD_WORK
-              where F_STATUS = 'N')
+              where F_STATUS = 'N'
+                  <if test="staDate != null and staDate != ''">
+                      AND TO_CHAR(F_REG_DATE, 'YYYY-MM-DD') <![CDATA[>=]]> #{staDate}
+                  </if>
+                  <if test="endDate != null and endDate != ''">
+                      AND TO_CHAR(F_REG_DATE, 'YYYY-MM-DD') <![CDATA[<=]]> #{endDate}
+                  </if>
+                  <if test="staYear != null and staYear != ''">
+                      AND F_YEAR <![CDATA[>=]]> #{staYear}
+                  </if>
+                  <if test="endYear != null and endYear != ''">
+                      AND F_YEAR <![CDATA[<=]]> #{endYear}
+                  </if>
+                  <if test="keyword != null and keyword != ''">
+                    <choose>
+                        <when test="schKeyword != null and schKeyword == 'title'">
+                            AND F_TITLE like '%' || #{keyword} || '%'
+                        </when>
+                        <when test="schKeyword != null and schKeyword == 'author'">
+                            AND F_AUTHOR like '%' || #{keyword} || '%'
+                        </when>
+                        <when test="schKeyword != null and schKeyword == 'host'">
+                            AND F_HOST like '%' || #{keyword} || '%'
+                        </when>
+                        <when test="schKeyword != null and schKeyword == 'manager'">
+                            AND F_MANAGER like '%' || #{keyword} || '%'
+                        </when>
+                        <otherwise>
+                            AND (F_TITLE like '%' || #{keyword} || '%'
+                                 OR F_AUTHOR like '%' || #{keyword} || '%'
+                                 OR  F_HOST like '%' || #{keyword} || '%'
+                                 OR F_MANAGER like '%' || #{keyword} || '%')
+                        </otherwise>
+                    </choose>
+                  </if>
+              )
+    </select>
+
+    <select id="selectAwardListCnt" resultType="int">
+        select count(*) from T_AWARD_WORK where F_STATUS = 'N'
+    </select>
+
+    <select id="selectAwardListCntBySearch" resultType="int">
+        select count(*)
+        from T_AWARD_WORK
+        where F_STATUS = 'N'
+            <if test="staDate != null and staDate != ''">
+                AND TO_CHAR(F_REG_DATE, 'YYYY-MM-DD') <![CDATA[>=]]> #{staDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND TO_CHAR(F_REG_DATE, 'YYYY-MM-DD') <![CDATA[<=]]> #{endDate}
+            </if>
+            <if test="staYear != null and staYear != ''">
+                AND F_YEAR <![CDATA[>=]]> #{staYear}
+            </if>
+            <if test="endYear != null and endYear != ''">
+                AND F_YEAR <![CDATA[<=]]> #{endYear}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                <choose>
+                    <when test="schKeyword != null and schKeyword == 'title'">
+                        AND F_TITLE like '%' || #{keyword} || '%'
+                    </when>
+                    <when test="schKeyword != null and schKeyword == 'author'">
+                        AND F_AUTHOR like '%' || #{keyword} || '%'
+                    </when>
+                    <when test="schKeyword != null and schKeyword == 'host'">
+                        AND F_HOST like '%' || #{keyword} || '%'
+                    </when>
+                    <when test="schKeyword != null and schKeyword == 'manager'">
+                        AND F_MANAGER like '%' || #{keyword} || '%'
+                    </when>
+                    <otherwise>
+                        AND (F_TITLE like '%' || #{keyword} || '%'
+                        OR F_AUTHOR like '%' || #{keyword} || '%'
+                        OR  F_HOST like '%' || #{keyword} || '%'
+                        OR F_MANAGER like '%' || #{keyword} || '%')
+                    </otherwise>
+                </choose>
+            </if>
+    </select>
+
+    <select id="selectAwardYearList" resultType="string">
+        select f_year from T_AWARD_WORK group by f_year order by F_YEAR desc
     </select>
 </mapper>

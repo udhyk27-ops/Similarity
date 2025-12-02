@@ -25,8 +25,7 @@ public class NoticeController {
            @AuthenticationPrincipal CustomUserDetails userDetails,
            @RequestParam(defaultValue = "1") int page,
            @RequestParam(defaultValue = "10") int size,
-           NoticeSearch params
-    )
+           NoticeSearch params)
     {
         if (params.getKeyword() == null) params.setKeyword("");
         if (params.getStaDate() == null) params.setStaDate("");
