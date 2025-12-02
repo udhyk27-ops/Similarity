@@ -13,7 +13,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
 
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -43,14 +42,14 @@
             <div class="area1">
                 <div class="sec1-1">
                     <div class="sch-tb">
-                        <form method="/award" autocomplete="off">
+                        <form method="/admin/award" autocomplete="off">
                             <input type="hidden" name="page" value="1" />
                             <div class="row">
                                 <div class="header-cell">등록날짜</div>
                                 <div class="cell">
-                                    <input class="flatpickr" type="date" name="startDate" placeholder="전체" th:value="${search.startDate}" />
+                                    <input class="flatpickr" type="date" name="startDate" placeholder="전체" th:value="${awardSearch.startDate}" />
                                     ~
-                                    <input class="flatpickr" type="date" name="endDate" placeholder="전체" th:value="${search.endDate}" />
+                                    <input class="flatpickr" type="date" name="endDate" placeholder="전체" th:value="${awardSearch.endDate}" />
                                 </div>
                             </div>
                             <div class="row">
@@ -61,12 +60,11 @@
                                         <option value="op-title">제목</option>
                                         <option value="op-author">저작자명</option>
                                     </select>
-                                    <input type="text" name="keyword" th:value="${search.keyword}" />
+                                    <input type="text" name="keyword" th:value="${awardSearch.keyword}" />
                                     <button class="cell-btn">검색</button>
                                 </div>
                             </div>
                         </form>
-
                     </div>
                 </div>
 
@@ -112,22 +110,22 @@
                         <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
                     </div>
 
-                    <div class="paging-div" th:if="${cdCnt > 0}">
-                        <a th:if="${currentPage > 1}" th:href="@{/award(page=1)}">처음</a>
+                    <div class="paging-div" th:if="${totalPages > 1}">
+                        <a th:if="${currentPage > 1}" th:href="@{/admin/award(page=1)}">처음</a>
 
                         <a th:if="${currentPage > 1}"
-                           th:href="@{/award(page=${currentPage - 1})}">이전</a>
+                           th:href="@{/admin/award(page=${currentPage - 1})}">이전</a>
 
                         <!-- 페이지 번호 반복 -->
                         <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-                           th:href="@{/award(page=${i})}"
+                           th:href="@{/admin/award(page=${i})}"
                            th:text="${i}"
                            th:classappend="${i == currentPage} ? 'current' : ''"></a>
 
                         <a th:if="${currentPage < totalPages}"
-                           th:href="@{/award(page=${currentPage + 1})}">다음</a>
+                           th:href="@{/admin/award(page=${currentPage + 1})}">다음</a>
 
-                        <a th:if="${currentPage < totalPages}" th:href="@{/award(page=${totalPages})}">끝</a>
+                        <a th:if="${currentPage < totalPages}" th:href="@{/admin/award(page=${totalPages})}">끝</a>
                     </div>
                 </div>
             </div>

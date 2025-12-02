@@ -6,12 +6,6 @@ const UserAdminModule = {
     },
 
     bindEvents() {
-        // 제목 클릭 → 목록으로 이동
-        $('.title span').on('click', () => {
-            const pageType = $('body').data('page-type'); // body 태그에 data-page-type="user" 또는 "admin"
-            window.location.href = `/manage/${pageType}`;
-        });
-
         // 리스트에서 회원 클릭 시 정보 로드
         $('.reg-list-row').on('click', e => {
             const userNo = $(e.currentTarget).data('user-no');

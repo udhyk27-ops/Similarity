@@ -72,7 +72,7 @@
                                 <option value="op-title">제목</option>
                                 <option value="op-author">저작자명</option>
                             </select>
-                            <input type="text" name="keyword" th:value="${search.keyword}" />
+                            <input type="text" name="keyword" th:value="${userSearch.keyword}" />
                             <button class="cell-btn">검색</button>
                         </div>
                     </form>
@@ -80,7 +80,7 @@
 
                 <div class="sec1-2">
                     <div class="sch-result">
-                        <p th:text="'총 ' + ${totalCnt} + '건 중 검색결과: ' + ${cdCnt} + '건'">
+                        <p th:text="'총 ' + ${totalCnt} + '건 중 검색결과: ' + ${userCnt} + '건'">
                             총 0건 중 검색결과: 0건
                         </p>
                     </div>
@@ -107,7 +107,7 @@
                         <div class="row" th:if="${#lists.isEmpty(userList)}"><div class="cell">등록된 관리자가 없습니다.</div></div>
                     </div>
 
-                    <div class="paging-div" th:if="${cdCnt > 0}">
+                    <div class="paging-div" th:if="${totalPages > 1}">
                         <a th:if="${currentPage > 1}" th:href="@{/admin/manage(page=1)}">처음</a>
 
                         <a th:if="${currentPage > 1}"

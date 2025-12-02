@@ -24,35 +24,24 @@ public class AdminController {
     @GetMapping("{type:award|invit}")
     public String awardOrInvitPage(@PathVariable String type, @ModelAttribute Search search, Model model) {
 
-        // type 체크
-        if (!type.equals("award") && !type.equals("invit")) {
-            return "commons/admin/error";
-        }
-
-        // 페이징
+        if (!type.equals("award") && !type.equals("invit")) { return "commons/admin/error"; }
         int limit = 5;
         int offset = (search.getPage() - 1) * limit;
+
         search.setLimit(limit);
         search.setOffset(offset);
         search.setSort(type);
 
-        // 리스트 조회
         ArrayList<Award> list = adminService.selAwardList(search);
         int cdCnt = adminService.cntAwardList(search);
+        int totalCnt = adminService.cntAwardList(new Search() {{ setSort(type); }}); // 전체 건수
 
-        // 전체 건수
-        int totalCnt = adminService.cntAwardList(new Search() {{
-            setSort(type);
-        }});
-        int totalPages = (int) Math.ceil((double) cdCnt / limit);
-
-        // model 세팅
         model.addAttribute("filter", search.getFilter());
-        model.addAttribute(type + "Search", search);
-        model.addAttribute(type + "List", list);
+        model.addAttribute(type + "Search", search); // awardSearch / invitSearch
+        model.addAttribute(type + "List", list); // awardList / invitList
         model.addAttribute("currentPage", search.getPage() == 0 ? 1 : search.getPage());
         model.addAttribute("pageSize", limit);
-        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalPages", (int) Math.ceil((double) cdCnt / limit));
         model.addAttribute("cdCnt", cdCnt);
         model.addAttribute("totalCnt", totalCnt);
 
@@ -79,12 +68,10 @@ public class AdminController {
 
         ArrayList<User> userList = adminService.selManageList(userSearch);
         int userCnt = adminService.cntUserList(userSearch);
-        int totalCnt = adminService.cntUserList(new Search(){{
-            setSort(type.equals("user") ? "회원" : "관리자");
-        }}); // 전체 건수
+        int totalCnt = adminService.cntUserList(new Search(){{ setSort(type.equals("user") ? "회원" : "관리자"); }}); // 전체 건수
 
         System.out.println("userList : " + userList);
-        System.out.println("userCnt : " + userCnt);
+//        System.out.println("userCnt : " + userCnt);
         System.out.println("totalCnt : " + totalCnt);
 
         model.addAttribute("userSearch", userSearch);

@@ -10,8 +10,6 @@ const InvitModule = {
     bindEvents() {
         const self = this;
 
-        $('.title span').on('click', () => window.location.href = '/invit');
-
         // 테이블 행 클릭
         $('.reg-list-row').on('click', function() {
             const workNo = $(this).data('work-no');

@@ -107,22 +107,22 @@
                         <div class="row" th:if="${#lists.isEmpty(invitList)}"><div class="cell">등록된 초대작이 없습니다.</div></div>
                     </div>
 
-                    <div class="paging-div" th:if="${cdCnt > 0}">
-                        <a th:if="${currentPage > 1}" th:href="@{/award(page=1)}">처음</a>
+                    <div class="paging-div" th:if="${totalPages > 1}">
+                        <a th:if="${currentPage > 1}" th:href="@{/admin/invit(page=1)}">처음</a>
 
                         <a th:if="${currentPage > 1}"
-                           th:href="@{/invit(page=${currentPage - 1})}">이전</a>
+                           th:href="@{/admin/invit(page=${currentPage - 1})}">이전</a>
 
                         <!-- 페이지 번호 반복 -->
                         <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-                           th:href="@{/invit(page=${i})}"
+                           th:href="@{/admin/invit(page=${i})}"
                            th:text="${i}"
                            th:classappend="${i == currentPage} ? 'current' : ''"></a>
 
                         <a th:if="${currentPage < totalPages}"
-                           th:href="@{/invit(page=${currentPage + 1})}">다음</a>
+                           th:href="@{/admin/invit(page=${currentPage + 1})}">다음</a>
 
-                        <a th:if="${currentPage < totalPages}" th:href="@{/invit(page=${totalPages})}">끝</a>
+                        <a th:if="${currentPage < totalPages}" th:href="@{/admin/invit(page=${totalPages})}">끝</a>
                     </div>
                 </div>
             </div>

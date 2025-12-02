@@ -52,7 +52,7 @@
         <div class="content">
             <div class="area1">
                 <div class="sec1-1">
-                    <form method="/userManage" autocomplete="off">
+                    <form method="/admin/user" autocomplete="off">
                         <input type="hidden" name="page" value="1" />
                         <div class="cell">
                             <select name="schFilter">
@@ -96,22 +96,22 @@
                         <div class="row" th:if="${#lists.isEmpty(userList)}"><div class="cell">등록된 회원이 없습니다.</div></div>
                     </div>
 
-                    <div class="paging-div" th:if="${userCnt > 0}">
-                        <a th:if="${currentPage > 1}" th:href="@{/userManage(page=1)}">처음</a>
+                    <div class="paging-div" th:if="${totalPages > 1}">
+                        <a th:if="${currentPage > 1}" th:href="@{/admin/user(page=1)}">처음</a>
 
                         <a th:if="${currentPage > 1}"
-                           th:href="@{/userManage(page=${currentPage - 1})}">이전</a>
+                           th:href="@{/admin/user(page=${currentPage - 1})}">이전</a>
 
                         <!-- 페이지 번호 반복 -->
                         <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-                           th:href="@{/userManage(page=${i})}"
+                           th:href="@{/admin/user(page=${i})}"
                            th:text="${i}"
                            th:classappend="${i == currentPage} ? 'current' : ''"></a>
 
                         <a th:if="${currentPage < totalPages}"
-                           th:href="@{/userManage(page=${currentPage + 1})}">다음</a>
+                           th:href="@{/admin/user(page=${currentPage + 1})}">다음</a>
 
-                        <a th:if="${currentPage < totalPages}" th:href="@{/userManage(page=${totalPages})}">끝</a>
+                        <a th:if="${currentPage < totalPages}" th:href="@{/admin/user(page=${totalPages})}">끝</a>
                     </div>
                 </div>
             </div>
