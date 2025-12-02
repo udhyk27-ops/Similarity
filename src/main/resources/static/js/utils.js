@@ -1,9 +1,9 @@
 // AJAX
-export function getJSON(url, data, onSuccess, onError = console.error) {
+export function getAJAX(url, data, onSuccess, onError = console.error) {
     $.ajax({ url, type: 'GET', data, success: onSuccess, error: onError });
 }
 
-export function postWithCSRF(url, data, onSuccess, onError = console.error) {
+export function postAJAX(url, data, onSuccess, onError = console.error) {
     const token = $("meta[name='_csrf']").attr("content");
     const header = $("meta[name='_csrf_header']").attr("content");
 

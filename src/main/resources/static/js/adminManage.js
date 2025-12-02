@@ -1,4 +1,4 @@
-import { getJSON, postWithCSRF } from "./utils.js";
+import { getAJAX, postAJAX } from "./utils.js";
 
 const AdminModule = {
     init() {
@@ -16,7 +16,7 @@ const AdminModule = {
             const userNo = $(e.currentTarget).data('user-no');
             if (!userNo) return;
 
-            getJSON(
+            getAJAX(
                 '/api/admin/searchUser',
                 { userNo },
                 response => this.fillUserInfo(response[0])
@@ -48,7 +48,6 @@ const AdminModule = {
         });
 
         if (user.f_auth) {
-            // 예: f_auth가 ['수상작 등록관리', '유사도 검색'] 배열이라면 체크
             user.f_auth.forEach(authName => {
                 $(`input[name="auth"][value="${authName}"]`).prop('checked', true);
             });
@@ -68,7 +67,7 @@ const AdminModule = {
         const userNo = $('#user-no').val();
         if (!userNo) return alert('회원을 선택해주세요.');
 
-        postWithCSRF(
+        postAJAX(
             '/api/admin/deleteUser',
             { sort: '관리자', userNo },
             response => {
@@ -92,7 +91,7 @@ const AdminModule = {
             return $(this).next().text().trim(); // 체크박스 옆 텍스트
         }).get();
 
-        postWithCSRF(
+        postAJAX(
             '/api/admin/saveAuth',
             { userNo, auth: authArr },
             response => {
