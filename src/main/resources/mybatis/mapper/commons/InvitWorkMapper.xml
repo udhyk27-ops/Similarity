@@ -55,6 +55,7 @@
                         </choose>
                     </if>
                  )
+        where rn between #{startRow} and #{endRow}
     </select>
 
     <select id="selectInvitListCnt" resultType="int">
@@ -93,7 +94,55 @@
             </if>
     </select>
 
+    <select id="selectInvitListForExcel" parameterType="WorkSearch" resultMap="invitResultMap">
+        select *
+        from (
+        select
+        F_WORK_NO,
+        F_FILEPATH,
+        F_TITLE,
+        F_AUTHOR,
+        F_CODE,
+        F_YEAR,
+        F_REG_DATE,
+        ROW_NUMBER() over (order by F_WORK_NO desc) as rn
+        from T_INVIT_WORK
+        where F_STATUS = 'N'
+        <if test="staDate != null and staDate != ''">
+            AND TO_CHAR(F_REG_DATE, 'YYYY-MM-DD') <![CDATA[>=]]> #{staDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND TO_CHAR(F_REG_DATE, 'YYYY-MM-DD') <![CDATA[<=]]> #{endDate}
+        </if>
+        <if test="staYear != null and staYear != ''">
+            AND F_YEAR <![CDATA[>=]]> #{staYear}
+        </if>
+        <if test="endYear != null and endYear != ''">
+            AND F_YEAR <![CDATA[<=]]> #{endYear}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="schKeyword != null and schKeyword == 'title'">
+                    AND F_TITLE like '%' || #{keyword} || '%'
+                </when>
+                <when test="schKeyword != null and schKeyword == 'author'">
+                    AND F_AUTHOR like '%' || #{keyword} || '%'
+                </when>
+                <otherwise>
+                    AND (F_TITLE like '%' || #{keyword} || '%'
+                    OR F_AUTHOR like '%' || #{keyword} || '%')
+                </otherwise>
+            </choose>
+        </if>
+        )
+    </select>
+
     <select id="selectInvitYearList" resultType="string">
         select f_year from T_INVIT_WORK group by f_year order by F_YEAR desc
     </select>
+
+     <update id="updateInvitStatusByWorkNo" parameterType="int">
+        update T_INVIT_WORK set F_STATUS = 'Y'
+        where F_WORK_NO = #{workNo}
+    </update>
 </mapper>

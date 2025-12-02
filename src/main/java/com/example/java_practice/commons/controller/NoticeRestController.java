@@ -28,12 +28,14 @@ public class NoticeRestController {
     private final FileService fileService;
 
     @PostMapping("/viewCnt/{id}")
-    public void addViewCnt(@PathVariable("id") int noticeId){
+    public void addViewCnt(@PathVariable("id") int noticeId)
+    {
         noticeService.updateViewCnt(noticeId);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteNotice(@PathVariable("id") int id) {
+    public ResponseEntity<?> deleteNotice(@PathVariable("id") int id)
+    {
         try{
             ArrayList<NoticeFile> noticeFiles = noticeService.selectNoticeFilesByNoticeId(id);
             boolean success = noticeService.deleteNoticeById(id);

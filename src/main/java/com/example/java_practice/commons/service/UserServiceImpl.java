@@ -52,11 +52,31 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<?> selectListForExcel(String type, WorkSearch workSearch) {
+        if(type.equals("award")){
+            return awardWorkMapper.selectAwardListForExcel(workSearch);
+        }else{
+            return invitWorkMapper.selectInvitListForExcel(workSearch);
+        }
+    }
+
+    @Override
     public List<String> selectYearList(String type) {
         if(type.equals("award")){
             return awardWorkMapper.selectAwardYearList();
         }else{
             return invitWorkMapper.selectInvitYearList();
         }
+    }
+
+    @Override
+    public boolean deleteWork(String type, int workNo) {
+        int rows;
+        if(type.equals("award")){
+            rows = awardWorkMapper.updateAwardStatusByWorkNo(workNo);
+        }else{
+            rows = invitWorkMapper.updateInvitStatusByWorkNo(workNo);
+        }
+        return rows > 0;
     }
 }

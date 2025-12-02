@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>ArtWorkList</title>
     <link rel="stylesheet" th:href="@{/css/layout.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -120,8 +122,8 @@
                             <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('초대작 등록현황')}"></th:block>
                         </div>
                         <div class="search-box">
-                            <form class="sch-form" th:action="@{/worklist/{type}(type=${type})}" method="get">
-                                <input type="hidden" name="type" th:value="${type}">
+                            <form id="schForm" class="sch-form" th:action="@{/worklist/{type}(type=${type})}" method="get">
+                                <input type="hidden" id="type" name="type" th:value="${type}">
 
                                 <table class="sch-table table">
                                     <tr>
@@ -183,7 +185,7 @@
                                         </select>
                                     </div>
                                     <div class="btn-group">
-                                        <button class="btn-green">엑셀저장</button>
+                                        <button type="button" class="btn-green" onclick="frm.downloadExcel();">엑셀저장</button>
                                     </div>
 
                                 </div>
@@ -211,7 +213,7 @@
                                     <td colspan="8">등록된 정보가 없습니다</td>
                                 </tr>
                                 <tr th:if="${type=='award'}" th:each="award:${workList}">
-                                    <td th:text="${award.f_work_no}"></td>
+                                    <td id="workNo" th:text="${award.f_work_no}"></td>
                                     <td><img class="artwork-img" th:src="${award.f_filepath}" alt="award_img"></td>
                                     <td class="artwork-title" th:text="${award.f_title}"></td>
                                     <td th:text="${award.f_author}"></td>
@@ -219,7 +221,7 @@
                                     <td th:text="${award.f_host} + '/' + ${award.f_manager}"></td>
                                     <td th:text="${award.f_year} + '년'"></td>
                                     <td th:text="${award.f_reg_date}"></td>
-                                    <td><button class="btn-pink">삭제</button></td>
+                                    <td><button class="btn-pink" th:onclick="'frm.deleteWork(' + ${award.f_work_no} + ')'">삭제</button></td>
                                 </tr>
                                 <tr th:if="${type=='invit'}" th:each="invit:${workList}">
                                     <td th:text="${invit.f_work_no}"></td>
@@ -229,7 +231,7 @@
                                     <td th:text="${invit.f_code}"></td>
                                     <td th:text="${invit.f_year} + '년'"></td>
                                     <td th:text="${invit.f_reg_date}"></td>
-                                    <td><button class="btn-pink">삭제</button></td>
+                                    <td><button class="btn-pink" th:onclick="'frm.deleteWork(' + ${invit.f_work_no} + ')'">삭제</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -276,12 +278,38 @@
     <script>
         flatpickr("#dateInput", {
             dateFormat: "Y-m-d",
-            locale: "ko",
         });
         flatpickr("#dateInput2", {
             dateFormat: "Y-m-d",
-            locale: "ko",
         })
+        const frm = {
+            deleteWork : function (workNo){
+                console.log(workNo);
+                if(!confirm("삭제하시겠습니까?")) return;
+
+                const type = document.getElementById('type').value;
+                const token = document.querySelector('meta[name="_csrf"]').content;
+                const header = document.querySelector('meta[name="_csrf_header"]').content;
+                fetch(`/workList/${type}/${workNo}`, {
+                    method: "DELETE",
+                    headers: {
+                        [header]: token
+                    }
+                }).then(res => res.json())
+                .then(data => {
+                    alert(data.msg);
+                    if(data.status){
+                        location.reload();
+                    }
+                })
+
+            },
+            downloadExcel : function (){
+                const type = document.getElementById('type').value;
+                const searchParams = new URLSearchParams(new FormData(document.getElementById('schForm'))).toString();
+                location.href = `/workList/${type}/excel?${searchParams}`;
+            }
+        }
     </script>
 </body>
 </html>
