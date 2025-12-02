@@ -72,7 +72,7 @@
     </sql>
 
     <!--  Award List -->
-    <select id="selAwardList" resultMap="awardResultSet" parameterType="awardsearch">
+    <select id="selAwardList" resultMap="awardResultSet" parameterType="search">
         SELECT
             <include refid="selWork" />
             <if test="sort == 'award'">
@@ -121,7 +121,7 @@
     </select>
 
     <!--  Award List CNT -->
-    <select id="cntAwardList" parameterType="awardsearch">
+    <select id="cntAwardList" parameterType="search">
         SELECT COUNT(*)
           FROM
             <if test="sort == 'award'">
@@ -273,7 +273,7 @@
     WHERE F_WORK_NO = #{user[10]}
     </update>
 
-    <select id="cntUserList" parameterType="awardsearch" >
+    <select id="cntUserList" parameterType="search" >
         SELECT COUNT(*)
         FROM T_USER
         WHERE 1=1
@@ -307,7 +307,7 @@
     </select>
 
     <!-- 운영회원/관리자 관리 -->
-    <select id="selManageList" resultMap="userResultSet" parameterType="awardsearch">
+    <select id="selManageList" resultMap="userResultSet" parameterType="search">
         SELECT F_USER_NO, F_ID, F_NAME, F_PERSONAL_NUM, F_REG_DATE, F_AREA, F_BIRTH, F_PHONE, F_EMAIL, F_DEPT, F_POSITION, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_LOGIN_DATE, F_MOD_DATE, F_STATUS, F_MEMO
         FROM T_USER
         WHERE 1=1

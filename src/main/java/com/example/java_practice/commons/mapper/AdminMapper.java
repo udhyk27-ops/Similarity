@@ -8,9 +8,9 @@ import java.util.Map;
 @Mapper
 public interface AdminMapper {
 
-    ArrayList<Award> selAwardList(AwardSearch awardSearch);
+    ArrayList<Award> selAwardList(Search search);
 
-    int cntAwardList(AwardSearch cntWorks);
+    int cntAwardList(Search cntWorks);
 
     ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo);
 
@@ -22,9 +22,9 @@ public interface AdminMapper {
     int updateUser(ArrayList<String> user);
     int updateWorkUserNo(ArrayList<String> user);
 
-    int cntUserList(AwardSearch cntUsers);
+    int cntUserList(Search cntUsers);
 
-    ArrayList<User> selManageList(AwardSearch userSearch);
+    ArrayList<User> selManageList(Search userSearch);
 
     int delUser(String sort, int userNo);
 }

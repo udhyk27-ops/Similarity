@@ -13,7 +13,8 @@
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script type="module" th:src="@{/js/userManage.js}"></script>
+<!--    <script type="module" th:src="@{/js/userManage.js}"></script>-->
+    <script type="module" th:src="@{/js/manage.js}"></script>
     <style>
         .sec1-1 { flex: 0.5;}
         .sec1-2 { flex: 0.2; display: flex; width: 100%; }
@@ -36,7 +37,7 @@
         .header-cell { min-width: 10.0rem; }
     </style>
 </head>
-<body>
+<body data-page-type="user">
 <header class="header">
     <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
 </header>

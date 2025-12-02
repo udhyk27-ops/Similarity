@@ -11,7 +11,7 @@ import lombok.Data;
  * endDate => 종료일자
  */
 @Data
-public class AwardSearch {
+public class Search {
     private String sort;
     private int offset;
     private int limit;

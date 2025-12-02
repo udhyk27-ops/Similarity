@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public interface AdminService {
 
     // 수상작 리스트 조회
-    ArrayList<Award> selAwardList(AwardSearch awardSearch);
+    ArrayList<Award> selAwardList(Search search);
 
     // 수상작 CNT
-    int cntAwardList(AwardSearch cntWorks);
+    int cntAwardList(Search cntWorks);
 
     // 작품 조회
     ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo);
@@ -25,10 +25,10 @@ public interface AdminService {
     int modInfo(ArrayList<String> work, ArrayList<String> user);
 
     // 관리 리스트
-    ArrayList<User> selManageList(AwardSearch userSearch);
+    ArrayList<User> selManageList(Search userSearch);
 
     // 회원 CNT
-    int cntUserList(AwardSearch cntUsers);
+    int cntUserList(Search cntUsers);
 
     // 회원 삭제
     int delUser(String sort, int userNo);

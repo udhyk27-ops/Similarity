@@ -1,7 +1,7 @@
 package com.example.java_practice.commons.service;
 
 import com.example.java_practice.commons.dto.Award;
-import com.example.java_practice.commons.dto.AwardSearch;
+import com.example.java_practice.commons.dto.Search;
 import com.example.java_practice.commons.dto.User;
 import com.example.java_practice.commons.dto.WorkWithUser;
 import com.example.java_practice.commons.mapper.AdminMapper;
@@ -19,10 +19,10 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public ArrayList<Award> selAwardList(AwardSearch awardSearch) { return adminMapper.selAwardList(awardSearch); }
+    public ArrayList<Award> selAwardList(Search search) { return adminMapper.selAwardList(search); }
 
     @Override
-    public int cntAwardList(AwardSearch cntWorks){ return adminMapper.cntAwardList(cntWorks); };
+    public int cntAwardList(Search cntWorks){ return adminMapper.cntAwardList(cntWorks); };
 
     @Override
     public ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo) { return adminMapper.selWorkWithUser(sort, workNo); }
@@ -52,10 +52,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public int cntUserList(AwardSearch cntUsers) { return adminMapper.cntUserList(cntUsers); }
+    public int cntUserList(Search cntUsers) { return adminMapper.cntUserList(cntUsers); }
 
     @Override
-    public ArrayList<User> selManageList(AwardSearch userSearch) { return adminMapper.selManageList(userSearch); }
+    public ArrayList<User> selManageList(Search userSearch) { return adminMapper.selManageList(userSearch); }
 
     @Override
     public int delUser(String sort, int userNo) { return adminMapper.delUser(sort, userNo); }

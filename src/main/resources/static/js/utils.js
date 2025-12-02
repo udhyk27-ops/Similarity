@@ -32,7 +32,7 @@ export function openPostcode(callback) {
     }).open();
 }
 
-// 날짜 선택기
+// 날짜 선택
 export function initDatePicker(selector, options = {}) {
     flatpickr(selector, { locale: 'ko', dateFormat: 'Y-m-d', ...options });
 }

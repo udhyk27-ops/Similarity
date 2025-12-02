@@ -12,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <script type="module" th:src="@{/js/adminManage.js}"></script>
+<!--    <script type="module" th:src="@{/js/adminManage.js}"></script>-->
+    <script type="module" th:src="@{/js/manage.js}"></script>
     <style>
         .sec1-1 { flex: 0.5;}
         .sec1-2 { flex: 0.2; display: flex; width: 100%; }
@@ -46,7 +47,7 @@
         #schPdForm > .cell > input { width: 20%; }
     </style>
 </head>
-<body>
+<body data-page-type="admin">
 <header class="header">
     <th:block th:replace="~{commons/fragments/headerPage.html :: header}"></th:block>
 </header>
@@ -71,7 +72,7 @@
                                 <option value="op-title">제목</option>
                                 <option value="op-author">저작자명</option>
                             </select>
-                            <input type="text" name="keyword" th:value="${awardSearch.keyword}" />
+                            <input type="text" name="keyword" th:value="${search.keyword}" />
                             <button class="cell-btn">검색</button>
                         </div>
                     </form>
@@ -96,32 +97,32 @@
                             <div class="cell">연락처</div>
                         </div>
 
-                        <div class="row reg-list-row" th:if="${!#lists.isEmpty(awardList)}" th:each="award:${awardList}" th:data-work-no="${award.f_work_no}">
-                            <div class="cell" th:text="${(currentPage - 1) * pageSize + awardStat.index + 1}"></div>
-                            <div class="cell" th:text="${award.f_title}"></div>
-                            <div class="cell" th:text="${award.f_author}"></div>
-                            <div class="cell" th:text="${award.f_code}"></div>
-                            <div class="cell" th:text="${award.f_reg_date}"></div>
+                        <div class="row reg-list-row" th:if="${!#lists.isEmpty(userList)}" th:each="user:${userList}" th:data-user-no="${user.f_user_no}">
+                            <div class="cell" th:text="${(currentPage - 1) * pageSize + userStat.index + 1}"></div>
+                            <div class="cell" th:text="${user.f_name}"></div>
+                            <div class="cell" th:text="${user.f_dept}"></div>
+                            <div class="cell" th:text="${user.f_position}"></div>
+                            <div class="cell" th:text="${user.f_phone}"></div>
                         </div>
-                        <div class="row" th:if="${#lists.isEmpty(awardList)}"><div class="cell">등록된 관리자가 없습니다.</div></div>
+                        <div class="row" th:if="${#lists.isEmpty(userList)}"><div class="cell">등록된 관리자가 없습니다.</div></div>
                     </div>
 
                     <div class="paging-div" th:if="${cdCnt > 0}">
-                        <a th:if="${currentPage > 1}" th:href="@{/award(page=1)}">처음</a>
+                        <a th:if="${currentPage > 1}" th:href="@{/admin/manage(page=1)}">처음</a>
 
                         <a th:if="${currentPage > 1}"
-                           th:href="@{/userManage(page=${currentPage - 1})}">이전</a>
+                           th:href="@{/admin/manage(page=${currentPage - 1})}">이전</a>
 
                         <!-- 페이지 번호 반복 -->
                         <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-                           th:href="@{/userManage(page=${i})}"
+                           th:href="@{/admin/manage(page=${i})}"
                            th:text="${i}"
                            th:classappend="${i == currentPage} ? 'current' : ''"></a>
 
                         <a th:if="${currentPage < totalPages}"
-                           th:href="@{/userManage(page=${currentPage + 1})}">다음</a>
+                           th:href="@{/admin/manage(page=${currentPage + 1})}">다음</a>
 
-                        <a th:if="${currentPage < totalPages}" th:href="@{/userManage(page=${totalPages})}">끝</a>
+                        <a th:if="${currentPage < totalPages}" th:href="@{/admin/manage(page=${totalPages})}">끝</a>
                     </div>
                 </div>
             </div>
@@ -131,31 +132,31 @@
                     <div class="work-tb">
                         <div class="row">
                             <div class="header-cell">아이디</div>
-                            <div class="cell"><input id="work-code" /></div>
+                            <div class="cell"><input id="user-id" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">이름</div>
-                            <div class="cell"><input id="work-title" /></div>
+                            <div class="cell"><input id="user-name" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">비밀번호</div>
-                            <div class="cell"><input id="work-author" /></div>
+                            <div class="cell"><input /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">연락처</div>
-                            <div class="cell"><input id="work-year" /></div>
+                            <div class="cell"><input id="user-phone" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">이메일</div>
-                            <div class="cell"><input id="work-name" /></div>
+                            <div class="cell"><input id="user-email" /></div>
                         </div>
                         <div class="row">
-                            <div class="header-cell">소속</div>
-                            <div class="cell"><input id="" /></div>
+                            <div class="header-cell">지부</div>
+                            <div class="cell"><input id="user-dept" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">직위</div>
-                            <div class="cell"><input id="" /></div>
+                            <div class="cell"><input id="user-position" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">권한</div>
@@ -172,11 +173,11 @@
                         </div>
                         <div class="row">
                             <div class="header-cell">최근로그인</div>
-                            <div class="cell"><input id="" /></div>
+                            <div class="cell"><input id="user-login" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">마지막 업데이트</div>
-                            <div class="cell"><input id="" /></div>
+                            <div class="cell"><input id="user-modify" /></div>
                         </div>
                         <div class="row">
                             <div class="header-cell">상태</div>
