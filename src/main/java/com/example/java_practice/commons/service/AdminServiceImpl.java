@@ -47,5 +47,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int cntUserList(AwardSearch cntUsers) { return adminMapper.cntUserList(cntUsers); }
 
-
+    @Override
+    public ArrayList<User> selManageList(AwardSearch userSearch) { return adminMapper.selManageList(userSearch); }
 }

@@ -22,4 +22,6 @@ public interface AdminMapper {
     int updateWorkUserNo(ArrayList<String> user);
 
     int cntUserList(AwardSearch cntUsers);
+
+    ArrayList<User> selManageList(AwardSearch userSearch);
 }

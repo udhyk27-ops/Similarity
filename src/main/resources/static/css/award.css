@@ -136,7 +136,7 @@ select:focus { outline: none; }
     padding: 1.25rem;
     border-radius: 8px;
     width: 50.0rem;
-    /*height: 40.0rem;*/
+    height: 40.0rem;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     text-align: center;
 
@@ -155,7 +155,7 @@ select:focus { outline: none; }
 .close-btn { cursor: pointer; font-size: 1.5rem; color: #aaa; background-color: transparent; border: none;}
 
 .modal-sch { flex: 1; padding: 0.5rem 0; }
-.modal-body { flex: 7; padding: 0.5rem 0;}
+.modal-body { flex: 7; padding: 0.5rem 0; }
 .modal-footer { flex: 1; padding: 0.5rem 0; display: flex; justify-content: center; align-items: center;}
 
 .user-list-tb > .row > .cell { justify-content: center; }

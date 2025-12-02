@@ -1,5 +1,5 @@
 $('.title span').on('click', function() {
-    window.location.href = '/award';
+    window.location.href = '/manage/user';
 });
 
 

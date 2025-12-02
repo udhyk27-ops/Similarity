@@ -196,14 +196,13 @@
             AND F_STATUS = 'N'
             <choose>
                 <when test="sort == '회원'">
-                AND F_SORT = '회원'
+                    AND F_SORT = '회원'
                 </when>
                 <when test="sort == '관리자'">
-                AND F_SORT = '관리자'
+                    AND F_SORT = '관리자'
                 </when>
             </choose>
         </if>
-
     </select>
 
     <update id="delWork" parameterType="int">
@@ -274,7 +273,73 @@
     <select id="cntUserList" parameterType="awardsearch" >
         SELECT COUNT(*)
         FROM T_USER
+        WHERE 1=1
+        <choose>
+            <when test="sort != null and sort == '회원'">
+                AND F_SORT = '회원'
+            </when>
+            <when test="sort != null and sort == '관리자'">
+                AND F_SORT = '관리자'
+            </when>
+        </choose>
 
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="schFilter != null and schFilter == 'op-name'">
+                    AND F_NAME LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="schFilter != null and schFilter == 'op-dept'">
+                    AND F_DEPT LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="schFilter != null and schFilter == 'op-position'">
+                    AND F_POSITION LIKE '%' || #{keyword} || '%'
+                </when>
+                <otherwise>
+                    AND (F_NAME LIKE '%' || #{keyword} || '%'
+                    OR F_DEPT LIKE '%' || #{keyword} || '%'
+                    OR F_POSITION LIKE '%' || #{keyword} || '%')
+                </otherwise>
+            </choose>
+        </if>
     </select>
 
+    <!-- 운영회원/관리자 관리 -->
+    <select id="selManageList" resultMap="userResultSet" parameterType="awardsearch">
+        SELECT F_USER_NO, F_ID, F_NAME, F_PERSONAL_NUM, F_REG_DATE, F_AREA, F_BIRTH, F_PHONE, F_EMAIL, F_DEPT, F_POSITION, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_LOGIN_DATE, F_MOD_DATE, F_STATUS, F_MEMO
+        FROM T_USER
+        WHERE 1=1
+        <if test="sort != null and sort != ''">
+            AND F_STATUS = 'N'
+            <choose>
+                <when test="sort == '회원'">
+                    AND F_SORT = '회원'
+                </when>
+                <when test="sort == '관리자'">
+                    AND F_SORT = '관리자'
+                </when>
+            </choose>
+        </if>
+
+        <if test="keyword != null and keyword != ''">
+            <choose>
+                <when test="schFilter != null and schFilter == 'op-name'">
+                    AND F_NAME LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="schFilter != null and schFilter == 'op-dept'">
+                    AND F_DEPT LIKE '%' || #{keyword} || '%'
+                </when>
+                <when test="schFilter != null and schFilter == 'op-position'">
+                    AND F_POSITION LIKE '%' || #{keyword} || '%'
+                </when>
+                <otherwise>
+                    AND (F_NAME LIKE '%' || #{keyword} || '%'
+                    OR F_DEPT LIKE '%' || #{keyword} || '%'
+                    OR F_POSITION LIKE '%' || #{keyword} || '%')
+                </otherwise>
+            </choose>
+        </if>
+        <if test="offset != null and limit != null">
+            OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+        </if>
+    </select>
 </mapper>

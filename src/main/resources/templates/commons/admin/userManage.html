@@ -33,7 +33,7 @@
                             <select name="schFilter">
                                 <option value="" selected disabled hidden>선택</option>
                                 <option value="op-name">이름</option>
-                                <option value="op-area">지부</option>
+                                <option value="op-dept">지부</option>
                                 <option value="op-position">직책</option>
                             </select>
                             <input type="text" name="keyword" th:value="${userSearch.keyword}" />
@@ -64,7 +64,7 @@
                         <div class="row reg-list-row" th:if="${!#lists.isEmpty(userList)}" th:each="user:${userList}" th:data-user-no="${user.f_user_no}">
                             <div class="cell" th:text="${(currentPage - 1) * pageSize + userStat.index + 1}"></div>
                             <div class="cell" th:text="${user.f_name}"></div>
-                            <div class="cell" th:text="${user.f_area}"></div>
+                            <div class="cell" th:text="${user.f_dept}"></div>
                             <div class="cell" th:text="${user.f_position}"></div>
                             <div class="cell" th:text="${user.f_phone}"></div>
                         </div>

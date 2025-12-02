@@ -24,6 +24,9 @@ public interface AdminService {
     // 정보 수정
     int modInfo(ArrayList<String> work, ArrayList<String> user);
 
+    // 관리 리스트
+    ArrayList<User> selManageList(AwardSearch userSearch);
+
     // 회원 CNT
     int cntUserList(AwardSearch cntUsers);
 }
