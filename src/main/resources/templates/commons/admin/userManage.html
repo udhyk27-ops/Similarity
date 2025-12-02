@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>사진공모전 저작물 등록관리 시스템</title>
 
-    <link rel="stylesheet" th:href="@{/css/userManage.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
     <link rel="stylesheet" th:href="@{/css/layout.css}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,6 +14,27 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script type="module" th:src="@{/js/userManage.js}"></script>
+    <style>
+        .sec1-1 { flex: 0.5;}
+        .sec1-2 { flex: 0.2; display: flex; width: 100%; }
+        .sec1-3 { flex: 9.3; }
+        form > .cell { border: none;}
+        form > .cell > input { width: 20%; }
+        .excel-div {flex: 1; padding: 0.5rem 0; display: flex; justify-content: flex-end; align-items: center;}
+        .work-tb > .row > .cell > input { width: 80%; }
+        .status-cell {
+            width: 100%;
+            border-right: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            font-size: 1rem;
+            gap: 1.0rem;
+        }
+        #user-memo { width: 80%; height: 10.0rem; border: 1px solid #ddd; padding: 0.5rem; font-size: 1.0rem; }
+        #user-memo:focus { border-color: #f1575b; outline: none; }
+        .header-cell { min-width: 10.0rem; }
+    </style>
 </head>
 <body>
 <header class="header">
@@ -71,7 +92,7 @@
                             <div class="cell" th:text="${user.f_position}"></div>
                             <div class="cell" th:text="${user.f_phone}"></div>
                         </div>
-                        <div class="row" th:if="${#lists.isEmpty(userList)}"><div class="cell">등록된 수상작이 없습니다.</div></div>
+                        <div class="row" th:if="${#lists.isEmpty(userList)}"><div class="cell">등록된 회원이 없습니다.</div></div>
                     </div>
 
                     <div class="paging-div" th:if="${userCnt > 0}">

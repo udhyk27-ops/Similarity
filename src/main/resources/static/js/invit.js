@@ -1,4 +1,4 @@
-import { getJSON, postWithCSRF, initDatePicker, downloadImage, openPostcode, filterTableRows, fillFormFromRow } from './utils.js';
+import { getAJAX, postAJAX, initDatePicker, downloadImage, openPostcode, filterTableRows, fillFormFromRow } from './utils.js';
 
 const InvitModule = {
     init() {
@@ -56,7 +56,7 @@ const InvitModule = {
     },
 
     loadWork(workNo) {
-        getJSON('/api/admin/searchWork', { sort: this.path, workNo }, response => {
+        getAJAX('/api/admin/searchWork', { sort: this.path, workNo }, response => {
             this.fillWorkForm(response[0]);
         });
     },
@@ -91,7 +91,7 @@ const InvitModule = {
         const workNo = $('.info-workNo').val();
         if (!workNo) return alert('작품을 선택해주세요.');
 
-        getJSON('/api/admin/searchUser', { sort: $('.select-user').val() }, data => {
+        getAJAX('/api/admin/searchUser', { sort: $('.select-user').val() }, data => {
             const $template = $('#user-template');
             const $userRow = $('#user-row');
             $userRow.empty();
@@ -105,7 +105,7 @@ const InvitModule = {
                 const row = $template.clone().removeAttr('id').show().css('display','flex');
                 row.find('.cell').css({'display':'flex','justify-content':'center'});
                 Object.keys(user).forEach(key => {
-                    row.find(`.f_${key}`).text(user[key]);
+                    row.find(`.${key}`).text(user[key]);
                 });
                 $userRow.append(row);
             });
@@ -135,7 +135,7 @@ const InvitModule = {
         const workNo = $('.info-workNo').val();
         if(!workNo) return alert('선택된 작품이 없습니다.');
 
-        postWithCSRF('/api/admin/deleteWork', { sort: this.path, workNo }, resp => {
+        postAJAX('/api/admin/deleteWork', { sort: this.path, workNo }, resp => {
             if(resp === 1) alert('삭제되었습니다.'), window.location.reload();
             else alert('삭제 실패');
         });
@@ -148,7 +148,7 @@ const InvitModule = {
         const workValues = this.path + ', ' + $('.work-tb input').map((i, el) => $(el).val()).get() + ',' + workNo;
         const userValues = this.path + ', ' + $('.user-tb input').map((i, el) => $(el).val()).get() + ',' + workNo;
 
-        postWithCSRF('/api/admin/modifyInfo', { work: workValues, user: userValues },
+        postAJAX('/api/admin/modifyInfo', { work: workValues, user: userValues },
             resp => { if(resp === 1) alert('수정 완료'), window.location.reload(); else alert('수정 실패'); }
         );
     }

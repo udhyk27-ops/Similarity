@@ -1,4 +1,4 @@
-import { getJSON, postWithCSRF, openPostcode } from "./utils.js";
+import { getAJAX, postAJAX, openPostcode } from "./utils.js";
 
 const UserModule = {
     init() {
@@ -16,7 +16,7 @@ const UserModule = {
             const userNo = $(e.currentTarget).data('user-no');
             if (!userNo) return;
 
-            getJSON(
+            getAJAX(
                 '/api/admin/searchUser',
                 { userNo },
                 response => this.fillUserInfo(response[0])
@@ -69,7 +69,7 @@ const UserModule = {
         const userNo = $('#user-no').val();
         if (!userNo) return alert('회원을 선택해주세요.');
 
-        postWithCSRF(
+        postAJAX(
             '/api/admin/deleteUser',
             { sort: '회원', userNo },
             response => {
