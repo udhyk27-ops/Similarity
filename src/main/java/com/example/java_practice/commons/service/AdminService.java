@@ -16,7 +16,7 @@ public interface AdminService {
     ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo);
 
     // 회원 조회(모달)
-    ArrayList<User> selUserList(String sort);
+    ArrayList<User> selUserList(String sort, Integer userNo);
 
     // 작품 삭제
     int delWork(String sort, int workNo);
@@ -29,4 +29,7 @@ public interface AdminService {
 
     // 회원 CNT
     int cntUserList(AwardSearch cntUsers);
+
+    // 회원 삭제
+    int delUser(String sort, int userNo);
 }

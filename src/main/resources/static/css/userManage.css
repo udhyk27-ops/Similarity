@@ -4,10 +4,10 @@
 .ui { display: flex; width: 100%; margin-top: 3.75rem; min-height: calc(100vh - 3.75rem); }
 .main { width: 100%; }
 .title { padding: 1.0rem; font-size: 1.5rem; font-weight: 900; height: 3.75rem;  display: flex; align-items: center; }
-.content { display: flex; flex-wrap: wrap; }
+.content { height: calc(100vh - 7.5rem); display: flex; flex-wrap: wrap; }
 
-.area1, .area2 { border-top: 1px solid #ddd; padding: 1.0rem; flex: 1; display: flex; flex-direction: column; height: calc(100vh - 7.5rem); }
-.area1 { border-right: 1px solid #ddd; }
+.area1, .area2 { border-top: 1px solid #ddd; padding: 1.0rem; flex: 1; display: flex; flex-direction: column; }
+.area2 { border-left: 1px solid #ddd; }
 .sec1-1 { flex: 0.5;}
 .sec1-2 { flex: 0.2; display: flex; width: 100%; }
 .sec1-3 { flex: 9.3; }
@@ -104,4 +104,5 @@ form > .cell > input { width: 20%; }
     font-size: 1rem;
     gap: 1.0rem;
 }
-.user-memo { width: 80%; height: 10.0rem; }
+#user-memo { width: 80%; height: 10.0rem; border: 1px solid #ddd; padding: 0.5rem; font-size: 1.0rem; }
+#user-memo:focus { border-color: #f1575b; outline: none; }

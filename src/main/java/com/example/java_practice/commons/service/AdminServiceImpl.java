@@ -8,6 +8,8 @@ import com.example.java_practice.commons.mapper.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +28,12 @@ public class AdminServiceImpl implements AdminService {
     public ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo) { return adminMapper.selWorkWithUser(sort, workNo); }
 
     @Override
-    public ArrayList<User> selUserList(String sort) { return adminMapper.selUserList(sort); }
+    public ArrayList<User> selUserList(String sort, Integer userNo) {
+        Map<String,Object> param = new HashMap<>();
+        param.put("sort", sort);
+        param.put("userNo", userNo);
+        return adminMapper.selUserList(param);
+    }
 
     @Override
     public int delWork(String sort, int workNo) { return adminMapper.delWork(sort, workNo); }
@@ -49,4 +56,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public ArrayList<User> selManageList(AwardSearch userSearch) { return adminMapper.selManageList(userSearch); }
+
+    @Override
+    public int delUser(String sort, int userNo) { return adminMapper.delUser(sort, userNo); }
 }

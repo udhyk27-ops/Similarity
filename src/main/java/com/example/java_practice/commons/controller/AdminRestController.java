@@ -22,11 +22,17 @@ public class AdminRestController {
     
     // 회원정보 조회 모달
     @GetMapping("/searchUser")
-    public ArrayList<User> selUser(String sort) { return adminService.selUserList(sort); }
+    public ArrayList<User> selUser(@RequestParam(required = false) String sort,
+                                   @RequestParam(required = false) Integer userNo)
+    { return adminService.selUserList(sort, userNo); }
 
     // 작품 삭제
     @PostMapping("/deleteWork")
     public int delWork(String sort, int workNo) { return adminService.delWork(sort, workNo); }
+
+    // 회원 삭제
+    @PostMapping("/deleteUser")
+    public int delUser(String sort, int userNo) { return adminService.delUser(sort, userNo); }
 
     // 정보 수정
     @PostMapping("/modifyInfo")

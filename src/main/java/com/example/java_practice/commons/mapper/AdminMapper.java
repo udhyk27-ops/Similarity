@@ -3,6 +3,7 @@ package com.example.java_practice.commons.mapper;
 import com.example.java_practice.commons.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.ArrayList;
+import java.util.Map;
 
 @Mapper
 public interface AdminMapper {
@@ -13,7 +14,7 @@ public interface AdminMapper {
 
     ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo);
 
-    ArrayList<User> selUserList(String sort);
+    ArrayList<User> selUserList(Map<String,Object> param);
 
     int delWork(String sort, int workNo);
 
@@ -24,4 +25,6 @@ public interface AdminMapper {
     int cntUserList(AwardSearch cntUsers);
 
     ArrayList<User> selManageList(AwardSearch userSearch);
+
+    int delUser(String sort, int userNo);
 }

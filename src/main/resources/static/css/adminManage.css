@@ -107,4 +107,5 @@ select:focus { outline: none; }
     font-size: 1rem;
     gap: 0.5rem;
 }
-.user-memo { width: 80%; height: 10.0rem; }
+#user-memo { width: 80%; height: 10.0rem; border: 1px solid #ddd; padding: 0.5rem; font-size: 1.0rem; }
+#user-memo:focus { border-color: #f1575b; outline: none; }

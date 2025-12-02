@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
 
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="module" th:src="@{/js/adminManage.js}"></script>
 </head>
 <body>
 <header class="header">
@@ -124,7 +126,7 @@
                             <div class="cell"><input id="" /></div>
                         </div>
                         <div class="row">
-                            <div class="header-cell">주소</div>
+                            <div class="header-cell">권한</div>
 
                             <div class="auth-cell">
                                 <div><input type="checkbox" name="auth" value="" /> 수상작 등록관리</div>
@@ -155,8 +157,9 @@
                         </div>
                         <div class="row">
                             <div class="header-cell">회원메모</div>
-                            <div class="cell"><textarea class="user-memo"></textarea></div>
+                            <div class="cell"><textarea id="user-memo"></textarea></div>
                         </div>
+                        <input type="hidden" id="user-no" />
 
                     </div>
                 </div>
@@ -174,11 +177,5 @@
         </div>
     </div>
 </div>
-
-
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script th:src="@{/js/adminManage.js}"></script>
-
-
 </body>
 </html>
