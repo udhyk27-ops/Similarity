@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Auth {
-    private int f_userNo;
+    private int f_user_no;
     private String f_auth_award;
     private String f_auth_invit;
     private String f_auth_reg;

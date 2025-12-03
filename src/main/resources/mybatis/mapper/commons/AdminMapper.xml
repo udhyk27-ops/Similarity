@@ -56,6 +56,16 @@
         <result column="F_MOD_DATE" property="f_mod_date" />
         <result column="F_STATUS" property="f_status" />
         <result column="F_MEMO" property="f_memo" />
+
+        <collection property="f_auth" ofType="Auth">
+            <result property="f_auth_award" column="F_AUTH_AWARD"/>
+            <result property="f_auth_invit" column="F_AUTH_INVIT"/>
+            <result property="f_auth_reg" column="F_AUTH_REG"/>
+            <result property="f_auth_sim" column="F_AUTH_SIM"/>
+            <result property="f_auth_user" column="F_AUTH_USER"/>
+            <result property="f_auth_admin" column="F_AUTH_ADMIN"/>
+        </collection>
+
     </resultMap>
 
     <sql id="selWork">
@@ -189,8 +199,34 @@
     </select>
 
     <select id="selUserList" resultMap="userResultSet" parameterType="map">
-        SELECT F_USER_NO, F_ID, F_NAME, F_PERSONAL_NUM, F_REG_DATE, F_AREA, F_BIRTH, F_PHONE, F_EMAIL, F_DEPT, F_POSITION, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_LOGIN_DATE, F_MOD_DATE, F_STATUS, F_MEMO
-        FROM T_USER
+        SELECT
+            T1.F_USER_NO,
+            F_ID,
+            F_NAME,
+            F_PERSONAL_NUM,
+            F_REG_DATE,
+            F_AREA,
+            F_BIRTH,
+            F_PHONE,
+            F_EMAIL,
+            F_DEPT,
+            F_POSITION,
+            F_MAIN_ADDRESS,
+            F_SUB_ADDRESS,
+            F_LOGIN_DATE,
+            F_MOD_DATE,
+            F_STATUS,
+            F_MEMO,
+            T2.F_USER_NO,
+            T2.F_AUTH_AWARD,
+            T2.F_AUTH_INVIT,
+            T2.F_AUTH_REG,
+            T2.F_AUTH_SIM,
+            T2.F_AUTH_USER,
+            T2.F_AUTH_ADMIN
+        FROM T_USER T1
+        LEFT JOIN T_AUTH T2
+        ON T1.F_USER_NO = T2.F_USER_NO
         WHERE 1=1
         <if test="sort != null and sort != ''">
             AND F_STATUS = 'N'
@@ -204,7 +240,7 @@
             </choose>
         </if>
         <if test="userNo != null and userNo != ''">
-            AND F_USER_NO = #{userNo}
+            AND T1.F_USER_NO = #{userNo}
         </if>
     </select>
 
@@ -308,8 +344,25 @@
 
     <!-- 운영회원/관리자 관리 -->
     <select id="selManageList" resultMap="userResultSet" parameterType="search">
-        SELECT F_USER_NO, F_ID, F_NAME, F_PERSONAL_NUM, F_REG_DATE, F_AREA, F_BIRTH, F_PHONE, F_EMAIL, F_DEPT, F_POSITION, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_LOGIN_DATE, F_MOD_DATE, F_STATUS, F_MEMO
-        FROM T_USER
+        SELECT
+            T1.F_USER_NO,
+            F_ID,
+            F_NAME,
+            F_PERSONAL_NUM,
+            F_REG_DATE,
+            F_AREA,
+            F_BIRTH,
+            F_PHONE,
+            F_EMAIL,
+            F_DEPT,
+            F_POSITION,
+            F_MAIN_ADDRESS,
+            F_SUB_ADDRESS,
+            F_LOGIN_DATE,
+            F_MOD_DATE,
+            F_STATUS,
+            F_MEMO
+        FROM T_USER T1
         WHERE 1=1
         <if test="sort != null and sort != ''">
             AND F_STATUS = 'N'
@@ -346,7 +399,7 @@
         </if>
     </select>
 
-    <update id="delUser" parameterType="int">
+    <update id="delUser" parameterType="map">
         UPDATE T_USER
         SET F_STATUS = 'Y'
         WHERE F_SORT = #{sort}

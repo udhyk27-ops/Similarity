@@ -71,8 +71,6 @@ public class AdminController {
         int totalCnt = adminService.cntUserList(new Search(){{ setSort(type.equals("user") ? "회원" : "관리자"); }}); // 전체 건수
 
         System.out.println("userList : " + userList);
-//        System.out.println("userCnt : " + userCnt);
-        System.out.println("totalCnt : " + totalCnt);
 
         model.addAttribute("userSearch", userSearch);
         model.addAttribute("userList", userList);

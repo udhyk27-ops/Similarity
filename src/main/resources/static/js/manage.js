@@ -1,4 +1,4 @@
-import { getAJAX, postAJAX, openPostcode } from "./utils.js";
+import { getAJAX, postAJAX, openPostcode, excel } from "./utils.js";
 
 const UserAdminModule = {
     init() {
@@ -10,11 +10,13 @@ const UserAdminModule = {
         $('.reg-list-row').on('click', e => {
             const userNo = $(e.currentTarget).data('user-no');
             if (!userNo) return;
+            $('#user-no').val(userNo);
 
             getAJAX(
                 '/api/admin/searchUser',
                 { userNo },
-                response => this.fillUserInfo(response[0])
+                response =>
+                    this.fillUserInfo(response[0])
             );
         });
 
@@ -29,10 +31,10 @@ const UserAdminModule = {
             });
         }
 
-        // 삭제 버튼
+        // 삭제
         $('.del-btn').on('click', () => this.deleteUser());
 
-        // 저장 버튼
+        // 저장
         if ($('.save-btn.auth').length) {
             $('.save-btn.auth').on('click', () => this.saveAuth());
         } else {
@@ -40,6 +42,16 @@ const UserAdminModule = {
                 console.log("저장 버튼 클릭됨. 주소 저장 등 로직 추가 예정.");
             });
         }
+
+        // 엑셀 저장
+        $('.excel-div .cell-btn').on('click', () => {
+            const sort = $('body').data('page-type') === 'user' ? '회원' : '관리자';
+            excel({
+                header: '.reg-list-header .cell',
+                row: '.reg-list-row',
+                fileName: sort + '목록.xlsx'
+            });
+        });
     },
 
     fillUserInfo(user) {
@@ -60,16 +72,15 @@ const UserAdminModule = {
             $('#sample4_extraAddress').val(user.f_sub_address);
         }
 
-        // 권한 체크박스 초기화 (Admin 페이지)
-        if ($('input[name="auth"]').length) {
-            $('input[name="auth"]').each(function() {
-                $(this).prop('checked', false);
-            });
+        // 1) 체크박스 초기화 (Admin 페이지)
+        $('input[name="auth"]').prop('checked', false);
 
-            if (user.f_auth) {
-                user.f_auth.forEach(authName => {
-                    $(`input[name="auth"][value="${authName}"]`).prop('checked', true);
-                });
+        // 2) 권한 존재하면
+        if (user.f_auth && user.f_auth.length > 0) {
+            for (let key in user.f_auth[0]) {
+                if (user.f_auth[0][key] === 'Y') {
+                    $(`input[name="auth"][value="${key}"]`).prop('checked', true);
+                }
             }
         }
 
@@ -85,10 +96,9 @@ const UserAdminModule = {
 
     /** 회원 삭제 */
     deleteUser() {
+        const sort = $('body').data('page-type') === 'user' ? '회원' : '관리자';
         const userNo = $('#user-no').val();
-        if (!userNo) return alert('회원을 선택해주세요.');
-
-        const sort = $('body').data('page-type') === 'admin' ? '관리자' : '회원';
+        if (!userNo) return alert('목록을 선택해주세요.');
 
         postAJAX('/api/admin/deleteUser', { sort, userNo }, response => {
             if (response === 1) {

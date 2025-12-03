@@ -3,6 +3,7 @@ package com.example.java_practice.commons.service;
 import com.example.java_practice.commons.dto.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface AdminService {
 
@@ -16,7 +17,7 @@ public interface AdminService {
     ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo);
 
     // 회원 조회(모달)
-    ArrayList<User> selUserList(String sort, Integer userNo);
+    List<User> selUserList(String sort, Integer userNo);
 
     // 작품 삭제
     int delWork(String sort, int workNo);
@@ -31,5 +32,5 @@ public interface AdminService {
     int cntUserList(Search cntUsers);
 
     // 회원 삭제
-    int delUser(String sort, int userNo);
+    int delUser(String sort, Integer userNo);
 }

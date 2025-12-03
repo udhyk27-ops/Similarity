@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>사진공모전 저작물 등록관리 시스템</title>
 
     <link rel="stylesheet" th:href="@{/css/admin.css}">
@@ -13,28 +15,20 @@
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<!--    <script type="module" th:src="@{/js/userManage.js}"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <script type="module" th:src="@{/js/manage.js}"></script>
     <style>
+        form > .cell { border: none;}
+        form > .cell > input { width: 20%; }
         .sec1-1 { flex: 0.5;}
         .sec1-2 { flex: 0.2; display: flex; width: 100%; }
         .sec1-3 { flex: 9.3; }
-        form > .cell { border: none;}
-        form > .cell > input { width: 20%; }
         .excel-div {flex: 1; padding: 0.5rem 0; display: flex; justify-content: flex-end; align-items: center;}
         .work-tb > .row > .cell > input { width: 80%; }
-        .status-cell {
-            width: 100%;
-            border-right: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-            padding: 0.5rem;
-            font-size: 1rem;
-            gap: 1.0rem;
-        }
+        .status-cell { width: 100%; border-right: 1px solid #ddd; display: flex; align-items: center; padding: 0.5rem; font-size: 1rem; gap: 1.0rem; }
+        .header-cell { min-width: 10.0rem; }
         #user-memo { width: 80%; height: 10.0rem; border: 1px solid #ddd; padding: 0.5rem; font-size: 1.0rem; }
         #user-memo:focus { border-color: #f1575b; outline: none; }
-        .header-cell { min-width: 10.0rem; }
     </style>
 </head>
 <body data-page-type="user">

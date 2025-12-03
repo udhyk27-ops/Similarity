@@ -2,6 +2,7 @@ package com.example.java_practice.commons.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.example.java_practice.commons.dto.User;
 import com.example.java_practice.commons.dto.WorkWithUser;
@@ -22,8 +23,8 @@ public class AdminRestController {
     
     // 회원정보 조회 모달
     @GetMapping("/searchUser")
-    public ArrayList<User> selUser(@RequestParam(required = false) String sort,
-                                   @RequestParam(required = false) Integer userNo)
+    public List<User> selUser(@RequestParam(required = false) String sort,
+                              @RequestParam(required = false) Integer userNo)
     { return adminService.selUserList(sort, userNo); }
 
     // 작품 삭제
@@ -32,7 +33,7 @@ public class AdminRestController {
 
     // 회원 삭제
     @PostMapping("/deleteUser")
-    public int delUser(String sort, int userNo) { return adminService.delUser(sort, userNo); }
+    public int delUser(String sort, Integer userNo) { return adminService.delUser(sort, userNo); }
 
     // 정보 수정
     @PostMapping("/modifyInfo")

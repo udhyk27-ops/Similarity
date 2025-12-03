@@ -1,4 +1,10 @@
-// AJAX
+/**
+ * AJAX
+ * @param url
+ * @param data
+ * @param onSuccess
+ * @param onError
+ */
 export function getAJAX(url, data, onSuccess, onError = console.error) {
     $.ajax({ url, type: 'GET', data, success: onSuccess, error: onError });
 }
@@ -17,7 +23,10 @@ export function postAJAX(url, data, onSuccess, onError = console.error) {
     });
 }
 
-// 주소찾기 API
+/**
+ * 우편번호 API
+ * @param callback
+ */
 export function openPostcode(callback) {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -32,12 +41,20 @@ export function openPostcode(callback) {
     }).open();
 }
 
-// 날짜 선택
+/**
+ * flatpickr
+ * @param selector
+ * @param options
+ */
 export function initDatePicker(selector, options = {}) {
     flatpickr(selector, { locale: 'ko', dateFormat: 'Y-m-d', ...options });
 }
 
-// 이미지 다운로드
+/**
+ * 이미지 다운로드
+ * @param imgSelector
+ * @param fileNameSelector
+ */
 export function downloadImage(imgSelector, fileNameSelector) {
     const img = $(imgSelector).attr('src');
     if (!img) return alert('이미지가 없습니다.');
@@ -50,7 +67,15 @@ export function downloadImage(imgSelector, fileNameSelector) {
     document.body.removeChild(link);
 }
 
-// 모달 검색/필터
+/**
+ * 모달
+ * @param tableSelector
+ * @param rowSelector
+ * @param excludeSelector
+ * @param searchInputSelector
+ * @param optionSelector
+ * @param columns
+ */
 export function filterTableRows({ tableSelector, rowSelector, excludeSelector, searchInputSelector, optionSelector, columns }) {
     const keyword = $(searchInputSelector).val().toLowerCase();
     const option = $(optionSelector).val();
@@ -71,7 +96,12 @@ export function filterTableRows({ tableSelector, rowSelector, excludeSelector, s
     });
 }
 
-// 모달 선택 후 input 채우기
+/**
+ * 모달 검색 후 input 값 채우기
+ * @param row
+ * @param inputs
+ * @param mapping
+ */
 export function fillFormFromRow({ row, inputs, mapping }) {
     const $row = $(row);
     const $inputs = $(inputs);
@@ -79,4 +109,39 @@ export function fillFormFromRow({ row, inputs, mapping }) {
     mapping.forEach((colSelector, idx) => {
         if(colSelector) $inputs.eq(idx).val($row.find(colSelector).text());
     });
+}
+
+/**
+ * 엑셀
+ * @param header
+ * @param row
+ * @param fileName
+ */
+export function excel({ header, row, fileName }) {
+    // 1) 헤더
+    const headers = [];
+    $(header).each(function () {
+        headers.push($(this).text().trim());
+    });
+
+    // 2) 행 데이터
+    const rows = [];
+    $(row).each(function () {
+        const rowData = [];
+        $(this).find('.cell').each(function () {
+            rowData.push($(this).text().trim());
+        });
+        rows.push(rowData);
+    });
+
+    // 3) 시트 데이터 구성
+    const sheetData = [headers, ...rows];
+
+    // 4) 엑셀 생성
+    const ws = XLSX.utils.aoa_to_sheet(sheetData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    // 5) 파일 저장
+    XLSX.writeFile(wb, fileName);
 }

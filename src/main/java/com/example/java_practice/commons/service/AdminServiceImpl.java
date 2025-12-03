@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -28,11 +29,15 @@ public class AdminServiceImpl implements AdminService {
     public ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo) { return adminMapper.selWorkWithUser(sort, workNo); }
 
     @Override
-    public ArrayList<User> selUserList(String sort, Integer userNo) {
-        Map<String,Object> param = new HashMap<>();
-        param.put("sort", sort);
-        param.put("userNo", userNo);
-        return adminMapper.selUserList(param);
+    public List<User> selUserList(String sort, Integer userNo) {
+//        Map<String,Object> param = new HashMap<>();
+//        param.put("sort", sort);
+//        param.put("userNo", userNo);
+//        return adminMapper.selUserList(param);
+        return adminMapper.selUserList(new HashMap<>() {{
+            put("sort", sort);
+            put("userNo", userNo);
+        }});
     }
 
     @Override
@@ -58,5 +63,5 @@ public class AdminServiceImpl implements AdminService {
     public ArrayList<User> selManageList(Search userSearch) { return adminMapper.selManageList(userSearch); }
 
     @Override
-    public int delUser(String sort, int userNo) { return adminMapper.delUser(sort, userNo); }
+    public int delUser(String sort, Integer userNo) { return adminMapper.delUser(Map.of("sort", sort, "userNo", userNo)); }
 }
