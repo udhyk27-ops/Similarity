@@ -120,5 +120,35 @@ public class CreateExcel {
 
         return workbook;
     }
+    // 양식 다운로드
+    public static Workbook createFormExcel(String sheetName, String[] headers) throws IOException
+    {
+        // 엑셀 생성
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet(sheetName);
+
+        // 헤더 스타일 설정
+        CellStyle headerStyle = workbook.createCellStyle();
+        Font headerFont = workbook.createFont();
+        headerStyle.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        headerFont.setBold(true);
+        headerStyle.setFont(headerFont);
+
+        // 헤더 행 설정
+        Row headerRow = sheet.createRow(0);
+        for(int i = 0; i< headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+            cell.setCellStyle(headerStyle);
+        }
+
+        // 컬럼 너비 자동 조정
+//        for(int i = 0; i< headers.length; i++) {
+//            sheet.autoSizeColumn(i);
+//        }
+
+        return workbook;
+    }
 
 }

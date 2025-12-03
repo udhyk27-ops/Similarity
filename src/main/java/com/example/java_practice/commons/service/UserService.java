@@ -25,4 +25,6 @@ public interface UserService {
     void insertSingleAwardWork(Award award, MultipartFile file);
     // 초대작 개별 등록
     void insertSingleInvitWork(Invit invit, MultipartFile file);
+    // 수상작 단체등록
+    boolean insertBatchAwardWork(int userNo, List<Award> awardList, MultipartFile file);
 }

@@ -3,13 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>bulkReg</title>
     <link rel="stylesheet" th:href="@{/css/layout.css}">
     <link rel="stylesheet" th:href="@{/css/fileUpload.css}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script th:src="@{/js/fileUpload.js}"></script>
+    <script th:src="@{/js/syncExcelData.js}"></script>
     <style>
         .upload-row {
             display: flex;
@@ -130,14 +135,14 @@
                     </div>
                     <div class="upload-row">
                         <div class="upload-box">
-                            <form id="fileUploadForm" enctype="multipart/form-data">
-                            <div class="info-row">
-                                <span class="info-title">작품 메타정보 업로드</span>
-                                <button class="btn-white">양식다운로드</button>
-                            </div>
+                            <div id="fileUploadForm">
+                                <div class="info-row">
+                                    <span class="info-title">작품 메타정보 업로드</span>
+                                    <button class="btn-white" onclick="frm.downloadForm();">양식다운로드</button>
+                                </div>
                                 <div class="file-upload">
                                         <label class="file-box">
-                                            <input type="file" id="fileInput" name="files" accept=".pdf, .doc, .docx, .xls, .xlsx" style="display:none;">
+                                            <input type="file" id="fileInput" name="files" accept=".xls, .xlsx" style="display:none;">
                                             📁 파일첨부
                                         </label>
                                         <div id="fileList"></div>
@@ -184,121 +189,44 @@
                                     </div>
                                 </div>
                                 <div class="save-btn">
-                                    <button class="btn btn-navy">동기화</button>
+                                    <button id="syncBtn" class="btn btn-navy">동기화</button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                         <div class="filelist-box">
-                            <div class="cnt-row">파일 수 : <span class="cnt-text">100</span> 개</div>
+                            <input type="hidden" id="type" th:value="${type}">
+                            <div class="cnt-row">파일 수 : <span id="fileCnt" class="cnt-text">0</span> 개</div>
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th><input class="input_chk" type="checkbox" id="checkbox_all" name="checkbox_all" onclick="chkBox.chkAll()"></th>
                                         <th>번호</th>
                                         <th>파일명</th>
-                                        <th>공모전명</th>
+                                        <th th:if="${type == 'award'}">공모전명</th>
                                         <th>저작자명</th>
-                                        <th>상권명</th>
+                                        <th th:text="${type == 'award' ? '상권명' : '코드명'}">상권명</th>
                                         <th>제목</th>
                                         <th>발표년도</th>
                                         <th>저작물사이즈</th>
-                                        <th>주최</th>
-                                        <th>주관</th>
+                                        <th th:if="${type == 'award'}">주최</th>
+                                        <th th:if="${type == 'award'}">주관</th>
                                         <th>삭제</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="excelDataList">
                                     <tr>
-                                        <td><input class="input_chk checkbox" type="checkbox" name="list_check[]" value=""></td>
-                                        <td>5</td>
-                                        <td>202106_5.jpg</td>
-                                        <td>제 2회 사진공모전</td>
-                                        <td>홍길동</td>
-                                        <td>장려</td>
-                                        <td class="artwork-title">어디서 무엇이 되어 다시 만나랴</td>
-                                        <td>2021</td>
-                                        <td>6000, 3000</td>
-                                        <td>서울시</td>
-                                        <td>대한민국</td>
-                                        <td><button class="btn-pink">X</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="input_chk checkbox" type="checkbox" name="list_check[]" value=""></td>
-                                        <td>4</td>
-                                        <td>202106_4.jpg</td>
-                                        <td>제 2회 사진공모전</td>
-                                        <td>홍길동</td>
-                                        <td>우수상</td>
-                                        <td class="artwork-title">구름 속 붉은 빛 그리고 도시 야경</td>
-                                        <td>2021</td>
-                                        <td>6000, 3000</td>
-                                        <td>서울시</td>
-                                        <td>대한민국</td>
-                                        <td><button class="btn-pink">X</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="input_chk checkbox" type="checkbox" name="list_check[]" value=""></td>
-                                        <td>3</td>
-                                        <td>202106_3.jpg</td>
-                                        <td>제 2회 사진공모전</td>
-                                        <td>홍길동</td>
-                                        <td>대상</td>
-                                        <td class="artwork-title">눈 내리는 날의 외출</td>
-                                        <td>2021</td>
-                                        <td>6000, 3000</td>
-                                        <td>서울시</td>
-                                        <td>대한민국</td>
-                                        <td><button class="btn-pink">X</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="input_chk checkbox" type="checkbox" name="list_check[]" value=""></td>
-                                        <td>2</td>
-                                        <td>202106_2.jpg</td>
-                                        <td>제 2회 사진공모전</td>
-                                        <td>홍길동</td>
-                                        <td>최우수상</td>
-                                        <td class="artwork-title">어디서 무엇이 되러 다시 만나랴</td>
-                                        <td>2021</td>
-                                        <td>6000, 3000</td>
-                                        <td>서울시</td>
-                                        <td>대한민국</td>
-                                        <td><button class="btn-pink">X</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input class="input_chk checkbox" type="checkbox" name="list_check[]" value=""></td>
-                                        <td>1</td>
-                                        <td>202106_1.jpg</td>
-                                        <td>제 2회 사진공모전</td>
-                                        <td>홍길동</td>
-                                        <td>입선</td>
-                                        <td class="artwork-title">구름 속 붉은 빛 그리고 도시 야경</td>
-                                        <td>2021</td>
-                                        <td>6000, 3000</td>
-                                        <td>서울시</td>
-                                        <td>대한민국</td>
-                                        <td><button class="btn-pink">X</button></td>
+                                        <td th:colspan="${type == 'award' ? 12 : 9}">작품 메타정보 업로드 후 동기화 해주세요</td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="buttons">
                                 <div>
-                                    <button class="btn btn-pink">선택삭제</button>
+                                    <button id="delBtn" class="btn btn-pink">선택삭제</button>
                                 </div>
                                 <div class="right-btns">
-                                    <button class="btn btn-navy">등록하기</button>
+                                    <button id="regBtn" class="btn btn-navy">등록하기</button>
                                 </div>
                             </div>
-<!--                            <div class="pagination">-->
-<!--                                <a href="#" class="page-btn prev">«</a>-->
-
-<!--                                <a href="#" class="page-btn active">1</a>-->
-<!--                                <a href="#" class="page-btn">2</a>-->
-<!--                                <a href="#" class="page-btn">3</a>-->
-<!--                                <a href="#" class="page-btn">4</a>-->
-<!--                                <a href="#" class="page-btn">5</a>-->
-
-<!--                                <a href="#" class="page-btn next">»</a>-->
-<!--                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -308,7 +236,10 @@
     </main>
 
 </div>
+
 <script>
+
+    // photoInput
     const dropbox = document.getElementById('dropbox');
     const photoInput = document.getElementById('photoInput');
     const filePreviews = document.getElementById('filePreviews');
@@ -353,208 +284,40 @@
         photoInput.click();
     });
 
-    // Handle files
-    function handleFiles(files) {
-        const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-        // const maxSize = 5 * 1024 * 1024; // 5 MB
-
-        if (files.length > 0) {
-            let validFiles = 0;
-            let invalidFiles = 0;
-
-            Array.from(files).forEach(file => {
-                if (!allowedTypes.includes(file.type)) {
-                    showNotification(`${file.name} 올바른 파일 형식이 아닙니다`, 'error');
-                    invalidFiles++;
-                    return;
-                }
-
-                // if (file.size > maxSize) {
-                //     showNotification(`${file.name} is too large. Maximum file size is 5 MB.`, 'error');
-                //     invalidFiles++;
-                //     return;
-                // }
-
-                // Handle valid file
-                displayFilePreview(file);
-                validFiles++;
-            });
-
-            if (validFiles > 0) {
-                simulateUpload(validFiles);
-                showNotification(`${validFiles} 파일이 추가되었습니다.`, 'success');
-            }
-
-            if (invalidFiles > 0) {
-                showNotification(`${invalidFiles} 업로드 실패`, 'error');
-            }
-        }
-    }
-
-    function displayFilePreview(file) {
-        const reader = new FileReader();
-        const fileId = `file-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-
-        reader.onload = function(event) {
-            const preview = document.createElement('div');
-            preview.classList.add('file-preview');
-            preview.id = fileId;
-
-            // Format file size
-            const fileSize = formatFileSize(file.size);
-
-            // Determine if it's an image or PDF
-            const isImage = file.type.startsWith('image/');
-
-            let previewContent;
-            if (isImage) {
-                previewContent = `<img src="${event.target.result}" class="preview-img">`;
-            } else {
-                previewContent = `<div class="file-icon">📄</div>`;
-            }
-
-            preview.innerHTML = `
-          <div class="preview-img-container">
-            ${previewContent}
-          </div>
-          <div class="file-info">
-            <div class="file-name">${file.name}</div>
-            <div class="file-size">${fileSize}</div>
-            <div class="file-actions">
-              <button class="remove-btn">삭제</button>
-            </div>
-          </div>
-        `;
-
-            // Add remove functionality
-            const removeBtn = preview.querySelector('.remove-btn');
-            removeBtn.addEventListener('click', () => {
-                removeFile(fileId, file.size);
-            });
-
-            filePreviews.appendChild(preview);
-
-            // Update statistics
-            fileCount++;
-            totalSize += file.size;
-            updateDisplay();
-        };
-
-        reader.readAsDataURL(file);
-    }
-
-    function removeFile(fileId, size) {
-        const fileElement = document.getElementById(fileId);
-        if (fileElement) {
-            // Animate removal
-            fileElement.style.opacity = '0';
-            fileElement.style.transform = 'scale(0.9)';
-
-            setTimeout(() => {
-                fileElement.remove();
-
-                // Update statistics
-                fileCount--;
-                totalSize -= size;
-                updateDisplay();
-
-                showNotification('File removed', 'success');
-            }, 300);
-        }
-
-        resetPhotoInput();
-    }
-
-    function updateDisplay() {
-        fileCountEl.textContent = fileCount;
-        totalSizeEl.textContent = formatFileSize(totalSize);
-
-        if (fileCount > 0) {
-            uploadStats.style.display = 'block';
-            progressFill.style.width = '100%';
-        } else {
-            uploadStats.style.display = 'none';
-        }
-    }
-
-    function formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-
-    function showNotification(message, type = 'success') {
-        // Clear any existing timeout
-        clearTimeout(notification.timeout);
-
-        // Hide notification if it's already showing
-        notification.classList.remove('show', 'success', 'error');
-
-        // Set content and show
-        document.getElementById('notificationText').textContent = message;
-        notification.classList.add('show', type);
-
-        // Reset progress bar
-        const progressBar = notification.querySelector('.notification-progress');
-        progressBar.style.transition = 'none';
-        progressBar.style.transform = 'scaleX(0)';
-
-        // Force reflow to restart animation
-        void notification.offsetWidth;
-
-        // Start progress animation
-        progressBar.style.transition = 'transform 3s linear';
-        progressBar.style.transform = 'scaleX(1)';
-
-        // Auto-hide after 3 seconds
-        notification.timeout = setTimeout(() => {
-            notification.classList.remove('show');
-        }, 3000);
-    }
-
-    function simulateUpload(fileCount) {
-        // This would be where you'd actually upload to a server
-        // For now we're just showing the progress visually
-        progressFill.style.width = '0%';
-
-        setTimeout(() => {
-            progressFill.style.width = '30%';
-
-            setTimeout(() => {
-                progressFill.style.width = '60%';
-
-                setTimeout(() => {
-                    progressFill.style.width = '100%';
-                }, 200);
-            }, 200);
-        }, 100);
-    }
-
-    // Reset the file input after a file is removed
-    function resetPhotoInput() {
-        photoInput.value = '';
-    }
-
-    // Initial UI setup
-    function initUI() {
-        if (fileCount === 0) {
-            uploadStats.style.display = 'none';
-        }
-    }
-
-    // Initialize UI
     initUI();
-    const fileInput = document.getElementById("fileInput");
-    const fileList = document.getElementById("fileList");
 
-    fileUpload.init({ enablePreview: true });
-    fileInput.addEventListener("change", function () {
-        fileUpload.renderFileList();
-    });
+    let workDataList =[];
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // fileInput
+        const fileInput = document.getElementById("fileInput");
+        const fileList = document.getElementById("fileList");
+        const syncBtn = document.getElementById("syncBtn");
+        const delBtn = document.getElementById("delBtn");
+        const regBtn = document.getElementById("regBtn");
+
+
+        fileUpload.init({ enablePreview: true });
+        fileInput.addEventListener("change", function () {
+            fileUpload.chkExt();
+        });
+        syncBtn.addEventListener("click", function(){
+            const files = fileInput.files;
+            if(files.length === 0){
+                alert("작품 메타정보를 먼저 업로드 해주세요");
+                return;
+            }
+            syncExcelData.parseExcelFile(files[0]);
+        });
+        delBtn.addEventListener("click", function(){
+            syncExcelData.deleteSelectedRows();
+        });
+        regBtn.addEventListener("click", function(){
+            syncExcelData.sendData();
+        });
+
+    })
 
     const chkBox = {
         chkAll : function() {
@@ -569,6 +332,13 @@
             };
             selectAllCheckbox.addEventListener('change', handleSelectAll);
         },
+    }
+    const frm = {
+        downloadForm : function() {
+            const type = document.getElementById('type').value;
+            location.href = `/bulk/${type}/form`;
+
+        }
     }
 </script>
 </body>

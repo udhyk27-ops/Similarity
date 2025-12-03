@@ -189,4 +189,18 @@
         values (#{f_work_no}, #{f_title}, #{f_author}, #{f_year}, sysdate, #{f_code}, #{f_user_no}, #{f_work_size},
                 #{f_filename}, #{f_filepath}, #{f_contest}, #{f_award}, #{f_manager}, #{f_host}, #{f_memo})
     </insert>
+
+    <select id="selectNextWorkNo" resultType="int">
+        SELECT NVL(MAX(F_WORK_NO), 0) + 1 FROM T_AWARD_WORK
+    </select>
+
+    <insert id="insertBatchAwardWork" parameterType="list">
+        insert into T_AWARD_WORK(F_WORK_NO, F_TITLE, F_AUTHOR, F_YEAR, F_REG_DATE, F_CODE, F_USER_NO, F_WORK_SIZE,
+                                 F_FILENAME, F_FILEPATH, F_CONTEST, F_AWARD, F_MANAGER, F_HOST, F_MEMO)
+        values
+        <foreach collection="list" item="award" separator=",">
+            (#{award.f_work_no}, #{award.f_title}, #{award.f_author}, #{award.f_year}, sysdate, #{award.f_code}, #{award.f_user_no}, #{award.f_work_size},
+            #{award.f_filename}, #{award.f_filepath}, #{award.f_contest}, #{award.f_award}, #{award.f_manager}, #{award.f_host}, #{award.f_memo})
+        </foreach>
+    </insert>
 </mapper>

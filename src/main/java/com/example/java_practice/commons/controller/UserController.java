@@ -1,5 +1,6 @@
 package com.example.java_practice.commons.controller;
 
+import com.example.java_practice.commons.Enums.FormExcelType;
 import com.example.java_practice.commons.Enums.WorkExcelType;
 import com.example.java_practice.commons.dto.Award;
 import com.example.java_practice.commons.dto.Invit;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -109,14 +111,17 @@ public class UserController {
             Award awardParams,
             Invit invitParams)
     {
+            String code = String.format("%06d", (int)(Math.random() * 1000000));
         if(type.equals("award")){
             awardParams.setF_user_no(userDetails.getUserNo());
             awardParams.setF_work_size(size_wid + "x" + size_hei);
+            awardParams.setF_code("EMC" + code);
 
             userService.insertSingleAwardWork(awardParams, file);
         }else{
             invitParams.setF_user_no(userDetails.getUserNo());
             invitParams.setF_work_size(size_wid + "x" + size_hei);
+            invitParams.setF_code("EMC" + code);
 
             userService.insertSingleInvitWork(invitParams, file);
         }
@@ -129,5 +134,26 @@ public class UserController {
     {
         model.addAttribute("type", type);
         return "commons/user/bulkRegPage";
+    }
+    @GetMapping("/bulk/{type}/form")
+    public void downloadForm(@PathVariable("type") String type,
+                             HttpServletResponse response)
+    {
+        FormExcelType formExcelType = FormExcelType.fromString(type);
+        String sheetName = formExcelType.getSheetName();
+        String[] headers = formExcelType.getHeaders();
+
+        try{
+            Workbook workbook = CreateExcel.createFormExcel(sheetName, headers);
+            String fileName = sheetName + ".xlsx";
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition",
+                    "attachment;filename=" + new String(fileName.getBytes("KSC5601"), "8859_1"));
+
+            workbook.write(response.getOutputStream());
+            workbook.close();
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+        }
     }
 }

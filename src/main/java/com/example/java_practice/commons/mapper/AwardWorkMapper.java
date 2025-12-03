@@ -17,4 +17,6 @@ public interface AwardWorkMapper {
     List<String> selectAwardYearList();
     int updateAwardStatusByWorkNo(@Param("workNo") int workNo);
     void insertAwardWork(Award award);
+    int selectNextWorkNo();
+    int insertBatchAwardWork(List<Award> award);
 }

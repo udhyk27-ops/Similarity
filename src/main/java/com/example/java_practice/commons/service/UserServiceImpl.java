@@ -8,6 +8,7 @@ import com.example.java_practice.commons.mapper.InvitWorkMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -92,10 +93,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public void insertSingleAwardWork(Award params, MultipartFile file) {
 
-        String code = String.format("%06d", (int)(Math.random() * 1000000));
-        params.setF_code("EMC" + code);
         boolean hasFile = (file != null && !file.isEmpty());
 
         if(hasFile) {
@@ -129,10 +129,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public void insertSingleInvitWork(Invit params, MultipartFile file) {
 
-        String code = String.format("%06d", (int)(Math.random() * 1000000));
-        params.setF_code("EMC" + code);
         boolean hasFile = (file != null && !file.isEmpty());
 
         if(hasFile) {
@@ -163,5 +162,55 @@ public class UserServiceImpl implements UserService{
             params.setF_filepath("");
         }
         invitWorkMapper.insertInvitWork(params);
+    }
+
+    @Override
+    @Transactional
+    public boolean insertBatchAwardWork(int userNo, List<Award> awardList, MultipartFile file) {
+        // pk 값 가져오기
+        int maxNum = awardWorkMapper.selectNextWorkNo();
+
+        for(int i = 0; i < awardList.size(); i++) {
+            Award award = awardList.get(i);
+
+            String code = String.format("%06d", (int)(Math.random() * 1000000));
+            award.setF_code("EMC" + code);
+            award.setF_memo("");
+
+            award.setF_work_no(maxNum + i);
+            award.setF_user_no(userNo);
+
+            boolean hasFile = (file != null && !file.isEmpty());
+
+            if(hasFile) {
+                String originalFileName = award.getF_filename();
+
+                long currentTime = System.currentTimeMillis();
+                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
+                String storedFileName = UUID.randomUUID() + "_" + currentTime + ext;
+                Path dirPath = Paths.get(uploadDir + "/images");
+//            Path filePath = dirPath.resolve(storedFileName);
+                Path filePath = dirPath.resolve(originalFileName);
+
+                try{
+//                if(!Files.exists(dirPath)){
+//                    Files.createDirectories(dirPath);
+//                }
+                    file.transferTo(filePath);
+//                params.setF_filepath("/uploads/image/" + storedFileName);
+                    award.setF_filepath("/images/" + originalFileName);
+                }catch (IOException e){
+                    fileService.deleteFile(filePath);
+                    throw new RuntimeException("파일 업로드 중 오류 발생: " + file.getOriginalFilename(), e);
+                }
+
+            } else {
+                award.setF_filepath("");
+            }
+            System.out.println("award : " + award);
+        }
+
+        int rows = awardWorkMapper.insertBatchAwardWork(awardList);
+        return rows > 0;
     }
 }

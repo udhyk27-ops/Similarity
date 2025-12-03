@@ -288,9 +288,10 @@
                 if(!confirm("삭제하시겠습니까?")) return;
 
                 const type = document.getElementById('type').value;
+                const url = `/workList/${type}/${workNo}`;
                 const token = document.querySelector('meta[name="_csrf"]').content;
                 const header = document.querySelector('meta[name="_csrf_header"]').content;
-                fetch(`/workList/${type}/${workNo}`, {
+                fetch(url, {
                     method: "DELETE",
                     headers: {
                         [header]: token
