@@ -1,19 +1,26 @@
 package com.example.java_practice.commons.controller;
 
 import com.example.java_practice.commons.Enums.WorkExcelType;
+import com.example.java_practice.commons.dto.Award;
+import com.example.java_practice.commons.dto.Invit;
 import com.example.java_practice.commons.dto.WorkSearch;
+import com.example.java_practice.commons.security.CustomUserDetails;
 import com.example.java_practice.commons.service.UserService;
 import com.example.java_practice.commons.utils.CreateExcel;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Year;
 import java.util.List;
 
 @Controller
@@ -86,13 +93,34 @@ public class UserController {
     public String singleRegPage(@PathVariable("type") String type,
                                 Model model)
     {
+        int currentYear = Year.now().getValue();
         model.addAttribute("type", type);
-        if(type.equals("award")) {
-
-        }else{
-
-        }
+        model.addAttribute("currentYear", currentYear);
         return "commons/user/singleRegPage";
+    }
+
+    @PostMapping("/regSingleProcess")
+    public String regSingleProcess(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestParam("type") String type,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("size_wid") String size_wid,
+            @RequestParam("size_hei") String size_hei,
+            Award awardParams,
+            Invit invitParams)
+    {
+        if(type.equals("award")){
+            awardParams.setF_user_no(userDetails.getUserNo());
+            awardParams.setF_work_size(size_wid + "x" + size_hei);
+
+            userService.insertSingleAwardWork(awardParams, file);
+        }else{
+            invitParams.setF_user_no(userDetails.getUserNo());
+            invitParams.setF_work_size(size_wid + "x" + size_hei);
+
+            userService.insertSingleInvitWork(invitParams, file);
+        }
+        return "redirect:/worklist/award";
     }
 
     @GetMapping("/bulk/{type}")
@@ -100,11 +128,6 @@ public class UserController {
                               Model model)
     {
         model.addAttribute("type", type);
-        if(type.equals("award")) {
-
-        }else{
-
-        }
         return "commons/user/bulkRegPage";
     }
 }

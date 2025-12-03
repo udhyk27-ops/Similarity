@@ -16,4 +16,5 @@ public interface InvitWorkMapper {
     List<Invit> selectInvitListForExcel(WorkSearch workSearch);
     List<String> selectInvitYearList();
     int updateInvitStatusByWorkNo(@Param("workNo") int workNo);
+    void insertInvitWork(Invit invit);
 }

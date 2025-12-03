@@ -11,19 +11,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
     <script th:src="@{/js/fileUpload.js}"></script>
     <style>
-        .notice-container {
+        .work-container {
             width: 100%;
             border: 1px solid var(--border);
             background: #fff;
             overflow: hidden;
             margin-top: 1.25rem;
         }
-        .notice-container table.layout {
+        .work-container table.layout {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
         }
-        .notice-container td {
+        .work-container td {
             padding: 0.75rem 0.9rem;
             border-bottom: 1px solid var(--border);
         }
@@ -46,6 +46,7 @@
         }
         .textarea {
             height: auto;
+            padding-top: 0.5rem;
         }
         .buttons {
             padding-top: 1rem;
@@ -93,73 +94,74 @@
                         <div class="main-title">
                             <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('개별등록')}"></th:block>
                         </div>
-                        <div class="notice-detail-wrap">
-                            <form class="notice-form" method="post" enctype="multipart/form-data">
-                                <div class="notice-container">
+                        <div class="work-detail-wrap">
+                            <form id="work_frm" th:action="${type =='award' ? '/regSingleAwardProcess' : '/regSingleInvitProcess'}" class="work-form" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="type" th:value="${type}">
+                                <div class="work-container">
                                     <table class="layout">
                                         <tr>
                                             <td class="label">저작물명 <span class="font-red">*</span></td>
                                             <td class="content" colspan="3">
-                                                <input type="text" class="form-control" name="artwork-title" value="">
+                                                <input type="text" class="form-control" name="f_title">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="label">저작자명 <span class="font-red">*</span></td>
                                             <td class="content" colspan="3">
-                                                <input type="text" class="form-control" name="author" value="">
+                                                <input type="text" class="form-control" name="f_author">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="label">발표년도 <span class="font-red">*</span></td>
                                             <td class="content" colspan="3">
-                                                <select name="issue-year" class="form-control select-control">
-                                                    <option th:each="i : ${#numbers.sequence(2025, 2015)}" th:value="${i}" th:text="${i}"></option>
+                                                <select name="f_year" class="form-control select-control">
+                                                    <option th:each="i : ${#numbers.sequence(currentYear, (currentYear - 10))}" th:value="${i}" th:text="${i}"></option>
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr th:if="${type == 'award'}">
                                             <td class="label">공모전명 <span class="font-red">*</span></td>
                                             <td class="content" colspan="3">
-                                                <input type="text" class="form-control" name="contest-name" value="">
+                                                <input type="text" class="form-control" name="f_contest">
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr th:if="${type == 'award'}">
                                             <td class="label">주최사 <span class="font-red">*</span></td>
                                             <td class="content" colspan="3">
-                                                <input type="text" class="form-control" name="host-name" value="">
+                                                <input type="text" class="form-control" name="f_host">
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr th:if="${type == 'award'}">
                                             <td class="label">주관사 <span class="font-red">*</span></td>
                                             <td class="content" colspan="3">
-                                                <input type="text" class="form-control" name="manage-name" value="">
+                                                <input type="text" class="form-control" name="f_manager">
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr th:if="${type == 'award'}">
                                             <td class="label">상권명 <span class="font-red">*</span></td>
                                             <td class="content" colspan="3">
-                                                <input type="text" class="form-control" name="award-name" value="">
+                                                <input type="text" class="form-control" name="f_award">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="label">저작물 사이즈 <span class="font-red">*</span></td>
                                             <td class="content" colspan="3">
-                                                <input type="text" class="form-control select-control" name="work-size-wid" value="">
+                                                <input type="text" class="form-control select-control" name="size_wid">
                                                 <span class="margin-x"> X </span>
-                                                <input type="text" class="form-control select-control" name="work-size-hei" value="">
+                                                <input type="text" class="form-control select-control" name="size_hei">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="label">기타</td>
                                             <td class="content" colspan="3">
-                                                <textarea rows="10" class="form-control textarea" name="content" value=""></textarea>
+                                                <textarea rows="10" class="form-control textarea" name="f_memo"></textarea>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="label">사진첨부</td>
                                             <td class="attach" colspan="3">
                                                 <label class="file-box">
-                                                    <input type="file" id="fileInput" name="files" accept="image/*" style="display:none;">
+                                                    <input type="file" id="fileInput" name="file" accept="image/*" style="display:none;">
                                                     📁 사진첨부
                                                 </label>
 
@@ -169,13 +171,13 @@
                                         </tr>
                                     </table>
                                 </div>
-                            </form>
-                            <div class="buttons">
-                                <div class="right-btns">
-                                    <a href="/worklist" class="btn btn-white">목록</a>
-                                    <button class="btn btn-navy">저장</button>
+                                <div class="buttons">
+                                    <div class="right-btns">
+                                        <a th:href="@{/worklist/{type}(type=${type})}" class="btn btn-white">목록</a>
+                                        <button class="btn btn-navy submitBtn">저장</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -185,14 +187,39 @@
 
     </div>
     <script>
-        const fileInput = document.getElementById("fileInput");
-        const fileList = document.getElementById("fileList");
+        document.addEventListener("DOMContentLoaded", function (){
 
-        fileUpload.init({ enablePreview: true });
-        fileInput.addEventListener("change", function () {
-            fileUpload.renderFileList();
+            const fileInput = document.getElementById("fileInput");
+            const fileList = document.getElementById("fileList");
+
+            fileUpload.init({ enablePreview: true });
+            fileInput.addEventListener("change", function () {
+                fileUpload.chkSize();
+            });
+
+            const submitBtn = document.querySelector(".submitBtn");
+            submitBtn.addEventListener("click", function (e){
+                e.preventDefault();
+                if(validate.checkEmpty()){
+                    this.form.submit();
+                }
+            })
+
         });
-
+        const validate = {
+            checkEmpty : function(){
+                const inputs = document.querySelectorAll('.form-control:not(.textarea)');
+                for(const input of inputs){
+                    if(!input.value.trim()){
+                        alert("필수사항을 입력해주세요");
+                        input.focus();
+                        return false;
+                    }
+                };
+                alert("저장이 완료되었습니다");
+                return true;
+            }
+        }
     </script>
 </body>
 </html>

@@ -145,4 +145,12 @@
         update T_INVIT_WORK set F_STATUS = 'Y'
         where F_WORK_NO = #{workNo}
     </update>
+
+    <insert id="insertInvitWork">
+        <selectKey keyProperty="f_work_no" resultType="int" order="BEFORE">
+            SELECT NVL(MAX(F_WORK_NO), 0) + 1 FROM T_INVIT_WORK
+        </selectKey>
+        insert into T_INVIT_WORK(F_WORK_NO, F_TITLE, F_AUTHOR, F_YEAR, F_REG_DATE, F_CODE, F_USER_NO, F_WORK_SIZE, F_FILENAME, F_FILEPATH, F_MEMO)
+        values(#{f_work_no}, #{f_title}, #{f_author}, #{f_year}, sysdate, #{f_code}, #{f_user_no}, #{f_work_size}, #{f_filename}, #{f_filepath}, #{f_memo})
+    </insert>
 </mapper>

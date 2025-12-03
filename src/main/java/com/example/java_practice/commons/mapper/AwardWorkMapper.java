@@ -16,4 +16,5 @@ public interface AwardWorkMapper {
     List<Award> selectAwardListForExcel(WorkSearch workSearch);
     List<String> selectAwardYearList();
     int updateAwardStatusByWorkNo(@Param("workNo") int workNo);
+    void insertAwardWork(Award award);
 }

@@ -33,7 +33,7 @@
             SELECT NVL(MAX(F_ID), 0) + 1 FROM T_NOTICE
         </selectKey>
         insert into T_NOTICE (F_ID, F_TITLE, F_CONTENT, F_REGID)
-        values((SELECT NVL(MAX(F_ID), 0) + 1 FROM T_NOTICE), #{f_title}, #{f_content}, #{f_regid})
+        values(#{f_id}, #{f_title}, #{f_content}, #{f_regid})
     </insert>
 
     <insert id="insertNoticeFile">
