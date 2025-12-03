@@ -15,4 +15,8 @@ public class Award {
     private String f_host;
     private String f_reg_date;
     private String f_filepath;
+    private int f_user_no;
+    private String f_work_size;
+    private String f_filename;
+    private String f_memo;
 }
