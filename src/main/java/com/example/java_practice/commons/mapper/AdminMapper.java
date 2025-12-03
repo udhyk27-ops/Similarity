@@ -14,7 +14,7 @@ public interface AdminMapper {
 
     ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo);
 
-    ArrayList<User> selUserList(Map<String,Object> param);
+    ArrayList<User> selUserList(String sort, int userNo);
 
     int delWork(String sort, int workNo);
 
@@ -26,5 +26,5 @@ public interface AdminMapper {
 
     ArrayList<User> selManageList(Search userSearch);
 
-    int delUser(Map<String, Object> param);
+    int delUser(String sort, int userNo);
 }

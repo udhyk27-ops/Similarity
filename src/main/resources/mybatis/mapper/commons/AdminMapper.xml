@@ -198,7 +198,7 @@
             AND T1.F_WORK_NO = #{workNo}
     </select>
 
-    <select id="selUserList" resultMap="userResultSet" parameterType="map">
+    <select id="selUserList" resultMap="userResultSet">
         SELECT
             T1.F_USER_NO,
             F_ID,
@@ -239,7 +239,7 @@
                 </when>
             </choose>
         </if>
-        <if test="userNo != null and userNo != ''">
+        <if test="userNo != 0">
             AND T1.F_USER_NO = #{userNo}
         </if>
     </select>
@@ -399,10 +399,10 @@
         </if>
     </select>
 
-    <update id="delUser" parameterType="map">
+    <update id="delUser">
         UPDATE T_USER
         SET F_STATUS = 'Y'
         WHERE F_SORT = #{sort}
-          AND F_WORK_NO = #{userNo}
+          AND F_USER_NO = #{userNo}
     </update>
 </mapper>

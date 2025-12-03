@@ -18,13 +18,14 @@ public class AdminRestController {
     private final AdminService adminService;
 
     // 기본정보 조회
+
     @GetMapping("/searchWork")
     public ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo) { return adminService.selWorkWithUser(sort, workNo); }
     
     // 회원정보 조회 모달
     @GetMapping("/searchUser")
     public List<User> selUser(@RequestParam(required = false) String sort,
-                              @RequestParam(required = false) Integer userNo)
+                              @RequestParam(required = false, defaultValue = "0") int userNo)
     { return adminService.selUserList(sort, userNo); }
 
     // 작품 삭제
@@ -33,7 +34,7 @@ public class AdminRestController {
 
     // 회원 삭제
     @PostMapping("/deleteUser")
-    public int delUser(String sort, Integer userNo) { return adminService.delUser(sort, userNo); }
+    public int delUser(String sort, int userNo) { return adminService.delUser(sort, userNo); }
 
     // 정보 수정
     @PostMapping("/modifyInfo")
@@ -41,8 +42,8 @@ public class AdminRestController {
             @RequestParam ArrayList<String> work,
             @RequestParam ArrayList<String> user
     ) {
-        System.out.println("work : " + work);
-        System.out.println("user : " + user);
+//        System.out.println("work : " + work);
+//        System.out.println("user : " + user);
         return adminService.modInfo(work, user);
     }
 }

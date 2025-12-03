@@ -145,3 +145,78 @@ export function excel({ header, row, fileName }) {
     // 5) 파일 저장
     XLSX.writeFile(wb, fileName);
 }
+
+/**
+ * 모달
+ */
+export function openUserModal() {
+    const workNo = $('.info-workNo').val();
+    if (!workNo) return alert('작품을 선택해주세요.');
+
+    getAJAX('/api/admin/searchUser', { sort: $('.select-user').val() }, data => {
+        const $template = $('#user-template');
+        const $userRow = $('#user-row');
+        $userRow.empty();
+
+        if(data.length === 0) {
+            $userRow.append('<div class="row"><div class="cell" style="justify-content: center">등록된 회원이 없습니다.</div></div>');
+            return;
+        }
+
+        data.forEach(user => {
+            const row = $template.clone().removeAttr('id').show().css('display','flex');
+            row.find('.cell').css({'display':'flex','justify-content':'center'});
+            Object.keys(user).forEach(key => {
+                row.find(`.${key}`).text(user[key]);
+            });
+            $userRow.append(row);
+        });
+
+        $('#myModal').fadeIn();
+    });
+}
+
+/**
+ * 작품 수정
+ */
+export function modifyWork() {
+    const path = window.location.pathname.split('/').pop();
+    const workNo = $('.info-workNo').val();
+    if (!workNo) return alert('작품을 선택해주세요.');
+
+    const workValues = path + ', ' + $('.work-tb input').map((i, el) => $(el).val()).get() + ',' + workNo;
+    const userValues = path + ', ' + $('.user-tb input').map((i, el) => $(el).val()).get() + ',' + workNo;
+
+    postAJAX('/api/admin/modifyInfo', { work: workValues, user: userValues },
+        resp => { if(resp === 1) alert('수정 완료'), window.location.reload(); else alert('수정 실패'); }
+    );
+}
+
+
+/**
+ * 모달 검색
+ */
+export function doSearch() {
+    filterTableRows({
+        tableSelector: '.user-list-tb',
+        rowSelector: '.row',
+        excludeSelector: '.header-row, #user-template',
+        searchInputSelector: 'input[name="modal-keyword"]',
+        optionSelector: '.modal-sch select',
+        columns: ['.f_name', '.f_id']
+    });
+}
+
+/**
+ * 작품 삭제
+ */
+export function deleteWork() {
+    const path = window.location.pathname.split('/').pop();
+    const workNo = $('.info-workNo').val();
+    if(!workNo) return alert('선택된 작품이 없습니다.');
+
+    postAJAX('/api/admin/deleteWork', { sort: path, workNo }, resp => {
+        if(resp === 1) alert('삭제되었습니다.'), window.location.reload();
+        else alert('삭제 실패');
+    });
+}

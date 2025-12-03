@@ -1,4 +1,4 @@
-import { getAJAX, postAJAX, openPostcode, excel } from "./utils.js";
+import * as util from "./utils.js";
 
 const UserAdminModule = {
     init() {
@@ -12,7 +12,7 @@ const UserAdminModule = {
             if (!userNo) return;
             $('#user-no').val(userNo);
 
-            getAJAX(
+            util.getAJAX(
                 '/api/admin/searchUser',
                 { userNo },
                 response =>
@@ -23,7 +23,7 @@ const UserAdminModule = {
         // 우편번호 찾기 (User 페이지에서 사용)
         if ($('.post-btn').length) {
             $('.post-btn').on('click', () => {
-                openPostcode(addr => {
+                util.openPostcode(addr => {
                     $('#sample4_postcode').val(addr.zonecode);
                     $('#sample4_roadAddress').val(addr.roadAddr);
                     $('#sample4_extraAddress').val(addr.extraRoadAddr);
@@ -46,7 +46,7 @@ const UserAdminModule = {
         // 엑셀 저장
         $('.excel-div .cell-btn').on('click', () => {
             const sort = $('body').data('page-type') === 'user' ? '회원' : '관리자';
-            excel({
+            util.excel({
                 header: '.reg-list-header .cell',
                 row: '.reg-list-row',
                 fileName: sort + '목록.xlsx'
@@ -98,9 +98,9 @@ const UserAdminModule = {
     deleteUser() {
         const sort = $('body').data('page-type') === 'user' ? '회원' : '관리자';
         const userNo = $('#user-no').val();
-        if (!userNo) return alert('목록을 선택해주세요.');
+        if (!userNo) return alert('대상을 선택해주세요.');
 
-        postAJAX('/api/admin/deleteUser', { sort, userNo }, response => {
+        util.postAJAX('/api/admin/deleteUser', { sort, userNo }, response => {
             if (response === 1) {
                 alert('삭제되었습니다.');
                 window.location.reload();
@@ -110,16 +110,17 @@ const UserAdminModule = {
         });
     },
 
-    /** 권한 저장 */
+    /** 저장 */
     saveAuth() {
+        const sort = $('body').data('page-type') === 'user' ? '회원' : '관리자';
         const userNo = $('#user-no').val();
-        if (!userNo) return alert('회원을 선택해주세요.');
+        if (!userNo) return alert('대상을 선택해주세요.');
 
         const authArr = $('input[name="auth"]:checked').map(function() {
             return $(this).next().text().trim();
         }).get();
 
-        postAJAX('/api/admin/saveAuth', { userNo, auth: authArr }, response => {
+        util.postAJAX('/api/admin/modifyInfo', { userNo, auth: authArr }, response => {
             if (response === 1) alert('권한 저장 완료');
             else alert('권한 저장 실패');
         });

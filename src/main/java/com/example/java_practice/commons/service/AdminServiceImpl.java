@@ -26,28 +26,29 @@ public class AdminServiceImpl implements AdminService {
     public int cntAwardList(Search cntWorks){ return adminMapper.cntAwardList(cntWorks); };
 
     @Override
+
     public ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo) { return adminMapper.selWorkWithUser(sort, workNo); }
 
     @Override
-    public List<User> selUserList(String sort, Integer userNo) {
-//        Map<String,Object> param = new HashMap<>();
-//        param.put("sort", sort);
-//        param.put("userNo", userNo);
-//        return adminMapper.selUserList(param);
-        return adminMapper.selUserList(new HashMap<>() {{
-            put("sort", sort);
-            put("userNo", userNo);
-        }});
-    }
+    public List<User> selUserList(String sort, int userNo) { return adminMapper.selUserList(sort, userNo); }
 
     @Override
     public int delWork(String sort, int workNo) { return adminMapper.delWork(sort, workNo); }
 
     @Override
     public int modInfo(ArrayList<String> work, ArrayList<String> user) {
-        int workResult = adminMapper.updateWork(work);
-        int userResult = adminMapper.updateUser(user);
-        int userNoResult = adminMapper.updateWorkUserNo(user);
+        int workResult = 1;
+        int userResult = 1;
+        int userNoResult = 1;
+
+        if (work != null && !work.isEmpty()) {
+            workResult = adminMapper.updateWork(work);
+            userNoResult = adminMapper.updateWorkUserNo(user);
+        }
+
+        if (user != null && !user.isEmpty()) {
+            userResult = adminMapper.updateUser(user);
+        }
 
         if (workResult == 1 && userResult == 1 && userNoResult == 1) {
             return 1;
@@ -63,5 +64,5 @@ public class AdminServiceImpl implements AdminService {
     public ArrayList<User> selManageList(Search userSearch) { return adminMapper.selManageList(userSearch); }
 
     @Override
-    public int delUser(String sort, Integer userNo) { return adminMapper.delUser(Map.of("sort", sort, "userNo", userNo)); }
+    public int delUser(String sort, int userNo) { return adminMapper.delUser(sort, userNo); }
 }

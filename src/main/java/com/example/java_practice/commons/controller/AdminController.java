@@ -18,13 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class AdminController {
 
+    @RequestMapping("/**")
+    public String handleUnknown() { // 404
+        return "commons/admin/error";
+    }
+
     private final AdminService adminService;
 
     // 수상작 / 초대작 등록현황
     @GetMapping("{type:award|invit}")
     public String awardOrInvitPage(@PathVariable String type, @ModelAttribute Search search, Model model) {
 
-        if (!type.equals("award") && !type.equals("invit")) { return "commons/admin/error"; }
         int limit = 5;
         int offset = (search.getPage() - 1) * limit;
 
