@@ -195,12 +195,14 @@
     </select>
 
     <insert id="insertBatchAwardWork" parameterType="list">
-        insert into T_AWARD_WORK(F_WORK_NO, F_TITLE, F_AUTHOR, F_YEAR, F_REG_DATE, F_CODE, F_USER_NO, F_WORK_SIZE,
-                                 F_FILENAME, F_FILEPATH, F_CONTEST, F_AWARD, F_MANAGER, F_HOST, F_MEMO)
-        values
-        <foreach collection="list" item="award" separator=",">
-            (#{award.f_work_no}, #{award.f_title}, #{award.f_author}, #{award.f_year}, sysdate, #{award.f_code}, #{award.f_user_no}, #{award.f_work_size},
-            #{award.f_filename}, #{award.f_filepath}, #{award.f_contest}, #{award.f_award}, #{award.f_manager}, #{award.f_host}, #{award.f_memo})
+        insert all
+        <foreach collection="list" item="award">
+            into T_AWARD_WORK(F_WORK_NO, F_TITLE, F_AUTHOR, F_YEAR, F_REG_DATE, F_CODE, F_USER_NO, F_WORK_SIZE,
+            F_FILENAME, F_FILEPATH, F_CONTEST, F_AWARD, F_MANAGER, F_HOST, F_MEMO)
+            values
+               (#{award.f_work_no}, #{award.f_title}, #{award.f_author}, #{award.f_year}, sysdate, #{award.f_code}, #{award.f_user_no}, #{award.f_work_size},
+                #{award.f_filename}, #{award.f_filepath}, #{award.f_contest}, #{award.f_award}, #{award.f_manager}, #{award.f_host}, #{award.f_memo})
         </foreach>
+        select 1 from dual
     </insert>
 </mapper>

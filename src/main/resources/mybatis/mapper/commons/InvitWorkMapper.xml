@@ -153,4 +153,19 @@
         insert into T_INVIT_WORK(F_WORK_NO, F_TITLE, F_AUTHOR, F_YEAR, F_REG_DATE, F_CODE, F_USER_NO, F_WORK_SIZE, F_FILENAME, F_FILEPATH, F_MEMO)
         values(#{f_work_no}, #{f_title}, #{f_author}, #{f_year}, sysdate, #{f_code}, #{f_user_no}, #{f_work_size}, #{f_filename}, #{f_filepath}, #{f_memo})
     </insert>
+
+    <select id="selectNextWorkNo" resultType="int">
+        SELECT NVL(MAX(F_WORK_NO), 0) + 1 FROM T_INVIT_WORK
+    </select>
+
+    <insert id="insertBatchInvitWork" parameterType="list">
+        insert all
+        <foreach collection="list" item="invit">
+            into T_INVIT_WORK(F_WORK_NO, F_TITLE, F_AUTHOR, F_YEAR, F_REG_DATE,
+               F_CODE, F_USER_NO, F_WORK_SIZE, F_FILENAME, F_FILEPATH, F_MEMO)
+            values(#{invit.f_work_no}, #{invit.f_title}, #{invit.f_author}, #{invit.f_year}, sysdate,
+               #{invit.f_code}, #{invit.f_user_no}, #{invit.f_work_size}, #{invit.f_filename}, #{invit.f_filepath}, #{invit.f_memo})
+        </foreach>
+        select 1 from dual
+    </insert>
 </mapper>

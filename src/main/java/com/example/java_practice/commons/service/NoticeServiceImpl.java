@@ -42,20 +42,14 @@ public class NoticeServiceImpl implements NoticeService {
     public void insertNoticeFile(int noticeId, List<MultipartFile> noticeFiles) {
 
         List<Path> uploadedFiles = new ArrayList<>();
+        Path dirPath = fileService.createDirPath("notice");
 
         noticeFiles.forEach(file -> {
             try {
 
                 String originalFileName = file.getOriginalFilename();
-                long currentTime = System.currentTimeMillis();
-                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
-                String storedFileName = UUID.randomUUID() + "_" + currentTime + ext;
-                Path dirPath = Paths.get(uploadDir + "/notice");
+                String storedFileName = fileService.createStoredFileName(originalFileName);
                 Path filePath = dirPath.resolve(storedFileName);
-
-                if (!Files.exists(dirPath)) {
-                    Files.createDirectories(dirPath);
-                }
 
                 file.transferTo(filePath);
                 uploadedFiles.add(filePath); // 업로드된 파일 기록

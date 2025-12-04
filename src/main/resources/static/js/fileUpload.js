@@ -99,6 +99,10 @@ function handleFiles(files) {
     const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png'];
     // const maxSize = 5 * 1024 * 1024; // 5 MB
 
+    if(files.length > 100){
+        alert("최대 100장까지만 등록가능합니다");
+        return false;
+    }
     if (files.length > 0) {
         let validFiles = 0;
         let invalidFiles = 0;

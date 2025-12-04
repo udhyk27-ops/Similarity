@@ -5,6 +5,8 @@ import com.example.java_practice.commons.dto.Invit;
 import com.example.java_practice.commons.dto.WorkSearch;
 import com.example.java_practice.commons.mapper.AwardWorkMapper;
 import com.example.java_practice.commons.mapper.InvitWorkMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -99,20 +100,17 @@ public class UserServiceImpl implements UserService{
         boolean hasFile = (file != null && !file.isEmpty());
 
         if(hasFile) {
+
             String originalFileName = file.getOriginalFilename();
             params.setF_filename(originalFileName);
 
-            long currentTime = System.currentTimeMillis();
-            String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
-            String storedFileName = UUID.randomUUID() + "_" + currentTime + ext;
-            Path dirPath = Paths.get(uploadDir + "/images");
-//            Path filePath = dirPath.resolve(storedFileName);
+            String storedFileName = fileService.createStoredFileName(originalFileName);
+
+            Path dirPath = fileService.createDirPath("images");
             Path filePath = dirPath.resolve(originalFileName);
+//            Path filePath = dirPath.resolve(storedFileName);
 
             try{
-//                if(!Files.exists(dirPath)){
-//                    Files.createDirectories(dirPath);
-//                }
                 file.transferTo(filePath);
 //                params.setF_filepath("/uploads/image/" + storedFileName);
                 params.setF_filepath("/images/" + originalFileName);
@@ -138,17 +136,13 @@ public class UserServiceImpl implements UserService{
             String originalFileName = file.getOriginalFilename();
             params.setF_filename(originalFileName);
 
-            long currentTime = System.currentTimeMillis();
-            String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
-            String storedFileName = UUID.randomUUID() + "_" + currentTime + ext;
-            Path dirPath = Paths.get(uploadDir + "/images");
-//            Path filePath = dirPath.resolve(storedFileName);
+            String storedFileName = fileService.createStoredFileName(originalFileName);
+
+            Path dirPath = fileService.createDirPath("images");
             Path filePath = dirPath.resolve(originalFileName);
+//            Path filePath = dirPath.resolve(storedFileName);
 
             try{
-//                if(!Files.exists(dirPath)){
-//                    Files.createDirectories(dirPath);
-//                }
                 file.transferTo(filePath);
 //                params.setF_filepath("/uploads/image/" + storedFileName);
                 params.setF_filepath("/images/" + originalFileName);
@@ -166,9 +160,19 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public boolean insertBatchAwardWork(int userNo, List<Award> awardList, MultipartFile file) {
+    public boolean insertBatchAwardWork(int userNo, List<Award> awardList, List<MultipartFile> files) {
         // pk 값 가져오기
         int maxNum = awardWorkMapper.selectNextWorkNo();
+        boolean hasFile = (files != null && !files.isEmpty());
+
+        List<Path> uploadedFiles = new ArrayList<>();
+        Map<String, MultipartFile> fileMap = Map.of();
+        if(hasFile) {
+            fileMap = files.stream()
+                    .collect(Collectors.toMap(MultipartFile::getOriginalFilename, file -> file));
+        }
+
+        Path dirPath = fileService.createDirPath("images");
 
         for(int i = 0; i < awardList.size(); i++) {
             Award award = awardList.get(i);
@@ -180,37 +184,87 @@ public class UserServiceImpl implements UserService{
             award.setF_work_no(maxNum + i);
             award.setF_user_no(userNo);
 
-            boolean hasFile = (file != null && !file.isEmpty());
-
             if(hasFile) {
                 String originalFileName = award.getF_filename();
 
-                long currentTime = System.currentTimeMillis();
-                String ext = originalFileName.substring(originalFileName.lastIndexOf("."));
-                String storedFileName = UUID.randomUUID() + "_" + currentTime + ext;
-                Path dirPath = Paths.get(uploadDir + "/images");
+                if(originalFileName!= null && fileMap.containsKey(originalFileName)) {
+                    MultipartFile matchedFile = fileMap.get(originalFileName);
+                    String storedFileName = fileService.createStoredFileName(originalFileName);
+                    Path filePath = dirPath.resolve(originalFileName);
 //            Path filePath = dirPath.resolve(storedFileName);
-                Path filePath = dirPath.resolve(originalFileName);
-
-                try{
-//                if(!Files.exists(dirPath)){
-//                    Files.createDirectories(dirPath);
-//                }
-                    file.transferTo(filePath);
-//                params.setF_filepath("/uploads/image/" + storedFileName);
-                    award.setF_filepath("/images/" + originalFileName);
-                }catch (IOException e){
-                    fileService.deleteFile(filePath);
-                    throw new RuntimeException("파일 업로드 중 오류 발생: " + file.getOriginalFilename(), e);
+                    try {
+                        matchedFile.transferTo(filePath);
+                        uploadedFiles.add(filePath);
+//                award.setF_filepath("/uploads/image/" + storedFileName);
+                        award.setF_filepath("/images/" + originalFileName);
+                    } catch (IOException e) {
+                        fileService.deleteFile(filePath);
+                        throw new RuntimeException("파일 업로드 중 오류 발생: " + matchedFile.getOriginalFilename(), e);
+                    }
+                }else {
+                    award.setF_filename("");
+                    award.setF_filepath("");
                 }
 
             } else {
+                award.setF_filename("");
                 award.setF_filepath("");
             }
-            System.out.println("award : " + award);
         }
 
         int rows = awardWorkMapper.insertBatchAwardWork(awardList);
+        if(rows == 0) fileService.deleteFiles(uploadedFiles);
         return rows > 0;
     }
+
+    @Override
+    @Transactional
+    public boolean insertBatchInvitWork(int userNo, List<Invit> invitList, List<MultipartFile> files) {
+        int maxNum = invitWorkMapper.selectNextWorkNo();
+        boolean hasFile = (files != null && !files.isEmpty());
+        List<Path> uploadedFiles = new ArrayList<>();
+        Map<String, MultipartFile> fileMap = Map.of();
+        if(hasFile) {
+            fileMap = files.stream()
+                    .collect(Collectors.toMap(MultipartFile::getOriginalFilename, file -> file));
+        }
+        Path dirPath = fileService.createDirPath("images");
+        for(int i = 0; i < invitList.size(); i++) {
+            Invit invit = invitList.get(i);
+            String code = String.format("%06d", (int)(Math.random() * 1000000));
+            invit.setF_code("EMC" + code);
+            invit.setF_memo("");
+            invit.setF_work_no(maxNum + i);
+            invit.setF_user_no(userNo);
+            if(hasFile) {
+                String originalFileName = invit.getF_filename();
+                if(originalFileName!= null && fileMap.containsKey(originalFileName)) {
+                    MultipartFile matchedFile = fileMap.get(originalFileName);
+                    String storedFileName = fileService.createStoredFileName(originalFileName);
+                    Path filePath = dirPath.resolve(originalFileName);
+//            Path filePath = dirPath.resolve(storedFileName);
+                    try{
+                        matchedFile.transferTo(filePath);
+                        uploadedFiles.add(filePath);
+
+//                invit.setF_filepath("/uploads/image/" + storedFileName);
+                        invit.setF_filepath("/images/" + originalFileName);
+                    }catch(IOException e){
+                        fileService.deleteFile(filePath);
+                        throw new RuntimeException("파일 업로드 중 오류 발생: " + matchedFile.getOriginalFilename(), e);
+                    }
+                }else {
+                    invit.setF_filename("");
+                    invit.setF_filepath("");
+                }
+            }else {
+                invit.setF_filename("");
+                invit.setF_filepath("");
+            }
+        }
+        int rows = invitWorkMapper.insertBatchInvitWork(invitList);
+        if(rows == 0) fileService.deleteFiles(uploadedFiles);
+        return rows > 0;
+    }
+
 }

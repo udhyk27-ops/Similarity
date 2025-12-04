@@ -69,7 +69,6 @@ const syncExcelData = {
         const selectedRows = Array.from(chkboxList)
             .map(el => parseInt(el.value, 10))
             .sort((a, b) => b - a);
-        console.log(selectedRows);
         selectedRows.forEach(index => this.deleteRow(index));
     },
     sendData : function(){
@@ -83,27 +82,34 @@ const syncExcelData = {
 
         const type = document.getElementById('type').value;
         if(workDataList.length === 0){
-            alert("등록할 데이터가 없습니다. 작품 메타정보를 업로드하고 동기화 해주세요")
-            return;
+            alert("등록할 데이터를 선택해주세요. \n데이터가 없을 경우 메타정보 업로드와 동기화를 진행해주세요")
+            return false;
+        }
+        if(photoInput.files.length === 0){
+            if(!confirm("사진 파일이 없습니다. 등록하시겠습니까?")) return false;
         }
         const data = this.mapData(workDataList);
-        console.log(data);
+
+        const formData = new FormData();
+        formData.append("data", JSON.stringify(data));
+        for (let photo of photoInput.files) {
+            formData.append("photos", photo);
+        }
+
         const url = `/workList/bulk/${type}`;
         const token = document.querySelector('meta[name="_csrf"]').content;
         const header = document.querySelector('meta[name="_csrf_header"]').content;
         fetch(url, {
             method: 'POST',
             headers: {
-                [header]: token,
-                'Content-Type': 'application/json'
+                [header]: token
             },
-            body: JSON.stringify(data)
+            body: formData
         }).then(res => res.json())
             .then(data => {
                 alert(data.msg);
                 if(data.status){
-                    workDataList = [];
-                    this.renderList(workDataList);
+                    location.reload();
                 }
             })
     },

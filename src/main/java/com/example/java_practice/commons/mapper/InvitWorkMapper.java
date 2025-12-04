@@ -17,4 +17,6 @@ public interface InvitWorkMapper {
     List<String> selectInvitYearList();
     int updateInvitStatusByWorkNo(@Param("workNo") int workNo);
     void insertInvitWork(Invit invit);
+    int selectNextWorkNo();
+    int insertBatchInvitWork(List<Invit> invit);
 }

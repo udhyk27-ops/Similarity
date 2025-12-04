@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -72,5 +74,25 @@ public class FileServiceImpl implements FileService{
         }
     }
 
+    @Override
+    public String createStoredFileName(String originalName) {
+        long currentTime = System.currentTimeMillis();
+        String ext = originalName.substring(originalName.lastIndexOf("."));
+        return UUID.randomUUID() + "_" + currentTime + ext;
+    }
+
+    @Override
+    public Path createDirPath(String dirName) {
+        Path dirPath = Paths.get(uploadDir + "/" + dirName);
+        try{
+            if (!Files.exists(dirPath)) {
+                Files.createDirectories(dirPath);
+            }
+        }catch (IOException e){
+            log.error(e.getMessage(), e);
+        }
+
+        return dirPath;
+    }
 
 }

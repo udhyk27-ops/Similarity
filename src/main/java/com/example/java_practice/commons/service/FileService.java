@@ -17,4 +17,7 @@ public interface FileService {
     void deleteFiles(List<Path> files);
     // 파일 삭제(1개)
     void deleteFile(Path file);
+    // 파일명 + 디렉토리 생성
+    String createStoredFileName(String originalName);
+    Path createDirPath(String dirName);
 }
