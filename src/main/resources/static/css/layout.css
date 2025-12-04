@@ -102,7 +102,7 @@
 .menu-section {
     font-size: 0.9rem;
     font-weight: 700;
-    color: #757373;
+    color: var(--text-light);
     padding: 0.6rem 1.25rem;
     margin-top: 1rem;
 }
@@ -110,11 +110,15 @@
     font-size: 0.9rem;
     padding: 0.5rem 1.25rem 0.5rem 1.9rem;
     color: var(--text);
-    cursor: pointer;
     transition: background-color 0.2s;
 }
 .menu-item:hover {
     background-color: #f0f0f0;
+}
+.menu-item a, .menu-section a{
+    color: var(--text-light);
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /* 메인 타이틀 */

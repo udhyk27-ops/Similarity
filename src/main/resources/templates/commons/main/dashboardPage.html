@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -69,10 +70,8 @@
             <!-- CONTENT AREA -->
             <div class="content">
                 <div class="dashboard-grid">
-
                     <div class="card">
                         <div class="card-title">작품 등록현황</div>
-
                         <table class="table">
                             <thead>
                                 <tr>
@@ -85,15 +84,15 @@
                             <tbody>
                                 <tr>
                                     <td>수상작</td>
-                                    <td>58157</td>
-                                    <td>142</td>
-                                    <td>21</td>
+                                    <td th:text="${#numbers.formatInteger(workStats.awardStats.total_cnt, 1, 'COMMA')}"></td>
+                                    <td th:text="${#numbers.formatInteger(workStats.awardStats.valid_cnt, 1, 'COMMA')}"></td>
+                                    <td th:text="${#numbers.formatInteger(workStats.awardStats.invalid_cnt, 1, 'COMMA')}"></td>
                                 </tr>
                                 <tr>
                                     <td>초대작</td>
-                                    <td>58157</td>
-                                    <td>58157</td>
-                                    <td>0</td>
+                                    <td th:text="${#numbers.formatInteger(workStats.invitStats.total_cnt, 1, 'COMMA')}"></td>
+                                    <td th:text="${#numbers.formatInteger(workStats.invitStats.valid_cnt, 1, 'COMMA')}"></td>
+                                    <td th:text="${#numbers.formatInteger(workStats.invitStats.invalid_cnt, 1, 'COMMA')}"></td>
                                 </tr>
                             </tbody>
                         </table>
