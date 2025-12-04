@@ -182,13 +182,14 @@
             addViewCnt : function () {
                 const id = document.getElementById("noticeId").value;
                 const viewedKey = "viewed_notice_" + id;
-
                 const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-                localStorage.setItem(viewedKey, today);
 
                 // 이미 본 글이면 return
                 const viewedDate = localStorage.getItem(viewedKey);
+                console.log(viewedDate === today);
                 if (viewedDate === today) return;
+
+                localStorage.setItem(viewedKey, today);
 
                 const token = document.querySelector('meta[name="_csrf"]').content;
                 const header = document.querySelector('meta[name="_csrf_header"]').content;

@@ -14,6 +14,12 @@
         <result property="f_filepath" column="F_FILEPATH"/>
     </resultMap>
 
+    <resultMap id="workStatsResultMap" type="WorkStats">
+        <result property="total_cnt" column="total_cnt"/>
+        <result property="valid_cnt" column="valid_cnt"/>
+        <result property="invalid_cnt" column="invalid_cnt"/>
+    </resultMap>
+
     <select id="selectInvitListBySearch" parameterType="WorkSearch" resultMap="invitResultMap">
         select *
         from (
@@ -168,4 +174,12 @@
         </foreach>
         select 1 from dual
     </insert>
+
+    <select id="selectInvitWorkStats" resultMap="workStatsResultMap">
+        select
+            count(1) as total_cnt,
+            nvl(sum(case when F_STATUS = 'N' then 1 else 0 end), 0) as valid_cnt,
+            nvl(sum(case when F_STATUS = 'Y' then 1 else 0 end), 0) as invalid_cnt
+        from T_INVIT_WORK
+    </select>
 </mapper>

@@ -115,7 +115,7 @@
 .menu-item:hover {
     background-color: #f0f0f0;
 }
-.menu-item a, .menu-section a{
+.header-left a, .menu-item a, .menu-section a{
     color: var(--text-light);
     text-decoration: none;
     cursor: pointer;

@@ -26,13 +26,21 @@ const syncExcelData = {
         const fileCnt = document.getElementById("fileCnt");
         const excelDataList = document.getElementById("excelDataList");
         const type = document.getElementById('type').value;
-        const colspan = type == 'award' ? 12 : 9;
+        const colspan = (type === 'award') ? 12 : 9;
 
         let html = ""
         const rows = workDataList.length > 0 ? workDataList : data.slice(1);
+        const chkText = "저작물사이즈(너비, 높이)";
+        const fileContainer = document.getElementById("fileListContainer");
+        if((type === "invit" && data[0][5] !== chkText) || (type === "award" && data[0][6] !== chkText)) {
+            alert("양식에 맞는 파일을 첨부해주세요");
+            fileContainer.remove();
+            excelDataList.innerHTML = "";
+            return;
+        }
         if(!data || data.length === 0 || rows.length === 0){
             html += `<tr>
-                        <td colspan="${colspan}">데이터가 없습니다</td>
+                        <td colspan="${colspan}">해당하는 데이터가 없습니다</td>
                      </tr>`
         }
 
@@ -96,7 +104,7 @@ const syncExcelData = {
             formData.append("photos", photo);
         }
 
-        const url = `/workList/bulk/${type}`;
+        const url = `/worklist/bulk/${type}`;
         const token = document.querySelector('meta[name="_csrf"]').content;
         const header = document.querySelector('meta[name="_csrf_header"]').content;
         fetch(url, {

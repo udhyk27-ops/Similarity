@@ -1,12 +1,8 @@
 package com.example.java_practice.commons.service;
 
-import com.example.java_practice.commons.dto.Award;
-import com.example.java_practice.commons.dto.Invit;
-import com.example.java_practice.commons.dto.WorkSearch;
+import com.example.java_practice.commons.dto.*;
 import com.example.java_practice.commons.mapper.AwardWorkMapper;
 import com.example.java_practice.commons.mapper.InvitWorkMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -104,7 +99,7 @@ public class UserServiceImpl implements UserService{
             String originalFileName = file.getOriginalFilename();
             params.setF_filename(originalFileName);
 
-            String storedFileName = fileService.createStoredFileName(originalFileName);
+//            String storedFileName = fileService.createStoredFileName(originalFileName);
 
             Path dirPath = fileService.createDirPath("images");
             Path filePath = dirPath.resolve(originalFileName);
@@ -136,7 +131,7 @@ public class UserServiceImpl implements UserService{
             String originalFileName = file.getOriginalFilename();
             params.setF_filename(originalFileName);
 
-            String storedFileName = fileService.createStoredFileName(originalFileName);
+//            String storedFileName = fileService.createStoredFileName(originalFileName);
 
             Path dirPath = fileService.createDirPath("images");
             Path filePath = dirPath.resolve(originalFileName);
@@ -189,7 +184,7 @@ public class UserServiceImpl implements UserService{
 
                 if(originalFileName!= null && fileMap.containsKey(originalFileName)) {
                     MultipartFile matchedFile = fileMap.get(originalFileName);
-                    String storedFileName = fileService.createStoredFileName(originalFileName);
+//                    String storedFileName = fileService.createStoredFileName(originalFileName);
                     Path filePath = dirPath.resolve(originalFileName);
 //            Path filePath = dirPath.resolve(storedFileName);
                     try {
@@ -240,7 +235,7 @@ public class UserServiceImpl implements UserService{
                 String originalFileName = invit.getF_filename();
                 if(originalFileName!= null && fileMap.containsKey(originalFileName)) {
                     MultipartFile matchedFile = fileMap.get(originalFileName);
-                    String storedFileName = fileService.createStoredFileName(originalFileName);
+//                    String storedFileName = fileService.createStoredFileName(originalFileName);
                     Path filePath = dirPath.resolve(originalFileName);
 //            Path filePath = dirPath.resolve(storedFileName);
                     try{
@@ -265,6 +260,18 @@ public class UserServiceImpl implements UserService{
         int rows = invitWorkMapper.insertBatchInvitWork(invitList);
         if(rows == 0) fileService.deleteFiles(uploadedFiles);
         return rows > 0;
+    }
+
+    @Override
+    public TotalWorkStats selectWorkStats() {
+
+        WorkStats awardStat = awardWorkMapper.selectAwardWorkStats();
+        WorkStats invitStat = invitWorkMapper.selectInvitWorkStats();
+
+        return TotalWorkStats.builder()
+                .awardStats(awardStat)
+                .invitStats(invitStat)
+                .build();
     }
 
 }

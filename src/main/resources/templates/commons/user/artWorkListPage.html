@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" th:href="@{/css/customFlatpickr.css}">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ko.js"></script>
     <style>
         .search-box {
             width: 100%;
@@ -171,7 +172,10 @@
 
                                 <div class="sch-row">
 
-                                    <div class="artwork-info"> 총 <span class="font-red info-text" th:text="${totalCnt}"></span> 중 검색결과 : <span class="font-red info-text" th:text="${searchCnt}"></span> 건</div>
+                                    <div class="artwork-info"> 총
+                                        <span class="font-red info-text" th:text="${#numbers.formatInteger(totalCnt, 1, 'COMMA')}"></span> 중 검색결과 :
+                                        <span class="font-red info-text" th:text="${#numbers.formatInteger(searchCnt, 1, 'COMMA')}"></span> 건
+                                    </div>
 
                                     <div class="btn-group">
                                         <a th:href="@{/single/{type}(type=${type})}" class="btn-navy">개별등록</a>
@@ -214,7 +218,7 @@
                                 </tr>
                                 <tr th:if="${type=='award'}" th:each="award:${workList}">
                                     <td id="workNo" th:text="${award.f_work_no}"></td>
-                                    <td><img class="artwork-img" th:src="${award.f_filepath}" alt="award_img"></td>
+                                    <td><img class="artwork-img" th:src="${award.f_filepath}" alt="수상작 작품"></td>
                                     <td class="artwork-title" th:text="${award.f_title}"></td>
                                     <td th:text="${award.f_author}"></td>
                                     <td th:text="${award.f_contest} + ' ' +${award.f_award}"></td>
@@ -225,7 +229,7 @@
                                 </tr>
                                 <tr th:if="${type=='invit'}" th:each="invit:${workList}">
                                     <td th:text="${invit.f_work_no}"></td>
-                                    <td><img class="artwork-img" th:src="${invit.f_filepath}" alt="award_img"></td>
+                                    <td><img class="artwork-img" th:src="${invit.f_filepath}" alt="초대작 작품"></td>
                                     <td class="artwork-title" th:text="${invit.f_title}"></td>
                                     <td th:text="${invit.f_author}"></td>
                                     <td th:text="${invit.f_code}"></td>
@@ -278,9 +282,11 @@
     <script>
         flatpickr("#dateInput", {
             dateFormat: "Y-m-d",
+            locale: "ko"
         });
         flatpickr("#dateInput2", {
             dateFormat: "Y-m-d",
+            locale: "ko"
         })
         const frm = {
             deleteWork : function (workNo){
@@ -288,7 +294,7 @@
                 if(!confirm("삭제하시겠습니까?")) return;
 
                 const type = document.getElementById('type').value;
-                const url = `/workList/${type}/${workNo}`;
+                const url = `/worklist/${type}/${workNo}`;
                 const token = document.querySelector('meta[name="_csrf"]').content;
                 const header = document.querySelector('meta[name="_csrf_header"]').content;
                 fetch(url, {

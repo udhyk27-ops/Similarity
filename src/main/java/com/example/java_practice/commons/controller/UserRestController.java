@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/workList/*")
+@RequestMapping("/worklist/*")
 @RequiredArgsConstructor
 @Slf4j
 public class UserRestController {

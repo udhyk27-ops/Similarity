@@ -1,11 +1,13 @@
 <div class="fragment" th:fragment="header">
 
     <div class="header-left">
-        사진공모전 저작물 등록관리 시스템
+        <a href="/main">사진공모전 저작물 등록관리 시스템</a>
     </div>
     <div class="header-right">
         <div class="admin-menu">
             <span class="admin-name">관리자 ▼</span>
+<!--            <span class="admin-name" th:text="${(#authentication.principal.sort == '관리자') ? '관리자' : '운영회원'}">▼</span>-->
+<!--            <span class="admin-name" th:text="${#authentication.principal.name} + ' 님 ▼'"></span>-->
             <div class="dropdown">
                 <a href="#" class="mypage-link">마이페이지</a>
                 <form th:action="@{/logout}" method="post">

@@ -5,18 +5,31 @@ const fileUpload = {
     init: function (options = {}) {
         this.enablePreview = options.enablePreview || false;
     },
-    chkExt : function (){
+    chkExt : function (type=""){
         const files = Array.from(fileInput.files);
 
         let chkExtFiles = [];
-        chkExtFiles = files.filter(file => {
-            const ext = file.name.split('.').pop().toLowerCase();
-            if(ext !== 'xls' && ext !== 'xlsx') {
-                alert(`${file.name} : xls, xlsx만 등록 가능합니다.`);
-                return false;
-            }
-            return true;
-        })
+        if(type === 'img'){
+            chkExtFiles = files.filter(file => {
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (ext !== 'jpg' && ext !== 'jpeg' && ext !== 'png') {
+                    alert(`${file.name} : 이미지만 등록 가능합니다.`);
+                    fileInput.value = '';
+                    return false;
+                }
+                return true;
+            })
+        }else {
+            chkExtFiles = files.filter(file => {
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (ext !== 'xls' && ext !== 'xlsx') {
+                    alert(`${file.name} : xls, xlsx만 등록 가능합니다.`);
+                    fileInput.value = '';
+                    return false;
+                }
+                return true;
+            })
+        }
         this.chkSize(chkExtFiles);
     },
     chkSize : function (chkExtFiles=[]){

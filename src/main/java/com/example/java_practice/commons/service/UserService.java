@@ -1,13 +1,12 @@
 package com.example.java_practice.commons.service;
 
-import com.example.java_practice.commons.dto.Award;
-import com.example.java_practice.commons.dto.Invit;
-import com.example.java_practice.commons.dto.WorkSearch;
+import com.example.java_practice.commons.dto.*;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     // 등록현황 리스트(수상작/초대작)
@@ -29,4 +28,6 @@ public interface UserService {
     boolean insertBatchAwardWork(int userNo, List<Award> awardList, List<MultipartFile> file);
     // 초대작 단체등록
     boolean insertBatchInvitWork(int userNo, List<Invit> invitList, List<MultipartFile> files);
+    // 대시보드 등록현황
+    TotalWorkStats selectWorkStats();
 }
