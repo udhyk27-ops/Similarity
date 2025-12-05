@@ -5,7 +5,6 @@ import com.example.java_practice.commons.dto.NoticeFile;
 import org.springframework.core.io.Resource;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface FileService {

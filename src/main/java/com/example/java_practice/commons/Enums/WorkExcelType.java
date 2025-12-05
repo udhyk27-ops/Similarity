@@ -5,12 +5,12 @@ public enum WorkExcelType {
     AWARD(
             "수상작_등록현황",
             new String[]{"번호", "이미지", "제목", "저작자명", "공모전명", "상권명", "주최", "주관", "발표년도", "등록일시"},
-            new String[]{"f_work_no", "f_filepath", "f_title", "f_author", "f_contest", "f_award", "f_host", "f_manager", "f_year", "f_reg_date"}
+            new String[]{"f_work_no", "f_filename", "f_title", "f_author", "f_contest", "f_award", "f_host", "f_manager", "f_year", "f_reg_date"}
     ),
     INVITE(
             "초대작_등록현황",
             new String[]{"번호", "이미지", "제목", "저작자명", "코드", "발표년도", "등록일시"},
-            new String[]{"f_work_no", "f_filepath", "f_title", "f_author", "f_code", "f_year", "f_reg_date"}
+            new String[]{"f_work_no", "f_filename", "f_title", "f_author", "f_code", "f_year", "f_reg_date"}
     );
 
     private final String sheetName;

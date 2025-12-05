@@ -12,6 +12,7 @@
         <result property="f_code" column="F_CODE"/>
         <result property="f_reg_date" column="F_REG_DATE"/>
         <result property="f_filepath" column="F_FILEPATH"/>
+        <result property="f_filename" column="F_FILENAME"/>
     </resultMap>
 
     <resultMap id="workStatsResultMap" type="WorkStats">
@@ -105,7 +106,7 @@
         from (
         select
         F_WORK_NO,
-        F_FILEPATH,
+        F_FILENAME,
         F_TITLE,
         F_AUTHOR,
         F_CODE,

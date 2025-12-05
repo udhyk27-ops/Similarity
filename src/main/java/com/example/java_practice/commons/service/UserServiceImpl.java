@@ -18,9 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    @Value("${file.upload-dir}")
-    private String uploadDir;
-
     private final AwardWorkMapper awardWorkMapper;
     private final InvitWorkMapper invitWorkMapper;
     private final FileService fileService;
@@ -78,6 +75,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public boolean deleteWork(String type, int workNo) {
         int rows;
         if(type.equals("award")){

@@ -1,34 +1,34 @@
-<div class="fragment" th:fragment="navbar">
+<div class="fragment" th:fragment="navbar" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <nav class="navbar-menu">
 
-        <div class="menu-section"><a href="/notice">공지사항</a></div>
-<!--        <div sec:authorize="hasRole('AWARD')">-->
+        <a href="/notice"><div class="menu-section">공지사항</div></a>
+<!--        <div sec:authorize="(authentication.principal.sort =='회원') or (authentication.principal.sort == '관리자' and hasRole('AWARD'))">-->
             <div class="menu-section">수상작 등록관리</div>
-            <div class="menu-item"><a href="/worklist/award">현황</a></div>
-            <div class="menu-item"><a href="/single/award">개별등록</a></div>
-            <div class="menu-item"><a href="/bulk/award">대량등록</a></div>
+            <a href="/worklist/award"><div class="menu-item">현황</div></a>
+            <a href="/single/award"><div class="menu-item">개별등록</div></a>
+            <a href="/bulk/award"><div class="menu-item">대량등록</div></a>
 <!--        </div>-->
-<!--        <div sec:authorize="hasRole('INVIT')">-->
+<!--        <div sec:authorize="(authentication.principal.sort =='회원') or (authentication.principal.sort == '관리자' and hasRole('INVIT'))">-->
             <div class="menu-section">초대작 등록관리</div>
-            <div class="menu-item"><a href="/worklist/invit">현황</a></div>
-            <div class="menu-item"><a href="/single/invit">개별등록</a></div>
-            <div class="menu-item"><a href="/bulk/invit">대량등록</a></div>
+            <a href="/worklist/invit"><div class="menu-item">현황</div></a>
+            <a href="/single/invit"><div class="menu-item">개별등록</div></a>
+            <a href="/bulk/invit"><div class="menu-item">대량등록</div></a>
 <!--        </div>-->
 <!--        <div th:if="${#authentication.principal.sort == '관리자'}">-->
 <!--            <div sec:authorize="hasRole('REG')">-->
                 <div class="menu-section">등록작품현황</div>
-                <div class="menu-item"><a href="javasctipt:void(0)">수상작 등록현황</a></div>
-                <div class="menu-item"><a href="javasctipt:void(0)">초대작 등록현황</a></div>
+                <a href="javasctipt:void(0)"><div class="menu-item">수상작 등록현황</div></a>
+                <a href="javasctipt:void(0)"><div class="menu-item">초대작 등록현황</div></a>
 <!--            </div>-->
 <!--            <div sec:authorize="hasRole('SIM')">-->
-                <div class="menu-section"><a href="javasctipt:void(0)">유사도검색</a></div>
+                <a href="javasctipt:void(0)"><div class="menu-section">유사도검색</div></a>
 <!--            </div>-->
 <!--            <div sec:authorize="hasRole('USER')">-->
-                <div class="menu-section"><a href="javasctipt:void(0)">운영회원관리</a></div>
+                <a href="javasctipt:void(0)"><div class="menu-section">운영회원관리</div></a>
 <!--            </div>-->
 <!--            <div sec:authorize="hasRole('ADMIN')">-->
-                <div class="menu-section"><a href="javasctipt:void(0)">관리자등록관리</a></div>
+                <a href="javasctipt:void(0)"><div class="menu-section">관리자등록관리</div></a>
 <!--            </div>-->
-        </div>
+<!--        </div>-->
     </nav>
 </div>

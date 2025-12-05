@@ -37,9 +37,11 @@
         .form-control {
             height: 2rem;
             width: 80%;
+            cursor: unset;
         }
         .select-control{
             width: 5rem;
+            cursor: pointer;
         }
         .margin-x{
             margin: 0 0.4rem;
@@ -92,10 +94,10 @@
                     <div class="card">
 
                         <div class="main-title">
-                            <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('개별등록')}"></th:block>
+                            <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle(${type == 'award' ? '수상작' : '초대작'} + ' 개별등록')}"></th:block>
                         </div>
                         <div class="work-detail-wrap">
-                            <form id="work_frm" th:action="${type =='award' ? '/regSingleAwardProcess' : '/regSingleInvitProcess'}" class="work-form" method="post" enctype="multipart/form-data">
+                            <form id="work_frm" th:action="@{/regSingleProcess}" class="work-form" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="type" th:value="${type}">
                                 <div class="work-container">
                                     <table class="layout">

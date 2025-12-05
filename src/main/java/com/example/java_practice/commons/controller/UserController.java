@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Year;
 import java.util.List;
 
@@ -81,7 +81,7 @@ public class UserController {
             String fileName = sheetName + "_" + System.currentTimeMillis() + ".xlsx";
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setHeader("Content-Disposition",
-                    "attachment;filename=" + new String(fileName.getBytes("KSC5601"), "8859_1"));
+                    "attachment;filename=" + new String(fileName.getBytes("KSC5601"), StandardCharsets.ISO_8859_1));
 
             workbook.write(response.getOutputStream());
             workbook.close();
@@ -118,14 +118,16 @@ public class UserController {
             awardParams.setF_code("EMC" + code);
 
             userService.insertSingleAwardWork(awardParams, file);
+            return "redirect:/worklist/award";
+
         }else{
             invitParams.setF_user_no(userDetails.getUserNo());
             invitParams.setF_work_size(size_wid + "x" + size_hei);
             invitParams.setF_code("EMC" + code);
 
             userService.insertSingleInvitWork(invitParams, file);
+            return "redirect:/worklist/invit";
         }
-        return "redirect:/worklist/award";
     }
 
     @GetMapping("/bulk/{type}")

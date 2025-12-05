@@ -13,7 +13,7 @@ const syncExcelData = {
             workDataList = jsonList.slice(1);
 
             // 데이터 뿌리기
-            this.renderList(jsonList);
+            this.renderList(jsonList, "sync");
 
         }
         reader.onerror = (e) => {
@@ -22,22 +22,26 @@ const syncExcelData = {
         }
         reader.readAsArrayBuffer(file);
     },
-    renderList : function (data){
+    renderList : function (data, flag=""){
         const fileCnt = document.getElementById("fileCnt");
         const excelDataList = document.getElementById("excelDataList");
         const type = document.getElementById('type').value;
         const colspan = (type === 'award') ? 12 : 9;
+        const syncBtn = document.getElementById("syncBtn");
 
         let html = ""
         const rows = workDataList.length > 0 ? workDataList : data.slice(1);
-        const chkText = "저작물사이즈(너비, 높이)";
-        const fileContainer = document.getElementById("fileListContainer");
-        if((type === "invit" && data[0][5] !== chkText) || (type === "award" && data[0][6] !== chkText)) {
-            alert("양식에 맞는 파일을 첨부해주세요");
-            fileContainer.remove();
-            excelDataList.innerHTML = "";
-            return;
+        if(flag === "sync"){
+            const chkText = "저작물사이즈(너비, 높이)";
+            const fileContainer = document.getElementById("fileListContainer");
+            if ((type === "invit" && data[0][5] !== chkText) || (type === "award" && data[0][6] !== chkText)) {
+                alert("양식에 맞는 파일을 첨부해주세요");
+                fileContainer.remove();
+                excelDataList.innerHTML = "";
+                return;
+            }
         }
+
         if(!data || data.length === 0 || rows.length === 0){
             html += `<tr>
                         <td colspan="${colspan}">해당하는 데이터가 없습니다</td>

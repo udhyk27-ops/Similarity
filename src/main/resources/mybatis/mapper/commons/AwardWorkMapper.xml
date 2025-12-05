@@ -15,6 +15,7 @@
         <result property="f_manage" column="F_MANAGE"/>
         <result property="f_host" column="F_HOST"/>
         <result property="f_reg_date" column="F_REG_DATE"/>
+        <result property="f_filename" column="F_FILENAME"/>
         <result property="f_filepath" column="F_FILEPATH"/>
     </resultMap>
 
@@ -128,7 +129,7 @@
         from (
         select
         F_WORK_NO,
-        F_FILEPATH,
+        F_FILENAME,
         F_TITLE,
         F_AUTHOR,
         F_CONTEST,

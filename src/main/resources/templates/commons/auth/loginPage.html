@@ -6,6 +6,9 @@
     <title>Login</title>
     <link rel="stylesheet" th:href="@{/css/layout.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             display: flex;
@@ -30,6 +33,7 @@
             display: flex;
             align-items: center;
             text-align: center;
+            font-family: "Chiron Sung HK", sans-serif;
         }
         .form .form-header > h3 {
             width: calc(100%);
@@ -127,7 +131,6 @@
                 }
             })
             submitBtn.addEventListener("click", function(e) {
-                console.log("실행1");
                 if(!validate.chkEmpty()) {
                     e.preventDefault();
                 }

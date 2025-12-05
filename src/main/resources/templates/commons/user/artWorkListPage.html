@@ -116,11 +116,8 @@
 
                     <div class="card">
 
-                        <div class="main-title" th:if="${type == 'award'}">
-                            <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('수상작 등록현황')}"></th:block>
-                        </div>
-                        <div class="main-title" th:unless="${type == 'award'}">
-                            <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('초대작 등록현황')}"></th:block>
+                        <div class="main-title">
+                            <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle(${type == 'award' ? '수상작' : '초대작'} + ' 등록관리 현황')}"></th:block>
                         </div>
                         <div class="search-box">
                             <form id="schForm" class="sch-form" th:action="@{/worklist/{type}(type=${type})}" method="get">
@@ -218,7 +215,7 @@
                                 </tr>
                                 <tr th:if="${type=='award'}" th:each="award:${workList}">
                                     <td id="workNo" th:text="${award.f_work_no}"></td>
-                                    <td><img class="artwork-img" th:src="${award.f_filepath}" alt="수상작 작품"></td>
+                                    <td class="al-center"><img class="artwork-img" th:src="${award.f_filepath}" alt="수상작 작품"></td>
                                     <td class="artwork-title" th:text="${award.f_title}"></td>
                                     <td th:text="${award.f_author}"></td>
                                     <td th:text="${award.f_contest} + ' ' +${award.f_award}"></td>

@@ -131,7 +131,7 @@
                 <div class="card">
 
                     <div class="main-title">
-                        <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle('대량등록')}"></th:block>
+                        <th:block th:replace="~{commons/fragments/mainTitlePage.html :: mainTitle(${type == 'award' ? '수상작' : '초대작'} + ' 대량등록')}"></th:block>
                     </div>
                     <div class="upload-row">
                         <div class="upload-box">

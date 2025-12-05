@@ -184,10 +184,10 @@
                 const viewedKey = "viewed_notice_" + id;
                 const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
-                // 이미 본 글이면 return
                 const viewedDate = localStorage.getItem(viewedKey);
-                console.log(viewedDate === today);
-                if (viewedDate === today) return;
+                if (viewedDate === today) {
+                    return;
+                }
 
                 localStorage.setItem(viewedKey, today);
 
@@ -201,9 +201,6 @@
                         [header]: token
                     }
                 });
-
-                // 조회 처리 기록
-                localStorage.setItem(viewedKey, "true");
 
             },
             deleteNotice : function () {
@@ -220,13 +217,13 @@
                         [header]: token
                     }
                 })
-                    .then(res => res.json())
-                    .then(data => {
-                        alert(data.msg);
-                        if(data.status){
-                            location.href = "/notice";
-                        }
-                    });
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.msg);
+                    if(data.status){
+                        location.href = "/notice";
+                    }
+                });
             }
         }
     </script>

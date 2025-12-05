@@ -1,6 +1,5 @@
 package com.example.java_practice.commons.security;
 
-import com.example.java_practice.commons.dto.User;
 import com.example.java_practice.commons.dto.UserWithAuth;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

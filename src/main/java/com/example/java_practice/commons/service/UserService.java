@@ -1,12 +1,10 @@
 package com.example.java_practice.commons.service;
 
 import com.example.java_practice.commons.dto.*;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public interface UserService {
     // 등록현황 리스트(수상작/초대작)

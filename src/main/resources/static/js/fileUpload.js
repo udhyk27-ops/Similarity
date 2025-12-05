@@ -82,7 +82,6 @@ const fileUpload = {
     },
     formatSize : function (size) {
 
-
         const units = ["B", "KB", "MB", "GB"];
         let i = 0;
 
