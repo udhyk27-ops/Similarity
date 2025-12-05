@@ -1,9 +1,59 @@
+export function bindEvents(context) {
+    const self = context;
+    const path = window.location.pathname.split('/').pop();
+
+    // 테이블 행 클릭
+    $('.reg-list-row').on('click', function() {
+        const workNo = $(this).data('work-no');
+        $('.info-workNo').val(workNo);
+        self.loadWork(workNo);
+    });
+
+    // 이미지 다운로드
+    $('.download-btn').on('click', () => downloadImage('#work-img', '#work-title'));
+
+    // 모달 열기
+    $('#openModal').on('click', () => openUserModal());
+
+    // 모달 닫기
+    $('.close').on('click', () => $('#myModal').fadeOut());
+    $(window).on('click', e => { if ($(e.target).is('#myModal')) $('#myModal').fadeOut(); });
+
+    // 모달 검색
+    $('.modal-sch .cell-btn').on('click', () => doSearch());
+    $('input[name="modal-keyword"]').on('keypress', e => { if(e.key === 'Enter') doSearch(); });
+
+    // 필터 변경
+    $('.filter').on('change', function() {
+        window.location.href = '/award?filter=' + $(this).val();
+    });
+
+    // 모달 내 회원 선택
+    $('#user-row').on('click', '.cell-btn', function() {
+        fillFormFromRow({
+            row: $(this).closest('.row'),
+            inputs: '.user-tb input',
+            mapping: ['.f_area', '.f_name', '.f_birth', '.f_phone', '.f_email', null, '.f_main_address', '.f_sub_address', '.f_user_no']
+        });
+        $('#myModal').fadeOut();
+    });
+
+    // 삭제 버튼
+    $('.del-btn').on('click', () => deleteWork());
+
+    // 우편번호 버튼
+    $('.post-btn').on('click', () => openPostcode(self.fillAddress));
+
+    // 수정 버튼
+    $('.mod-btn').on('click', () => modifyWork());
+
+    // 작품 등록 페이지 이동
+    $('.ins-btn').on('click', () => window.location.href = '/single/' + path);
+}
+
+
 /**
  * AJAX
- * @param url
- * @param data
- * @param onSuccess
- * @param onError
  */
 export function getAJAX(url, data, onSuccess, onError = console.error) {
     $.ajax({ url, type: 'GET', data, success: onSuccess, error: onError });
@@ -25,7 +75,6 @@ export function postAJAX(url, data, onSuccess, onError = console.error) {
 
 /**
  * 우편번호 API
- * @param callback
  */
 export function openPostcode(callback) {
     new daum.Postcode({
@@ -43,8 +92,6 @@ export function openPostcode(callback) {
 
 /**
  * flatpickr
- * @param selector
- * @param options
  */
 export function initDatePicker(selector, options = {}) {
     flatpickr(selector, { locale: 'ko', dateFormat: 'Y-m-d', ...options });
@@ -69,12 +116,6 @@ export function downloadImage(imgSelector, fileNameSelector) {
 
 /**
  * 모달
- * @param tableSelector
- * @param rowSelector
- * @param excludeSelector
- * @param searchInputSelector
- * @param optionSelector
- * @param columns
  */
 export function filterTableRows({ tableSelector, rowSelector, excludeSelector, searchInputSelector, optionSelector, columns }) {
     const keyword = $(searchInputSelector).val().toLowerCase();
@@ -98,9 +139,6 @@ export function filterTableRows({ tableSelector, rowSelector, excludeSelector, s
 
 /**
  * 모달 검색 후 input 값 채우기
- * @param row
- * @param inputs
- * @param mapping
  */
 export function fillFormFromRow({ row, inputs, mapping }) {
     const $row = $(row);
@@ -113,9 +151,6 @@ export function fillFormFromRow({ row, inputs, mapping }) {
 
 /**
  * 엑셀
- * @param header
- * @param row
- * @param fileName
  */
 export function excel({ header, row, fileName }) {
     // 1) 헤더

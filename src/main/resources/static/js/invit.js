@@ -3,54 +3,8 @@ import * as util from './utils.js';
 const InvitModule = {
     init() {
         this.path = window.location.pathname.split('/').pop();
-        this.bindEvents();
+        util.bindEvents(this);
         util.initDatePicker(".flatpickr");
-    },
-
-    bindEvents() {
-        const self = this;
-
-        // 테이블 행 클릭
-        $('.reg-list-row').on('click', function() {
-            const workNo = $(this).data('work-no');
-            $('.info-workNo').val(workNo);
-            self.loadWork(workNo);
-        });
-        // 이미지 다운로드
-        $('.download-btn').on('click', () => util.downloadImage('#work-img', '#work-title'));
-
-        // 모달 열기
-        $('#openModal').on('click', () => util.openUserModal());
-
-        // 모달 닫기
-        $('.close').on('click', () => $('#myModal').fadeOut());
-        $(window).on('click', e => { if ($(e.target).is('#myModal')) $('#myModal').fadeOut(); });
-
-        // 모달 검색
-        $('.modal-sch .cell-btn').on('click', () => util.doSearch());
-        $('input[name="modal-keyword"]').on('keypress', e => { if(e.key === 'Enter') util.doSearch(); });
-
-        // 회원 선택
-        $('#user-row').on('click', '.cell-btn', function() {
-            util.fillFormFromRow({
-                row: $(this).closest('.row'),
-                inputs: '.user-tb input',
-                mapping: ['.f_area', '.f_name', '.f_birth', '.f_phone', '.f_email', null, '.f_main_address', '.f_sub_address', '.f_user_no']
-            });
-            $('#myModal').fadeOut();
-        });
-
-        // 우편번호 버튼
-        $('.post-btn').on('click', () => util.openPostcode(self.fillAddress));
-
-        // 삭제 버튼
-        $('.del-btn').on('click', () => util.deleteWork());
-
-        // 수정 버튼
-        $('.mod-btn').on('click', () => util.modifyWork());
-
-        // 작품 등록 페이지 이동
-        $('.ins-btn').on('click', () => window.location.href = '/single/invit');
     },
 
     loadWork(workNo) {
