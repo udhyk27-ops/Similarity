@@ -215,7 +215,7 @@
                                 </tr>
                                 <tr th:if="${type=='award'}" th:each="award:${workList}">
                                     <td id="workNo" th:text="${award.f_work_no}"></td>
-                                    <td class="al-center"><img class="artwork-img" th:src="${award.f_filepath}" alt="수상작 작품"></td>
+                                    <td class="al-center"><img class="artwork-img" th:src="${award.f_filepath == null ? '/images/noPhoto.png' : award.f_filepath}" alt="수상작 작품"></td>
                                     <td class="artwork-title" th:text="${award.f_title}"></td>
                                     <td th:text="${award.f_author}"></td>
                                     <td th:text="${award.f_contest} + ' ' +${award.f_award}"></td>
@@ -226,7 +226,7 @@
                                 </tr>
                                 <tr th:if="${type=='invit'}" th:each="invit:${workList}">
                                     <td th:text="${invit.f_work_no}"></td>
-                                    <td><img class="artwork-img" th:src="${invit.f_filepath}" alt="초대작 작품"></td>
+                                    <td><img class="artwork-img" th:src="${invit.f_filepath == null ? '/images/noPhoto.png' : invit.f_filepath}" alt="초대작 작품"></td>
                                     <td class="artwork-title" th:text="${invit.f_title}"></td>
                                     <td th:text="${invit.f_author}"></td>
                                     <td th:text="${invit.f_code}"></td>
