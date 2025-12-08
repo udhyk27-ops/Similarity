@@ -153,6 +153,10 @@
         where F_WORK_NO = #{workNo}
     </update>
 
+    <select id="chkDupInvitWork" resultType="boolean">
+        select count(*) from T_INVIT_WORK where F_TITLE = #{f_title} and F_AUTHOR = #{f_author} and F_YEAR = #{f_year}
+    </select>
+
     <insert id="insertInvitWork">
         <selectKey keyProperty="f_work_no" resultType="int" order="BEFORE">
             SELECT NVL(MAX(F_WORK_NO), 0) + 1 FROM T_INVIT_WORK

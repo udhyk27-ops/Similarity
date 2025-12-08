@@ -61,6 +61,7 @@ public class UserRestController {
                 );
                 success = userService.insertBatchInvitWork(userDetails.getUserNo(), invitList, photos);
             }
+
             if(success) return ResponseEntity.ok().body(Map.of("status", true, "msg", "등록이 완료되었습니다"));
             else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status", false, "msg", "등록에 실패했습니다"));
         }catch (Exception e){

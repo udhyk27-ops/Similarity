@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Year;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,6 +43,10 @@ public class UserController {
             @RequestParam(defaultValue = "10") int size,
             WorkSearch params)
     {
+
+        Set<String> validTypes = Set.of("award", "invit");
+        if(!validTypes.contains(type)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
         if(params.getStaDate() == null) params.setStaDate("");
         if(params.getEndDate() == null) params.setEndDate("");
         if(params.getStaYear() == null) params.setStaYear("");
@@ -70,6 +77,7 @@ public class UserController {
                               HttpServletResponse response)
     {
 
+
         WorkExcelType workExcelType = WorkExcelType.fromString(type);
         String sheetName = workExcelType.getSheetName();
         String[] headers = workExcelType.getHeaders();
@@ -95,6 +103,10 @@ public class UserController {
     public String singleRegPage(@PathVariable("type") String type,
                                 Model model)
     {
+
+        Set<String> validTypes = Set.of("award", "invit");
+        if(!validTypes.contains(type)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
         int currentYear = Year.now().getValue();
         model.addAttribute("type", type);
         model.addAttribute("currentYear", currentYear);
@@ -113,20 +125,26 @@ public class UserController {
     {
             String code = String.format("%06d", (int)(Math.random() * 1000000));
         if(type.equals("award")){
+            boolean result = userService.chkDupAwardWork(awardParams.getF_contest(), awardParams.getF_award(), awardParams.getF_year());
+            if(result) return "redirect:/single/award?dup=true";
+
             awardParams.setF_user_no(userDetails.getUserNo());
             awardParams.setF_work_size(size_wid + "x" + size_hei);
             awardParams.setF_code("EMC" + code);
 
             userService.insertSingleAwardWork(awardParams, file);
-            return "redirect:/worklist/award";
+            return "redirect:/single/award?dup=false";
 
         }else{
+            boolean result = userService.chkDupInvitWork(invitParams.getF_title(), invitParams.getF_author(), invitParams.getF_year());
+            if(result) return "redirect:/single/invit?dup=true";
+
             invitParams.setF_user_no(userDetails.getUserNo());
             invitParams.setF_work_size(size_wid + "x" + size_hei);
             invitParams.setF_code("EMC" + code);
 
             userService.insertSingleInvitWork(invitParams, file);
-            return "redirect:/worklist/invit";
+            return "redirect:/single/invit?dup=false";
         }
     }
 
@@ -134,6 +152,9 @@ public class UserController {
     public String bulkRegPage(@PathVariable("type") String type,
                               Model model)
     {
+        Set<String> validTypes = Set.of("award", "invit");
+        if(!validTypes.contains(type)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
         model.addAttribute("type", type);
         return "commons/user/bulkRegPage";
     }
@@ -141,6 +162,7 @@ public class UserController {
     public void downloadForm(@PathVariable("type") String type,
                              HttpServletResponse response)
     {
+
         FormExcelType formExcelType = FormExcelType.fromString(type);
         String sheetName = formExcelType.getSheetName();
         String[] headers = formExcelType.getHeaders();

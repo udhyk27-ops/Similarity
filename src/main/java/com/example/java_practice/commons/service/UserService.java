@@ -18,8 +18,12 @@ public interface UserService {
     List<String> selectYearList(String type);
     // 삭제
     boolean deleteWork(String type, int workNo);
+    // 수상작 중복 체크
+    boolean chkDupAwardWork(String contest, String award, String year);
     // 수상작 개별 등록
     void insertSingleAwardWork(Award award, MultipartFile file);
+    // 초대작 중복 체크
+    boolean chkDupInvitWork(String title, String author, String year);
     // 초대작 개별 등록
     void insertSingleInvitWork(Invit invit, MultipartFile file);
     // 수상작 단체등록

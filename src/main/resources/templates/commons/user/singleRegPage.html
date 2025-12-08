@@ -98,7 +98,7 @@
                         </div>
                         <div class="work-detail-wrap">
                             <form id="work_frm" th:action="@{/regSingleProcess}" class="work-form" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="type" th:value="${type}">
+                                <input type="hidden" id="type" name="type" th:value="${type}">
                                 <div class="work-container">
                                     <table class="layout">
                                         <tr>
@@ -207,6 +207,11 @@
                     this.form.submit();
                 }
             })
+            const urlParams = new URLSearchParams(window.location.search);
+            const dup = urlParams.get("dup");
+            if(dup){
+                validate.checkError(dup);
+            }
 
         });
         const validate = {
@@ -219,8 +224,17 @@
                         return false;
                     }
                 };
-                alert("저장이 완료되었습니다");
                 return true;
+            },
+            checkError : function(dup){
+                const type = document.getElementById("type").value;
+                if(dup === 'true'){
+                    alert("이미 등록된 정보입니다");
+                    location.href = `/single/${type}`;
+                }else{
+                    alert("등록이 완료되었습니다");
+                    location.href = `/worklist/${type}`;
+                }
             }
         }
     </script>

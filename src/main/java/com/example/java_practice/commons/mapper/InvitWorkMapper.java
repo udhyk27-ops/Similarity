@@ -17,6 +17,7 @@ public interface InvitWorkMapper {
     List<Invit> selectInvitListForExcel(WorkSearch workSearch);
     List<String> selectInvitYearList();
     int updateInvitStatusByWorkNo(@Param("workNo") int workNo);
+    boolean chkDupInvitWork(@Param("f_title") String title, @Param("f_author") String author, @Param("f_year") String year);
     void insertInvitWork(Invit invit);
     int selectNextWorkNo();
     int insertBatchInvitWork(List<Invit> invit);

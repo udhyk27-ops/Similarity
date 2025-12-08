@@ -87,6 +87,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean chkDupAwardWork(String contest, String award, String year) {
+        return awardWorkMapper.chkDupAwardWork(contest, award, year);
+    }
+
+    @Override
     @Transactional
     public void insertSingleAwardWork(Award params, MultipartFile file) {
 
@@ -117,6 +122,11 @@ public class UserServiceImpl implements UserService{
             params.setF_filepath("");
         }
         awardWorkMapper.insertAwardWork(params);
+    }
+
+    @Override
+    public boolean chkDupInvitWork(String title, String author, String year) {
+        return invitWorkMapper.chkDupInvitWork(title, author, year);
     }
 
     @Override
@@ -154,11 +164,15 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public boolean insertBatchAwardWork(int userNo, List<Award> awardList, List<MultipartFile> files) {
+
         // pk 값 가져오기
         int maxNum = awardWorkMapper.selectNextWorkNo();
         boolean hasFile = (files != null && !files.isEmpty());
 
+        List<Award> validAwardList = new ArrayList<>();
+
         List<Path> uploadedFiles = new ArrayList<>();
+
         Map<String, MultipartFile> fileMap = Map.of();
         if(hasFile) {
             fileMap = files.stream()
@@ -169,6 +183,11 @@ public class UserServiceImpl implements UserService{
 
         for(int i = 0; i < awardList.size(); i++) {
             Award award = awardList.get(i);
+
+            boolean isDup = chkDupAwardWork(award.getF_contest(), award.getF_award(), award.getF_year());
+            if(isDup) continue;
+
+            validAwardList.add(award);
 
             String code = String.format("%06d", (int)(Math.random() * 1000000));
             award.setF_code("EMC" + code);
@@ -204,8 +223,9 @@ public class UserServiceImpl implements UserService{
                 award.setF_filepath("");
             }
         }
+        if(validAwardList.isEmpty()) return false;
 
-        int rows = awardWorkMapper.insertBatchAwardWork(awardList);
+        int rows = awardWorkMapper.insertBatchAwardWork(validAwardList);
         if(rows == 0) fileService.deleteFiles(uploadedFiles);
         return rows > 0;
     }
@@ -213,8 +233,12 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public boolean insertBatchInvitWork(int userNo, List<Invit> invitList, List<MultipartFile> files) {
+
         int maxNum = invitWorkMapper.selectNextWorkNo();
         boolean hasFile = (files != null && !files.isEmpty());
+
+        List<Invit> validInvitList = new ArrayList<>();
+
         List<Path> uploadedFiles = new ArrayList<>();
         Map<String, MultipartFile> fileMap = Map.of();
         if(hasFile) {
@@ -224,6 +248,12 @@ public class UserServiceImpl implements UserService{
         Path dirPath = fileService.createDirPath("images");
         for(int i = 0; i < invitList.size(); i++) {
             Invit invit = invitList.get(i);
+
+            boolean isDup = chkDupInvitWork(invit.getF_title(), invit.getF_author(), invit.getF_year());
+            if(isDup) continue;
+
+            validInvitList.add(invit);
+
             String code = String.format("%06d", (int)(Math.random() * 1000000));
             invit.setF_code("EMC" + code);
             invit.setF_memo("");
@@ -255,7 +285,10 @@ public class UserServiceImpl implements UserService{
                 invit.setF_filepath("");
             }
         }
-        int rows = invitWorkMapper.insertBatchInvitWork(invitList);
+
+        if(validInvitList.isEmpty()) return false;
+
+        int rows = invitWorkMapper.insertBatchInvitWork(validInvitList);
         if(rows == 0) fileService.deleteFiles(uploadedFiles);
         return rows > 0;
     }

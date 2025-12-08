@@ -187,6 +187,10 @@
         where F_WORK_NO = #{workNo}
     </update>
 
+    <select id="chkDupAwardWork" resultType="boolean">
+        select count(*) from T_AWARD_WORK where F_CONTEST = #{f_contest} and F_AWARD = #{f_award} and F_YEAR = #{f_year}
+    </select>
+
     <insert id="insertAwardWork">
         <selectKey keyProperty="f_work_no" resultType="int" order="BEFORE">
             SELECT NVL(MAX(F_WORK_NO), 0) + 1 FROM T_AWARD_WORK

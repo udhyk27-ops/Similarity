@@ -213,8 +213,8 @@
                                 <tr th:if="${type=='invit' and #lists.isEmpty(workList)}">
                                     <td colspan="8">등록된 정보가 없습니다</td>
                                 </tr>
-                                <tr th:if="${type=='award'}" th:each="award:${workList}">
-                                    <td id="workNo" th:text="${award.f_work_no}"></td>
+                                <tr th:if="${type=='award'}" th:each="award, iter :${workList}">
+                                    <td id="workNo" th:text="${totalCnt - iter.index}"></td>
                                     <td class="al-center"><img class="artwork-img" th:src="${award.f_filepath == null ? '/images/noPhoto.png' : award.f_filepath}" alt="수상작 작품"></td>
                                     <td class="artwork-title" th:text="${award.f_title}"></td>
                                     <td th:text="${award.f_author}"></td>
