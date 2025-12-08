@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>500 Unexpected Error</title>
+    <link rel="stylesheet" th:href="@{/css/error.css}">
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed:100,200,300,400" rel="stylesheet">
+    <style>
+        :root {
+            --main-color: #ffefef;
+            --stroke-color: #ff7e7e;
+            --text-color: #ff7272;
+        }
+        /**/
+        body {
+            background: var(--main-color);
+        }
+        h1 {
+            margin: 100px auto 0 auto;
+            color: var(--text-color);
+            font-family: 'Encode Sans Semi Condensed', Verdana, sans-serif;
+            font-size: 10rem; line-height: 10rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        h2{
+            color: var(--text-color);
+            font-weight: 400;
+        }
+
+    </style>
+</head>
+<body class="loading">
+    <div class="error-wrapper">
+        <h1>500</h1>
+        <h2>Unexpected Error</h2>
+        <div class="gears">
+            <div class="gear one">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div class="gear two">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div class="gear three">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function (){
+            setTimeout(function (){
+                history.back();
+            }, 2500)
+        })
+    </script>
+</body>
+</html>

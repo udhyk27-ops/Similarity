@@ -46,7 +46,7 @@
             display: flex;
             gap: 0.25rem;
         }
-        .align-start{
+        tbody .align-start{
             text-align: start;!important;
         }
     </style>
@@ -113,7 +113,7 @@
                                 </tr>
                                 <tr th:each="notice:${noticeList}" th:unless="${#lists.isEmpty(noticeList)}">
                                     <td th:text="${notice.f_id}"></td>
-                                    <td style="text-align: start;!important"><a th:href="@{/detail/{id}(id=${notice.f_id})}" th:text="${notice.f_title}"></a></td>
+                                    <td class="align-start"><a th:href="@{/detail/{id}(id=${notice.f_id})}" th:text="${notice.f_title}"></a></td>
                                     <td th:text="${notice.writer.f_name}"></td>
                                     <td th:text="${#temporals.format(notice.f_regdate, 'yyyy-MM-dd HH:mm')}"></td>
                                     <td th:text="${notice.f_viewcnt}"></td>

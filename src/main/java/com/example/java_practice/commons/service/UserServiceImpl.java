@@ -4,7 +4,6 @@ import com.example.java_practice.commons.dto.*;
 import com.example.java_practice.commons.mapper.AwardWorkMapper;
 import com.example.java_practice.commons.mapper.InvitWorkMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -102,15 +101,12 @@ public class UserServiceImpl implements UserService{
             String originalFileName = file.getOriginalFilename();
             params.setF_filename(originalFileName);
 
-//            String storedFileName = fileService.createStoredFileName(originalFileName);
 
             Path dirPath = fileService.createDirPath("images");
             Path filePath = dirPath.resolve(originalFileName);
-//            Path filePath = dirPath.resolve(storedFileName);
 
             try{
                 file.transferTo(filePath);
-//                params.setF_filepath("/uploads/image/" + storedFileName);
                 params.setF_filepath("/images/" + originalFileName);
             }catch (IOException e){
                 fileService.deleteFile(filePath);
@@ -139,15 +135,12 @@ public class UserServiceImpl implements UserService{
             String originalFileName = file.getOriginalFilename();
             params.setF_filename(originalFileName);
 
-//            String storedFileName = fileService.createStoredFileName(originalFileName);
 
             Path dirPath = fileService.createDirPath("images");
             Path filePath = dirPath.resolve(originalFileName);
-//            Path filePath = dirPath.resolve(storedFileName);
 
             try{
                 file.transferTo(filePath);
-//                params.setF_filepath("/uploads/image/" + storedFileName);
                 params.setF_filepath("/images/" + originalFileName);
             }catch (IOException e){
                 fileService.deleteFile(filePath);
@@ -201,13 +194,10 @@ public class UserServiceImpl implements UserService{
 
                 if(originalFileName!= null && fileMap.containsKey(originalFileName)) {
                     MultipartFile matchedFile = fileMap.get(originalFileName);
-//                    String storedFileName = fileService.createStoredFileName(originalFileName);
                     Path filePath = dirPath.resolve(originalFileName);
-//            Path filePath = dirPath.resolve(storedFileName);
                     try {
                         matchedFile.transferTo(filePath);
                         uploadedFiles.add(filePath);
-//                award.setF_filepath("/uploads/image/" + storedFileName);
                         award.setF_filepath("/images/" + originalFileName);
                     } catch (IOException e) {
                         fileService.deleteFile(filePath);
@@ -263,14 +253,11 @@ public class UserServiceImpl implements UserService{
                 String originalFileName = invit.getF_filename();
                 if(originalFileName!= null && fileMap.containsKey(originalFileName)) {
                     MultipartFile matchedFile = fileMap.get(originalFileName);
-//                    String storedFileName = fileService.createStoredFileName(originalFileName);
                     Path filePath = dirPath.resolve(originalFileName);
-//            Path filePath = dirPath.resolve(storedFileName);
                     try{
                         matchedFile.transferTo(filePath);
                         uploadedFiles.add(filePath);
 
-//                invit.setF_filepath("/uploads/image/" + storedFileName);
                         invit.setF_filepath("/images/" + originalFileName);
                     }catch(IOException e){
                         fileService.deleteFile(filePath);
