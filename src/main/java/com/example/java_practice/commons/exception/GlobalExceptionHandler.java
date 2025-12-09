@@ -1,6 +1,7 @@
 package com.example.java_practice.commons.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,6 +18,14 @@ public class GlobalExceptionHandler {
         log.error("IllegalArgument", e.getMessage());
         model.addAttribute("msg", "잘못된 요청이 발생했습니다");
         return "error/400";
+    }
+
+    // 404 
+    @ExceptionHandler(NotFoundException.class)
+    public String handleNotFoundException(NotFoundException e, Model model) {
+        log.error("Not Found: {}", e.getMessage());
+        model.addAttribute("msg", "페이지를 찾을 수 없습니다");
+        return "error/404";
     }
 
     @ExceptionHandler(RuntimeException.class)

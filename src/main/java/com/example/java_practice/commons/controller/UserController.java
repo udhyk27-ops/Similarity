@@ -11,6 +11,7 @@ import com.example.java_practice.commons.utils.CreateExcel;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,10 +36,10 @@ public class UserController {
 
     private final UserService userService;
 
-//    @GetMapping("/test")
-//    public String test() {
-//        throw new RuntimeException("에러가 발생했습니다");
-//    }
+    @GetMapping("/test")
+    public String test() {
+        throw new RuntimeException("에러가 발생했습니다");
+    }
 
     @GetMapping("/worklist/{type}")
     public String artWorkListPage(
@@ -46,11 +47,11 @@ public class UserController {
             @PathVariable("type") String type,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
-            WorkSearch params)
+            WorkSearch params) throws NotFoundException
     {
 
         Set<String> validTypes = Set.of("award", "invit");
-        if(!validTypes.contains(type)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        if(!validTypes.contains(type)) throw new NotFoundException("페이지를 찾을 수 없음");
 
         if(params.getStaDate() == null) params.setStaDate("");
         if(params.getEndDate() == null) params.setEndDate("");
@@ -105,11 +106,11 @@ public class UserController {
 
     @GetMapping("/single/{type}")
     public String singleRegPage(@PathVariable("type") String type,
-                                Model model)
+                                Model model) throws NotFoundException
     {
 
         Set<String> validTypes = Set.of("award", "invit");
-        if(!validTypes.contains(type)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        if(!validTypes.contains(type)) throw new NotFoundException("페이지를 찾을 수 없음");
 
         int currentYear = Year.now().getValue();
         model.addAttribute("type", type);
@@ -154,10 +155,10 @@ public class UserController {
 
     @GetMapping("/bulk/{type}")
     public String bulkRegPage(@PathVariable("type") String type,
-                              Model model)
+                              Model model) throws NotFoundException
     {
         Set<String> validTypes = Set.of("award", "invit");
-        if(!validTypes.contains(type)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        if(!validTypes.contains(type)) throw new NotFoundException("페이지를 찾을 수 없음");
 
         model.addAttribute("type", type);
         return "commons/user/bulkRegPage";
