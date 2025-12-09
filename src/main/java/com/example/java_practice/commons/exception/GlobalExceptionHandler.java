@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
     // 일반적인 예외
     @ExceptionHandler(Exception.class)
     public String handleException(Exception e, Model model){
-        log.error("Unexpected Exception", e);
+        log.error("Unexpected Error", e);
         model.addAttribute("msg", "시스템 오류가 발생했습니다");
         return "error/error";
     }
