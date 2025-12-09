@@ -1,7 +1,7 @@
 package com.example.java_practice.commons.controller;
 
-import com.example.java_practice.commons.Enums.FormExcelType;
-import com.example.java_practice.commons.Enums.WorkExcelType;
+import com.example.java_practice.commons.enums.FormExcelType;
+import com.example.java_practice.commons.enums.WorkExcelType;
 import com.example.java_practice.commons.dto.Award;
 import com.example.java_practice.commons.dto.Invit;
 import com.example.java_practice.commons.dto.WorkSearch;
@@ -34,6 +34,11 @@ import java.util.Set;
 public class UserController {
 
     private final UserService userService;
+
+//    @GetMapping("/test")
+//    public String test() {
+//        throw new RuntimeException("에러가 발생했습니다");
+//    }
 
     @GetMapping("/worklist/{type}")
     public String artWorkListPage(
@@ -77,7 +82,6 @@ public class UserController {
                               HttpServletResponse response)
     {
 
-
         WorkExcelType workExcelType = WorkExcelType.fromString(type);
         String sheetName = workExcelType.getSheetName();
         String[] headers = workExcelType.getHeaders();
@@ -95,7 +99,7 @@ public class UserController {
             workbook.close();
 
         }catch (Exception e){
-            log.error(e.getMessage(), e);
+            throw new RuntimeException("엑셀 다운로드 중 오류 발생" + e.getMessage());
         }
     }
 
@@ -125,7 +129,7 @@ public class UserController {
     {
             String code = String.format("%06d", (int)(Math.random() * 1000000));
         if(type.equals("award")){
-            boolean result = userService.chkDupAwardWork(awardParams.getF_contest(), awardParams.getF_award(), awardParams.getF_year());
+            boolean result = userService.chkDupAwardWork(awardParams.getF_author(), awardParams.getF_contest(), awardParams.getF_award(), awardParams.getF_year());
             if(result) return "redirect:/single/award?dup=true";
 
             awardParams.setF_user_no(userDetails.getUserNo());
@@ -177,7 +181,7 @@ public class UserController {
             workbook.write(response.getOutputStream());
             workbook.close();
         }catch (Exception e){
-            log.error(e.getMessage(), e);
+            throw new RuntimeException("엑셀 다운로드 중 오류 발생" + e.getMessage());
         }
     }
 }

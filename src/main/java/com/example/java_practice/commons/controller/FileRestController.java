@@ -19,12 +19,13 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/file/*")
 @RequiredArgsConstructor
-public class FileController {
+public class FileRestController {
 
     private final FileService fileService;
 
     @GetMapping("/download/{fileId}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable int fileId){
+    public ResponseEntity<Resource> downloadFile(@PathVariable int fileId)
+    {
         NoticeFile noticeFile = fileService.getFileInfo(fileId);
         if(noticeFile == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 

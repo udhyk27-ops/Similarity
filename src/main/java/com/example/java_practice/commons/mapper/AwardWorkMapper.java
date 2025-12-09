@@ -17,7 +17,7 @@ public interface AwardWorkMapper {
     List<Award> selectAwardListForExcel(WorkSearch workSearch);
     List<String> selectAwardYearList();
     int updateAwardStatusByWorkNo(@Param("workNo") int workNo);
-    boolean chkDupAwardWork(@Param("f_contest") String contest, @Param("f_award") String award, @Param("f_year") String year);
+    boolean chkDupAwardWork(@Param("f_author") String author, @Param("f_contest") String contest, @Param("f_award") String award, @Param("f_year") String year);
     void insertAwardWork(Award award);
     int selectNextWorkNo();
     int insertBatchAwardWork(List<Award> award);

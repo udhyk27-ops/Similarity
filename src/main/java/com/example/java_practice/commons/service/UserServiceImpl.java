@@ -86,8 +86,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean chkDupAwardWork(String contest, String award, String year) {
-        return awardWorkMapper.chkDupAwardWork(contest, award, year);
+    public boolean chkDupAwardWork(String author, String contest, String award, String year) {
+        return awardWorkMapper.chkDupAwardWork(author, contest, award, year);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService{
         for(int i = 0; i < awardList.size(); i++) {
             Award award = awardList.get(i);
 
-            boolean isDup = chkDupAwardWork(award.getF_contest(), award.getF_award(), award.getF_year());
+            boolean isDup = chkDupAwardWork(award.getF_author(), award.getF_contest(), award.getF_award(), award.getF_year());
             if(isDup) continue;
 
             validAwardList.add(award);

@@ -36,27 +36,20 @@ public class NoticeRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteNotice(@PathVariable("id") int id)
     {
-        try{
-            ArrayList<NoticeFile> noticeFiles = noticeService.selectNoticeFilesByNoticeId(id);
-            boolean success = noticeService.deleteNoticeById(id);
-            if(success){
-                List<Path> paths = noticeFiles.stream()
-                        .map(f -> Path.of(baseUploadDir + "/notice", f.getF_filename()))
-                        .toList();
+        ArrayList<NoticeFile> noticeFiles = noticeService.selectNoticeFilesByNoticeId(id);
+        boolean success = noticeService.deleteNoticeById(id);
+        if(success){
+            List<Path> paths = noticeFiles.stream()
+                    .map(f -> Path.of(baseUploadDir + "/notice", f.getF_filename()))
+                    .toList();
 
-                fileService.deleteFiles(paths);
-                return ResponseEntity.ok().body(
-                        Map.of("status", true, "msg", "삭제되었습니다")
-                );
-            }else{
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        Map.of("status", false, "msg", "삭제에 실패했습니다")
-                );
-            }
-        }catch (Exception e){
-            log.error(e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    Map.of("status", false, "msg", "서버 오류가 발생했습니다")
+            fileService.deleteFiles(paths);
+            return ResponseEntity.ok().body(
+                    Map.of("status", true, "msg", "삭제되었습니다")
+            );
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    Map.of("status", false, "msg", "삭제에 실패했습니다")
             );
         }
     }

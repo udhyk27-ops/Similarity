@@ -1,4 +1,4 @@
-package com.example.java_practice.commons.Enums;
+package com.example.java_practice.commons.enums;
 
 public enum WorkExcelType {
     // 엑셀 헤더, 필드명

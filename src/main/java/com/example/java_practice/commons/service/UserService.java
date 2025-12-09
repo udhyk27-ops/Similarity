@@ -19,7 +19,7 @@ public interface UserService {
     // 삭제
     boolean deleteWork(String type, int workNo);
     // 수상작 중복 체크
-    boolean chkDupAwardWork(String contest, String award, String year);
+    boolean chkDupAwardWork(String author, String contest, String award, String year);
     // 수상작 개별 등록
     void insertSingleAwardWork(Award award, MultipartFile file);
     // 초대작 중복 체크

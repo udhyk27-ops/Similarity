@@ -25,6 +25,7 @@
         h2{
             color: var(--text-color);
             font-weight: 400;
+            font-size: 1rem;
         }
 
     </style>
@@ -32,7 +33,7 @@
 <body class="loading">
     <div class="error-wrapper">
         <h1>500</h1>
-        <h2>Unexpected Error</h2>
+        <h2 th:text="${msg}">Unexpected Error</h2>
         <div class="gears">
             <div class="gear one">
                 <div class="bar"></div>

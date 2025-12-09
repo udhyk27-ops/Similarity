@@ -188,7 +188,7 @@
     </update>
 
     <select id="chkDupAwardWork" resultType="boolean">
-        select count(*) from T_AWARD_WORK where F_CONTEST = #{f_contest} and F_AWARD = #{f_award} and F_YEAR = #{f_year}
+        select count(*) from T_AWARD_WORK where F_AUTHOR = #{f_author} and F_CONTEST = #{f_contest} and F_AWARD = #{f_award} and F_YEAR = #{f_year}
     </select>
 
     <insert id="insertAwardWork">

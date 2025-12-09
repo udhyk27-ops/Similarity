@@ -1,4 +1,4 @@
-package com.example.java_practice.commons.controller;
+package com.example.java_practice.commons.exception;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +18,7 @@ public class WebErrorController implements ErrorController {
             int statusCode = Integer.parseInt(status.toString());
 
             if(statusCode == HttpStatus.NOT_FOUND.value()) return "error/404";
+            else if (statusCode == HttpStatus.BAD_REQUEST.value()) return "error/400";
             else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) return "error/500";
             else return "error/error";
         }

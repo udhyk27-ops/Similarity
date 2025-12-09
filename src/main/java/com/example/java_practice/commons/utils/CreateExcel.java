@@ -101,9 +101,9 @@ public class CreateExcel {
         }
 
         // 컬럼 너비 자동 조정
-        for(int i = 0; i< headers.length; i++) {
-            sheet.autoSizeColumn(i);
-        }
+//        for(int i = 0; i< headers.length; i++) {
+//            sheet.autoSizeColumn(i);
+//        }
 
         return workbook;
     }

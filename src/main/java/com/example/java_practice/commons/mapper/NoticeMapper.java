@@ -15,6 +15,7 @@ public interface NoticeMapper {
     ArrayList<Notice> selectNoticeListBySearch(NoticeSearch noticeSearch);
     int selectNoticeCntBySearch(NoticeSearch noticeSearch);
     void updateViewCnt(@Param("noticeId") int id);
+    void updateViewCntToZero(@Param("noticeId") int id);
     Notice selectNoticeDetailById(@Param("noticeId") int id);
     ArrayList<NoticeFile> selectNoticeFilesByNoticeId(@Param("noticeId") int id);
     NoticeFile selectNoticeFileById(@Param("fileId") int id);

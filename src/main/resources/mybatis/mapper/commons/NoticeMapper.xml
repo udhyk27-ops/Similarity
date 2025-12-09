@@ -82,8 +82,11 @@
     </select>
 
     <update id="updateViewCnt">
-        update T_NOTICE set F_VIEWCNT = F_VIEWCNT + 1
-        where F_ID = #{noticeId}
+        update T_NOTICE set F_VIEWCNT = F_VIEWCNT + 1 where F_ID = #{noticeId}
+    </update>
+
+    <update id="updateViewCntToZero">
+        update T_NOTICE set F_VIEWCNT = 0 where F_ID = #{noticeId}
     </update>
 
     <select id="selectNoticeDetailById" resultMap="noticeWithUserMap">

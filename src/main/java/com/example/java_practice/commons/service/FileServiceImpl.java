@@ -57,7 +57,7 @@ public class FileServiceImpl implements FileService{
             try {
                 Files.deleteIfExists(f);
             } catch (IOException e) {
-                log.error("파일 삭제 실패: {}", f.toString(), e);
+                throw new RuntimeException("파일 삭제 중 오류 발생", e);
             }
         });
     }
@@ -69,7 +69,7 @@ public class FileServiceImpl implements FileService{
         try {
             Files.deleteIfExists(file);
         } catch (IOException e) {
-            log.error("파일 삭제 실패: {}", file.toString(), e);
+            throw new RuntimeException("파일 삭제 중 오류 발생", e);
         }
     }
 
@@ -88,7 +88,7 @@ public class FileServiceImpl implements FileService{
                 Files.createDirectories(dirPath);
             }
         }catch (IOException e){
-            log.error(e.getMessage(), e);
+            throw new RuntimeException("디렉토리 생성 중 오류 발생", e);
         }
 
         return dirPath;

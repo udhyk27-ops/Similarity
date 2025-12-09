@@ -111,6 +111,8 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional
     public Notice updateNoticeById(Notice notice) {
+        // 조회수 초기화
+        noticeMapper.updateViewCntToZero(notice.getF_id());
         noticeMapper.updateNoticeById(notice);
         return notice;
     }
@@ -122,6 +124,5 @@ public class NoticeServiceImpl implements NoticeService {
         fileService.deleteFile(filePath);
         noticeMapper.deleteNoticeFileById(fileId);
     }
-
 
 }

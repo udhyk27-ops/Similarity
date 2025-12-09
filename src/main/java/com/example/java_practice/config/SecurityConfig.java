@@ -22,7 +22,8 @@ public class SecurityConfig {
 
         // 전부 허용
 //        http.csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+//                .authorizeHttpRequests(auth -> auth
+//                .anyRequest().permitAll());
 
         // login만 허용
 //        http

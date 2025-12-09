@@ -40,7 +40,7 @@
 <body>
     <div class="error error-wrapper">
         <h1>Error</h1>
-        <p><b>The page</b> you requested is not available.</p>
+        <p th:text="${msg}"><b>The page</b> you requested is not available.</p>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function (){
