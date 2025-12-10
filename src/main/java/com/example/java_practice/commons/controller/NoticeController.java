@@ -99,6 +99,7 @@ public class NoticeController {
 
         }else{
             // 등록
+            // 이미지 삽입 추가..?
             params.setF_regid(userDetails.getUserNo());
             notice = noticeService.insertNotice(params);
         }

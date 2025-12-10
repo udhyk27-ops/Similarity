@@ -36,6 +36,7 @@ public class UserController {
 
     private final UserService userService;
 
+    // 에러페이지 확인용 -> 나중에 삭제예정
     @GetMapping("/test")
     public String test() {
         throw new RuntimeException("에러가 발생했습니다");
@@ -82,7 +83,6 @@ public class UserController {
                               WorkSearch params,
                               HttpServletResponse response)
     {
-
         WorkExcelType workExcelType = WorkExcelType.fromString(type);
         String sheetName = workExcelType.getSheetName();
         String[] headers = workExcelType.getHeaders();
@@ -108,7 +108,6 @@ public class UserController {
     public String singleRegPage(@PathVariable("type") String type,
                                 Model model) throws NotFoundException
     {
-
         Set<String> validTypes = Set.of("award", "invit");
         if(!validTypes.contains(type)) throw new NotFoundException("페이지를 찾을 수 없음");
 
@@ -128,8 +127,9 @@ public class UserController {
             Award awardParams,
             Invit invitParams)
     {
-            String code = String.format("%06d", (int)(Math.random() * 1000000));
+        String code = String.format("%06d", (int)(Math.random() * 1000000));
         if(type.equals("award")){
+            // 중복 체크
             boolean result = userService.chkDupAwardWork(awardParams.getF_author(), awardParams.getF_contest(), awardParams.getF_award(), awardParams.getF_year());
             if(result) return "redirect:/single/award?dup=true";
 
@@ -141,6 +141,7 @@ public class UserController {
             return "redirect:/single/award?dup=false";
 
         }else{
+            // 중복 체크
             boolean result = userService.chkDupInvitWork(invitParams.getF_title(), invitParams.getF_author(), invitParams.getF_year());
             if(result) return "redirect:/single/invit?dup=true";
 
@@ -167,7 +168,6 @@ public class UserController {
     public void downloadForm(@PathVariable("type") String type,
                              HttpServletResponse response)
     {
-
         FormExcelType formExcelType = FormExcelType.fromString(type);
         String sheetName = formExcelType.getSheetName();
         String[] headers = formExcelType.getHeaders();

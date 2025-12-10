@@ -24,6 +24,7 @@ public class MainController {
             @RequestParam(defaultValue = "5") int Size
     )
     {
+        // 차트 추가하기
         model.addAttribute("noticeList", noticeService.selNoticeList(params, Page, Size));
         model.addAttribute("workStats", userService.selectWorkStats());
         return "commons/main/dashboardPage";

@@ -40,6 +40,7 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
+    // 비밀번호 바꿔보기
     public String getPassword() {
         return "{noop}" + userWithAuth.getF_id(); // 실습용. 실제 서비스는 암호화 필요
     }
