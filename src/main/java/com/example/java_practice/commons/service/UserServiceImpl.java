@@ -22,17 +22,17 @@ public class UserServiceImpl implements UserService{
     private final FileService fileService;
 
     @Override
-    public ArrayList<?> selectList(String type, WorkSearch workSearch, int page, int size) {
+    public List<?> selectList(String type, WorkSearch workSearch, int page, int size) {
         int startRow = (page - 1) * size + 1;
         int endRow = page * size;
 
         workSearch.setStartRow(startRow);
         workSearch.setEndRow(endRow);
         if(type.equals("award")){
-            ArrayList<Award> awardList = awardWorkMapper.selectAwardListBySearch(workSearch);
+            List<Award> awardList = awardWorkMapper.selectAwardListBySearch(workSearch);
             return awardList;
         }else{
-            ArrayList<Invit> invitList = invitWorkMapper.selectInvitListBySearch(workSearch);
+            List<Invit> invitList = invitWorkMapper.selectInvitListBySearch(workSearch);
             return invitList;
         }
     }

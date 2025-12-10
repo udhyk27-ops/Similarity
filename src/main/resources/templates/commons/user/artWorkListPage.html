@@ -161,6 +161,7 @@
                                                 </select>
                                                 <input type="search" class="form-control sch-control" name="keyword" th:value="${search.keyword}">
                                                 <button class="btn-navy sch-btn">검색</button>
+                                                <button type="button" class="btn-white sch-btn" onclick="frm.resetSch();">초기화</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -312,6 +313,12 @@
                 const type = document.getElementById('type').value;
                 const searchParams = new URLSearchParams(new FormData(document.getElementById('schForm'))).toString();
                 location.href = `/workList/${type}/excel?${searchParams}`;
+            },
+            resetSch : function (){
+                const inputs = document.querySelectorAll('.form-control');
+                for(const input of inputs){
+                    input.value = '';
+                }
             }
         }
     </script>

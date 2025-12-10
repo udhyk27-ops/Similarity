@@ -1,5 +1,6 @@
 package com.example.java_practice.commons.service;
 
+import com.example.java_practice.commons.dto.UserStats;
 import com.example.java_practice.commons.dto.UserWithAuth;
 import com.example.java_practice.commons.mapper.AuthMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,10 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public void updateLastLoginByUserNo(int userNo) {
         authMapper.updateLastLoginByUserNo(userNo);
+    }
+
+    @Override
+    public UserStats selectUserSortStats() {
+        return authMapper.selectUserSortStats();
     }
 }

@@ -6,12 +6,11 @@ import com.example.java_practice.commons.dto.WorkStats;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
 public interface InvitWorkMapper {
-    ArrayList<Invit> selectInvitListBySearch(WorkSearch workSearch);
+    List<Invit> selectInvitListBySearch(WorkSearch workSearch);
     int selectInvitListCnt();
     int selectInvitListCntBySearch(WorkSearch workSearch);
     List<Invit> selectInvitListForExcel(WorkSearch workSearch);

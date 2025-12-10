@@ -27,21 +27,25 @@ public class NoticeController {
            @RequestParam(defaultValue = "10") int size,
            NoticeSearch params)
     {
+        // 검색
         if (params.getKeyword() == null) params.setKeyword("");
         if (params.getStaDate() == null) params.setStaDate("");
         if (params.getEndDate() == null) params.setEndDate("");
 
+        // 총 개수 + 페이징
         int totalCnt = noticeService.selNoticeCnt(params);
         int totalPages = (int) Math.ceil((double) totalCnt / size);
         totalPages = totalPages == 0 ? 1 : totalPages;
 
-        model.addAttribute("user", userDetails);
-        model.addAttribute("noticeList", noticeService.selNoticeList(params, page, size));
+        model.addAttribute("user", userDetails); // 세션
+        model.addAttribute("noticeList", noticeService.selNoticeList(params, page, size)); // 리스트
+        // 페이징 관련
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", page);
         model.addAttribute("size", size);
-        model.addAttribute("search", params);
+        model.addAttribute("search", params); // 검색 조건
 
+        // 공지사항 메인(리스트) 페이지
         return "commons/notice/noticePage";
     }
 
@@ -51,12 +55,16 @@ public class NoticeController {
             Model model)
     {
         if(id != null) {
+            // 수정
             model.addAttribute("noticeDetail", noticeService.selectNoticeDetailById(id));
             model.addAttribute("noticeFiles", noticeService.selectNoticeFilesByNoticeId(id));
         }else{
+            // 등록
             model.addAttribute("noticeDetail", new Notice());
             model.addAttribute("noticeFiles", List.of());
         }
+
+        // 등록/수정페이지
         return "commons/notice/noticeRegPage";
     }
 
@@ -69,6 +77,8 @@ public class NoticeController {
         model.addAttribute("user", userDetails);
         model.addAttribute("noticeDetail", noticeService.selectNoticeDetailById(id));
         model.addAttribute("noticeFiles", noticeService.selectNoticeFilesByNoticeId(id));
+
+        // 상세보기 페이지
         return "commons/notice/noticeDetailPage";
     }
 
@@ -99,7 +109,6 @@ public class NoticeController {
 
         }else{
             // 등록
-            // 이미지 삽입 추가..?
             params.setF_regid(userDetails.getUserNo());
             notice = noticeService.insertNotice(params);
         }

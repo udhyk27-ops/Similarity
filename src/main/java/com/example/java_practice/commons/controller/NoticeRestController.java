@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,8 @@ public class NoticeRestController {
     private final NoticeService noticeService;
     private final FileService fileService;
 
-    @PostMapping("/viewCnt/{id}")
+    // 조회수 증가
+    @PostMapping("/{id}/view-count")
     public void addViewCnt(@PathVariable("id") int noticeId)
     {
         noticeService.updateViewCnt(noticeId);
@@ -36,9 +36,11 @@ public class NoticeRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteNotice(@PathVariable("id") int id)
     {
-        ArrayList<NoticeFile> noticeFiles = noticeService.selectNoticeFilesByNoticeId(id);
+        // 공지사항 삭제
+        List<NoticeFile> noticeFiles = noticeService.selectNoticeFilesByNoticeId(id);
         boolean success = noticeService.deleteNoticeById(id);
         if(success){
+            // 실제 업로드 경로의 파일 삭제
             List<Path> paths = noticeFiles.stream()
                     .map(f -> Path.of(baseUploadDir + "/notice", f.getF_filename()))
                     .toList();

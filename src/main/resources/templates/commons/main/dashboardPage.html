@@ -43,7 +43,13 @@
         .notice-list .date {
             color: #aaa;
         }
-
+        .card-body {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+        }
     </style>
 </head>
 <body>
@@ -113,15 +119,182 @@
                         </ul>
                     </div>
                 </div>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-title">작품 등록현황</div>
+                        <div class="card-body">
+                            <canvas id="myDoughnutChart" width="350" height="300"></canvas>
+                            <canvas id="myDoughnutChart2" width="350" height="300"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">회원현황</div>
+                        <div class="card-body">
+                            <canvas id="myPieChart" width="350" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </main>
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
     <script>
         // document.querySelector('.admin-name').addEventListener('click', function() {
         //     this.closest('.admin-name').classList.toggle('active');
         // });
+        const titleTextPlugin = {
+            id: 'titleText',
+            afterDraw(chart, args, options) {
+                if (!options || !options.text) return;
+
+                const { ctx, chartArea } = chart;
+                if (!chartArea) return;
+
+                const centerX = (chartArea.left + chartArea.right) / 2;
+                // const centerY = (chartArea.top + chartArea.bottom) / 2 + 80;
+                const centerY = (chartArea.top) + 20;
+
+                ctx.save();
+                ctx.font = options.font || 'bold 15px Arial';
+                ctx.fillStyle = options.color || '#000';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(options.text, centerX, centerY);
+                ctx.restore();
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            chart.doughnutChart();
+            chart.pieChart();
+        })
+        const chart = {
+            createDouChart : function(chartId, data, title){
+                const douCtx = document.getElementById(chartId).getContext('2d');
+                const myDoughnutChart = new Chart(douCtx, {
+                    type: 'doughnut',
+                    data: data,
+                    options: {
+                        responsive: false,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            titleText: {
+                                text: title,
+                                font: 'bold 15px Arial',
+                                color: '#757373'
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    boxWidth: 10,
+                                    padding: 10,
+                                },
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                        },
+                        rotation: -90,
+                        circumference: 180,
+                    },
+                    plugins: [titleTextPlugin]
+                })
+            },
+            doughnutChart : function (){
+                const url = '/main/doughnut-chart';
+
+                fetch(url, {
+                    method: 'GET'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(!data.status) {
+                            alert(data.msg);
+                            return;
+                        }
+                        const award = data.data.awardStats;
+                        const invit = data.data.invitStats;
+                        const backgroundColor = ['#f17f97', '#fab2c1', '#ffe9e9'];
+                        const douAwardData = {
+                            labels : ['등록', '승인', '미승인'],
+                            datasets : [
+                                {
+                                    // label : '수상작',
+                                    data : [award.total_cnt, award.valid_cnt, award.invalid_cnt],
+                                    backgroundColor : backgroundColor
+                                },
+
+                            ]
+                        }
+                        const douInvitData = {
+                            labels : ['등록', '승인', '미승인'],
+                            datasets : [
+                                {
+                                    // label : '초대작',
+                                    data : [invit.total_cnt, invit.valid_cnt, invit.invalid_cnt],
+                                    backgroundColor : backgroundColor
+                                }
+                            ]
+                        }
+                        this.createDouChart('myDoughnutChart', douAwardData, '수상작');
+                        this.createDouChart('myDoughnutChart2', douInvitData, '초대작');
+
+                    })
+            },
+            pieChart : function (){
+                const url = '/main/pie-chart';
+                fetch(url, {
+                    method: 'GET'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(!data.status) {
+                            alert(data.msg);
+                            return;
+                        }
+                        const row = data.data;
+                        const userCnt = Number(row.user_cnt);
+                        const adminCnt = Number(row.admin_cnt);
+                        const backgroundColors = ['#f17f97', '#fab2c1'];
+                        const pieData = {
+                            labels : ['운영회원', '관리자'],
+                            datasets : [
+                                {
+                                    data : [userCnt, adminCnt],
+                                    backgroundColor : backgroundColors
+                                }
+                            ]
+                        };
+                        const pieCtx = document.getElementById('myPieChart').getContext('2d');
+                        const myPieChart = new Chart(pieCtx,{
+                            type: 'pie',
+                            data: pieData,
+                            options: {
+                                responsive: false,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom',
+                                        labels: {
+                                            padding: 50,
+                                            boxWidth: 20,
+                                            boxHeight: 15,
+                                        }
+                                    },
+                                },
+                                interaction: {
+                                    intersect: false,
+                                }
+                            }
+                        })
+                    })
+            }
+        }
     </script>
 </body>
 </html>

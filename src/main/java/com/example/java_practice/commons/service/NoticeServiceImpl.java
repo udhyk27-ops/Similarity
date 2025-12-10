@@ -70,13 +70,13 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public ArrayList<Notice> selNoticeList(NoticeSearch noticeSearch, int page, int size) {
+    public List<Notice> selNoticeList(NoticeSearch noticeSearch, int page, int size) {
         int startRow = (page - 1) * size + 1;
         int endRow = page * size;
 
         noticeSearch.setStartRow(startRow);
         noticeSearch.setEndRow(endRow);
-        ArrayList<Notice> noticeList = noticeMapper.selectNoticeListBySearch(noticeSearch);
+        List<Notice> noticeList = noticeMapper.selectNoticeListBySearch(noticeSearch);
         return noticeList;
     }
 
@@ -96,8 +96,8 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public ArrayList<NoticeFile> selectNoticeFilesByNoticeId(int noticeId) {
-        ArrayList<NoticeFile> noticeFiles = noticeMapper.selectNoticeFilesByNoticeId(noticeId);
+    public List<NoticeFile> selectNoticeFilesByNoticeId(int noticeId) {
+        List<NoticeFile> noticeFiles = noticeMapper.selectNoticeFilesByNoticeId(noticeId);
         return noticeFiles;
     }
 

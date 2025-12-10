@@ -5,7 +5,6 @@ import com.example.java_practice.commons.dto.NoticeFile;
 import com.example.java_practice.commons.dto.NoticeSearch;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface NoticeService {
@@ -14,7 +13,7 @@ public interface NoticeService {
     // 공지 등록 - 파일 첨부
     void insertNoticeFile(int noticeId, List<MultipartFile> noticeFiles);
     // 공지리스트
-    ArrayList<Notice> selNoticeList(NoticeSearch noticeSearch, int page, int size);
+    List<Notice> selNoticeList(NoticeSearch noticeSearch, int page, int size);
     // 전체 공지 수(페이징용)
     int selNoticeCnt(NoticeSearch noticeSearch);
     // 공지사항 보기
@@ -22,7 +21,7 @@ public interface NoticeService {
     // 조회수 증가
     void updateViewCnt(int noticeId);
     // 공지사항 첨부파일
-    ArrayList<NoticeFile> selectNoticeFilesByNoticeId(int noticeId);
+    List<NoticeFile> selectNoticeFilesByNoticeId(int noticeId);
     // 공지사항 삭제
     boolean deleteNoticeById(int noticeId);
     // 공지사항 수정

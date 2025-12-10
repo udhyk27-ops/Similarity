@@ -131,11 +131,7 @@
 
                                     <tr>
                                         <td class="label">내용</td>
-                                        <td class="content" colspan="3"><pre th:text="${noticeDetail.f_content}"></pre>
-
-                                            <!-- 필요하면 이미지 넣기 -->
-                                            <!-- <img class="screenshot-preview" src="/mnt/data/2025-11-24 09 30 34.png" alt="스크린샷"> -->
-                                        </td>
+                                        <td class="content" colspan="3"><pre th:text="${noticeDetail.f_content}"></pre></td>
                                     </tr>
 
                                     <tr>
@@ -193,7 +189,7 @@
 
                 const token = document.querySelector('meta[name="_csrf"]').content;
                 const header = document.querySelector('meta[name="_csrf_header"]').content;
-                const url = "/notice/viewCnt/" + id;
+                const url = `/notice/${id}/view-count`;
                 // 조회수 증가 API 호출
                 fetch(url, {
                     method: 'POST',

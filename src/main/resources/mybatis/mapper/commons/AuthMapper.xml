@@ -17,6 +17,11 @@
         <result property="f_auth_admin" column="f_auth_admin" />
     </resultMap>
 
+    <resultMap id="userStatsResultMap" type="UserStats">
+        <result property="user_cnt" column="user_cnt"></result>
+        <result property="admin_cnt" column="admin_cnt"></result>
+    </resultMap>
+
     <select id="selectUserById" resultMap="userResultMap">
         SELECT t1.F_USER_NO, F_ID, F_NAME, F_SORT,
                NVL(t2.F_AUTH_AWARD, 'N') as F_AUTH_AWARD,
@@ -29,7 +34,15 @@
         LEFT JOIN T_AUTH t2 on t1.F_USER_NO = t2.F_USER_NO
         WHERE F_ID = #{userId}
     </select>
+
     <update id="updateLastLoginByUserNo">
         update T_USER set F_LOGIN_DATE = sysdate where F_USER_NO = #{userNo}
     </update>
+
+    <select id="selectUserSortStats" resultMap="userStatsResultMap">
+        select
+            nvl(sum(case when F_SORT = '회원' then 1 else 0 end), 0) as user_cnt,
+            nvl(sum(case when F_SORT = '관리자' then 1 else 0 end), 0) as admin_cnt
+        from T_USER
+    </select>
 </mapper>

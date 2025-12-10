@@ -25,7 +25,9 @@ public class MainController {
     )
     {
         // 차트 추가하기
+        // 공지사항 리스트
         model.addAttribute("noticeList", noticeService.selNoticeList(params, Page, Size));
+        // 작품 등록 현황 통계
         model.addAttribute("workStats", userService.selectWorkStats());
         return "commons/main/dashboardPage";
     }

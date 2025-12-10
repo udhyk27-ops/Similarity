@@ -35,6 +35,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
+//                        .requestMatchers("/login").permitAll()
+//                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -61,9 +63,9 @@ public class SecurityConfig {
 //    public BCryptPasswordEncoder bCryptPasswordEncoder() {
 //        return new BCryptPasswordEncoder();
 //    }
-//    @Bean
-//    // 정적 리소스 허용
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().requestMatchers("/css/**", "/images/**", "/js/**");
-//    }
+    @Bean
+    // 정적 리소스 허용
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/css/**", "/images/**", "/js/**");
+    }
 }
