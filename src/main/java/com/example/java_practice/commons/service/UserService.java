@@ -4,6 +4,7 @@ import com.example.java_practice.commons.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     // 등록현황 리스트(수상작/초대작)
@@ -31,4 +32,6 @@ public interface UserService {
     boolean insertBatchInvitWork(int userNo, List<Invit> invitList, List<MultipartFile> files);
     // 대시보드 등록현황
     TotalWorkStats selectWorkStats();
+    // 대시보드 발매년도 별 등록 현황
+    List<WorkYearStats> selectYearStats();
 }

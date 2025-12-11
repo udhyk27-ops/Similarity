@@ -3,6 +3,7 @@ package com.example.java_practice.commons.mapper;
 import com.example.java_practice.commons.dto.Invit;
 import com.example.java_practice.commons.dto.WorkSearch;
 import com.example.java_practice.commons.dto.WorkStats;
+import com.example.java_practice.commons.dto.WorkYearStats;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,5 @@ public interface InvitWorkMapper {
     int selectNextWorkNo();
     int insertBatchInvitWork(List<Invit> invit);
     WorkStats selectInvitWorkStats();
+    List<WorkYearStats> selectInvitYearStats();
 }

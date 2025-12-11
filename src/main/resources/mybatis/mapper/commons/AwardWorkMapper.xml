@@ -25,6 +25,11 @@
         <result property="invalid_cnt" column="invalid_cnt"/>
     </resultMap>
 
+    <resultMap id="workYearStatsResultMap" type="WorkYearStats">
+        <result property="f_year" column="F_YEAR"/>
+        <result property="award_cnt" column="award_cnt"/>
+    </resultMap>
+
     <select id="selectAwardListBySearch" parameterType="WorkSearch" resultMap="awardResultMap">
         select *
         from (
@@ -223,5 +228,12 @@
             nvl(sum(case when F_STATUS = 'N' then 1 else 0 end), 0) as valid_cnt,
             nvl(sum(case when F_STATUS = 'Y' then 1 else 0 end), 0) as invalid_cnt
         from T_AWARD_WORK
+    </select>
+
+    <select id="selectAwardYearStats" resultMap="workYearStatsResultMap">
+        select F_YEAR,
+               count(1) as award_cnt
+        from T_AWARD_WORK group by F_YEAR
+        order by F_YEAR
     </select>
 </mapper>

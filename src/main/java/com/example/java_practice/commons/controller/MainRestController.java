@@ -2,6 +2,8 @@ package com.example.java_practice.commons.controller;
 
 import com.example.java_practice.commons.dto.TotalWorkStats;
 import com.example.java_practice.commons.dto.UserStats;
+import com.example.java_practice.commons.dto.WorkStats;
+import com.example.java_practice.commons.dto.WorkYearStats;
 import com.example.java_practice.commons.service.AuthService;
 import com.example.java_practice.commons.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -33,5 +36,11 @@ public class MainRestController {
         UserStats userStats = authService.selectUserSortStats();
         if(userStats == null) return ResponseEntity.badRequest().body(Map.of("status", false, "msg", "데이터를 가져오는 데 실패했습니다"));
         return ResponseEntity.ok().body(Map.of("status", true, "data", userStats));
+    }
+    @GetMapping("/line-chart")
+    public ResponseEntity<?> getLineChartData(){
+        List<WorkYearStats> workStatsMap = userService.selectYearStats();
+        if(workStatsMap == null) return ResponseEntity.badRequest().body(Map.of("status", false, "msg", "데이터를 가져오는 데 실패했습니다"));
+        return ResponseEntity.ok().body(Map.of("status", true, "data", workStatsMap));
     }
 }

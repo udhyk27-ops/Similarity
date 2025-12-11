@@ -21,6 +21,11 @@
         <result property="invalid_cnt" column="invalid_cnt"/>
     </resultMap>
 
+    <resultMap id="workYearStatsResultMap" type="WorkYearStats">
+        <result property="f_year" column="F_YEAR"/>
+        <result property="invit_cnt" column="invit_cnt"/>
+    </resultMap>
+
     <select id="selectInvitListBySearch" parameterType="WorkSearch" resultMap="invitResultMap">
         select *
         from (
@@ -186,5 +191,12 @@
             nvl(sum(case when F_STATUS = 'N' then 1 else 0 end), 0) as valid_cnt,
             nvl(sum(case when F_STATUS = 'Y' then 1 else 0 end), 0) as invalid_cnt
         from T_INVIT_WORK
+    </select>
+
+    <select id="selectInvitYearStats" resultMap="workYearStatsResultMap">
+        select F_YEAR,
+               count(1) as invit_cnt
+        from T_INVIT_WORK group by F_YEAR
+        order by F_YEAR
     </select>
 </mapper>

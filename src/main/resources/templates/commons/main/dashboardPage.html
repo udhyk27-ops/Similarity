@@ -9,6 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chiron Sung HK:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        .mt-2{
+            margin-top: 2rem;
+        }
+        .hei-3{
+            height: 3.5rem;
+        }
         .card-title .detail{
             font-weight: 500;
             font-size: 0.8rem;
@@ -77,7 +83,7 @@
                 <div class="dashboard-grid">
                     <div class="card">
                         <div class="card-title">작품 등록현황</div>
-                        <table class="table">
+                        <table class="table mt-2">
                             <thead>
                                 <tr>
                                     <th>구분</th>
@@ -87,13 +93,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr class="hei-3">
                                     <td>수상작</td>
                                     <td th:text="${#numbers.formatInteger(workStats.awardStats.total_cnt, 1, 'COMMA')}"></td>
                                     <td th:text="${#numbers.formatInteger(workStats.awardStats.valid_cnt, 1, 'COMMA')}"></td>
                                     <td th:text="${#numbers.formatInteger(workStats.awardStats.invalid_cnt, 1, 'COMMA')}"></td>
                                 </tr>
-                                <tr>
+                                <tr class="hei-3">
                                     <td>초대작</td>
                                     <td th:text="${#numbers.formatInteger(workStats.invitStats.total_cnt, 1, 'COMMA')}"></td>
                                     <td th:text="${#numbers.formatInteger(workStats.invitStats.valid_cnt, 1, 'COMMA')}"></td>
@@ -121,7 +127,7 @@
                 </div>
                 <div class="dashboard-grid">
                     <div class="card">
-                        <div class="card-title">작품 등록현황</div>
+                        <div class="card-title">작품 현황</div>
                         <div class="card-body">
                             <canvas id="myDoughnutChart" width="350" height="300"></canvas>
                             <canvas id="myDoughnutChart2" width="350" height="300"></canvas>
@@ -129,9 +135,18 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-title">회원현황</div>
+                        <div class="card-title">회원 현황</div>
                         <div class="card-body">
                             <canvas id="myPieChart" width="350" height="300"></canvas>
+                            <canvas id="myBarChart" width="350" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-title">발매년도 현황</div>
+                        <div class="card-body">
+                            <canvas id="myLineChart" height="300"></canvas>
                         </div>
                     </div>
                 </div>
@@ -170,8 +185,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             chart.doughnutChart();
             chart.pieChart();
+            chart.lineChart();
         })
         const chart = {
+            createChart: function(chartId, type, data, options){
+                const ctx = document.getElementById(chartId).getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type : type,
+                    data : data,
+                    options : options
+                })
+            },
             createDouChart : function(chartId, data, title){
                 const douCtx = document.getElementById(chartId).getContext('2d');
                 const myDoughnutChart = new Chart(douCtx, {
@@ -269,29 +293,95 @@
                                 }
                             ]
                         };
-                        const pieCtx = document.getElementById('myPieChart').getContext('2d');
-                        const myPieChart = new Chart(pieCtx,{
-                            type: 'pie',
-                            data: pieData,
-                            options: {
-                                responsive: false,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        display: true,
-                                        position: 'bottom',
-                                        labels: {
-                                            padding: 50,
-                                            boxWidth: 20,
-                                            boxHeight: 15,
-                                        }
+                        const options = {
+                            responsive: false,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'bottom',
+                                    labels: {
+                                        padding: 50,
+                                        boxWidth: 20,
+                                        boxHeight: 15,
+                                    }
+                                },
+                            },
+                            interaction: {
+                                intersect: false,
+                            }
+                        }
+                        this.createChart('myPieChart', 'pie', pieData, options);
+                    })
+            },
+            lineChart : function(){
+                const url = '/main/line-chart';
+                fetch(url,{
+                    method: 'GET'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(!data.status) {
+                            alert(data.msg);
+                            return;
+                        }
+                        const row = data.data;
+                        const labels = [];
+                        const awardData = [];
+                        const invitData = [];
+
+                        row.map(item => {
+                            labels.push(item.f_year);
+                            awardData.push(item.award_cnt);
+                            invitData.push(item.invit_cnt);
+                        })
+                        const lineData = {
+                            labels : labels,
+                            datasets : [{
+                                label: '수상작',
+                                data: awardData,
+                                borderColor: '#f17f97',
+                                backgroundColor: '#f17f97',
+                            },
+                            {
+                                label: '초대작',
+                                data: invitData,
+                                borderColor: '#fab2c1',
+                                backgroundColor: '#fab2c1',
+                            }]
+                        }
+                        const options = {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'bottom',
+                                }
+                            },
+                            interaction: {
+                                intersect: false,
+                            },
+                            scales: {
+                                x: {
+                                    grid: {
+                                        display: false
                                     },
                                 },
-                                interaction: {
-                                    intersect: false,
+                                y: {
+                                    grid: {
+                                        display: false,
+                                    },
+                                    ticks: {
+                                        display: false,
+                                    },
+                                    border: {
+                                        display: false
+                                    }
                                 }
                             }
-                        })
+                        };
+                        this.createChart('myLineChart', 'line', lineData, options);
                     })
             }
         }

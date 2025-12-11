@@ -292,4 +292,26 @@ public class UserServiceImpl implements UserService{
                 .build();
     }
 
+    @Override
+    public List<WorkYearStats> selectYearStats() {
+
+        List<WorkYearStats> awardStat = awardWorkMapper.selectAwardYearStats();
+        List<WorkYearStats> invitStat = invitWorkMapper.selectInvitYearStats();
+        Map<String, WorkYearStats> yearMap = new HashMap<>();
+        for(WorkYearStats a : awardStat) {
+            yearMap.putIfAbsent(a.getF_year(), new WorkYearStats());
+            yearMap.get(a.getF_year()).setF_year(a.getF_year());
+            yearMap.get(a.getF_year()).setAward_cnt(a.getAward_cnt());
+        }
+        for(WorkYearStats i : invitStat) {
+            yearMap.putIfAbsent(i.getF_year(), new WorkYearStats());
+            yearMap.get(i.getF_year()).setF_year(i.getF_year());
+            yearMap.get(i.getF_year()).setInvit_cnt(i.getInvit_cnt());
+        }
+
+        List<WorkYearStats> yearList = yearMap.values().stream().sorted(Comparator.comparing(WorkYearStats::getF_year)).collect(Collectors.toList());
+        return yearList;
+
+    }
+
 }
