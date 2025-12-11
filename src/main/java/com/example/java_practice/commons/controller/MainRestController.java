@@ -1,9 +1,6 @@
 package com.example.java_practice.commons.controller;
 
-import com.example.java_practice.commons.dto.TotalWorkStats;
-import com.example.java_practice.commons.dto.UserStats;
-import com.example.java_practice.commons.dto.WorkStats;
-import com.example.java_practice.commons.dto.WorkYearStats;
+import com.example.java_practice.commons.dto.*;
 import com.example.java_practice.commons.service.AuthService;
 import com.example.java_practice.commons.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,19 +25,25 @@ public class MainRestController {
     @GetMapping("/doughnut-chart")
     public ResponseEntity<?> getDouChartData(){
         TotalWorkStats totalWorkStats = userService.selectWorkStats();
-        if(totalWorkStats == null) return ResponseEntity.badRequest().body(Map.of("status", false, "msg", "데이터를 가져오는 데 실패했습니다"));
+        if(totalWorkStats == null) return ResponseEntity.badRequest().body(Map.of("status", false, "msg", "문제가 발생했습니다"));
         return ResponseEntity.ok().body(Map.of("status", true, "data", totalWorkStats));
     }
     @GetMapping("/pie-chart")
     public ResponseEntity<?> getPieChartData(){
         UserStats userStats = authService.selectUserSortStats();
-        if(userStats == null) return ResponseEntity.badRequest().body(Map.of("status", false, "msg", "데이터를 가져오는 데 실패했습니다"));
+        if(userStats == null) return ResponseEntity.badRequest().body(Map.of("status", false, "msg", "문제가 발생했습니다"));
         return ResponseEntity.ok().body(Map.of("status", true, "data", userStats));
+    }
+    @GetMapping("/bar-chart")
+    public ResponseEntity<?> getBarChartData(){
+        List<UserRegStats> userRegStats = authService.selectUserRegStats();
+        if(userRegStats == null) return ResponseEntity.badRequest().body(Map.of("status", false, "msg", "문제가 발생했습니다"));
+        return ResponseEntity.ok().body(Map.of("status", true, "data", userRegStats));
     }
     @GetMapping("/line-chart")
     public ResponseEntity<?> getLineChartData(){
-        List<WorkYearStats> workStatsMap = userService.selectYearStats();
-        if(workStatsMap == null) return ResponseEntity.badRequest().body(Map.of("status", false, "msg", "데이터를 가져오는 데 실패했습니다"));
-        return ResponseEntity.ok().body(Map.of("status", true, "data", workStatsMap));
+        List<WorkYearStats> workStatsList = userService.selectYearStats();
+        if(workStatsList == null) return ResponseEntity.badRequest().body(Map.of("status", false, "msg", "문제가 발생했습니다"));
+        return ResponseEntity.ok().body(Map.of("status", true, "data", workStatsList));
     }
 }

@@ -170,7 +170,7 @@
 
                 const centerX = (chartArea.left + chartArea.right) / 2;
                 // const centerY = (chartArea.top + chartArea.bottom) / 2 + 80;
-                const centerY = (chartArea.top) + 20;
+                const centerY = (chartArea.top) + 10;
 
                 ctx.save();
                 ctx.font = options.font || 'bold 15px Arial';
@@ -185,6 +185,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             chart.doughnutChart();
             chart.pieChart();
+            chart.barChart();
             chart.lineChart();
         })
         const chart = {
@@ -313,6 +314,72 @@
                         }
                         this.createChart('myPieChart', 'pie', pieData, options);
                     })
+            },
+            barChart : function (){
+              const url = '/main/bar-chart';
+              fetch(url, {
+                  method: 'GET'
+              })
+                  .then(res => res.json())
+                  .then(data => {
+                      const row = data.data;
+                      const labels = row.map(item => item.f_name);
+                      const regCnt = row.map(item => item.reg_cnt);
+                      const backgroundColor = ['#f17f97', '#fab2c1', '#ffe9e9'];
+                      const barData = {
+                          labels : labels,
+                          datasets : [
+                              {
+                                  label : '등록 수',
+                                  data: regCnt,
+                                  backgroundColor: backgroundColor,
+                                  borderColor: backgroundColor,
+                                  borderWidth: 1
+                              }]
+                      };
+                      const barCtx = document.getElementById("myBarChart").getContext('2d');
+                      const myBarChart = new Chart(barCtx, {
+                          type : 'bar',
+                          data : barData,
+                          options : {
+                              responsive: false,
+                              maintainAspectRatio: false,
+                              maxBarThickness: 170,
+                              plugins: {
+                                  titleText: {
+                                      text: '등록 수 TOP3',
+                                      font: 'bold 15px Arial',
+                                      color: '#757373'
+                                  },
+                                  legend: {
+                                      display: false,
+                                  },
+                              },
+                              interaction: {
+                                  intersect: false,
+                              },
+                              scales: {
+                                  x: {
+                                      grid: {
+                                          display: false
+                                      },
+                                  },
+                                  y: {
+                                      ticks: {
+                                          display: false,
+                                      },
+                                      border: {
+                                          display: false
+                                      },
+                                      grid: {
+                                          display: false
+                                      },
+                                  }
+                              },
+                          },
+                          plugins: [titleTextPlugin]
+                      })
+                  })
             },
             lineChart : function(){
                 const url = '/main/line-chart';

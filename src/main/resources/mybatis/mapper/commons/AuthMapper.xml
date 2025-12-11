@@ -22,6 +22,11 @@
         <result property="admin_cnt" column="admin_cnt"></result>
     </resultMap>
 
+    <resultMap id="userRegStatsResultMap" type="UserRegStats">
+        <result property="f_name" column="f_name"/>
+        <result property="reg_cnt" column="reg_cnt"/>
+    </resultMap>
+
     <select id="selectUserById" resultMap="userResultMap">
         SELECT t1.F_USER_NO, F_ID, F_NAME, F_SORT,
                NVL(t2.F_AUTH_AWARD, 'N') as F_AUTH_AWARD,
@@ -44,5 +49,26 @@
             nvl(sum(case when F_SORT = '회원' then 1 else 0 end), 0) as user_cnt,
             nvl(sum(case when F_SORT = '관리자' then 1 else 0 end), 0) as admin_cnt
         from T_USER
+    </select>
+
+    <select id="selectUserRegStats" resultMap="userRegStatsResultMap">
+        With AwardWork as(
+            select F_USER_NO as admin_no,
+                   count(1) as reg_cnt
+            from T_AWARD_WORK group by f_user_no
+        ),
+             InvitWork as(
+                 select F_USER_NO as admin_no,
+                        count(1) as reg_cnt
+                 from T_INVIT_WORK group by f_user_no
+             )
+        select f_name,
+               sum(t2.reg_cnt + t3.reg_cnt) as reg_cnt
+        from T_USER t1
+                 join AwardWork t2 on t1.F_USER_NO = t2.admin_no
+                 join InvitWork t3 on t1.F_USER_NO = t3.admin_no
+        group by f_name
+        order by reg_cnt desc
+        offset 0 rows fetch next 3 rows only
     </select>
 </mapper>
