@@ -24,11 +24,9 @@ public class FileController {
     @GetMapping("/file/download/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable int fileId)
     {
-        // 파일 정보 가져오기
         NoticeFile noticeFile = fileService.getFileInfo(fileId);
         if(noticeFile == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        // 파일 다운로드
         Resource resource = fileService.downloadFile(noticeFile.getF_filename());
         String encodedName = URLEncoder.encode(noticeFile.getF_ori_filename(), StandardCharsets.UTF_8);
 

@@ -1,14 +1,14 @@
 package com.example.java_practice.commons.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
+/**
+ * API 에러 응답 DTO
+ * */
+@Getter
 public class ErrorResponse {
-    // api 에러 응답 DTO
     private String code;
     private String message;
     private LocalDateTime timestamp;

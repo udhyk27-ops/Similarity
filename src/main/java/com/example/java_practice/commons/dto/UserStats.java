@@ -1,10 +1,12 @@
 package com.example.java_practice.commons.dto;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+/**
+ * dashboard - 운영회원/관리자 비율(회원 현황)
+ * */
+@Getter
 public class UserStats {
-    // 회원 현황(운영회원/관리자)
     private int user_cnt;
     private int admin_cnt;
 }

@@ -129,7 +129,7 @@ public class UserController {
     {
         String code = String.format("%06d", (int)(Math.random() * 1000000));
         if(type.equals("award")){
-            // 중복 체크
+
             boolean result = userService.chkDupAwardWork(awardParams.getF_author(), awardParams.getF_contest(), awardParams.getF_award(), awardParams.getF_year());
             if(result) return "redirect:/single/award?dup=true";
 
@@ -141,7 +141,7 @@ public class UserController {
             return "redirect:/single/award?dup=false";
 
         }else{
-            // 중복 체크
+
             boolean result = userService.chkDupInvitWork(invitParams.getF_title(), invitParams.getF_author(), invitParams.getF_year());
             if(result) return "redirect:/single/invit?dup=true";
 

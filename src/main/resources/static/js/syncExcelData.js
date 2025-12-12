@@ -26,15 +26,14 @@ const syncExcelData = {
         const fileCnt = document.getElementById("fileCnt");
         const excelDataList = document.getElementById("excelDataList");
         const type = document.getElementById('type').value;
-        const colspan = (type === 'award') ? 12 : 9;
-        const syncBtn = document.getElementById("syncBtn");
+        const colspan = (type === 'award') ? 12 : 8;
 
         let html = ""
         const rows = workDataList.length > 0 ? workDataList : data.slice(1);
         if(flag === "sync"){
             const chkText = "저작물사이즈(너비, 높이)";
             const fileContainer = document.getElementById("fileListContainer");
-            if ((type === "invit" && data[0][5] !== chkText) || (type === "award" && data[0][6] !== chkText)) {
+            if ((type === "invit" && data[0][4] !== chkText) || (type === "award" && data[0][6] !== chkText)) {
                 alert("양식에 맞는 파일을 첨부해주세요");
                 fileContainer.remove();
                 excelDataList.innerHTML = "";
@@ -133,8 +132,8 @@ const syncExcelData = {
             headers = ["f_filename", "f_contest", "f_author", "f_award", "f_title", "f_year", "f_work_size", "f_host", "f_manager"];
             chkNum = 6;
         }else{
-            headers = ["f_filename", "f_author", "f_code", "f_title", "f_year", "f_work_size"];
-            chkNum = 5;
+            headers = ["f_filename", "f_author", "f_title", "f_year", "f_work_size"];
+            chkNum = 4;
         }
         const mapData = data.map(rows => {
             let obj = {};

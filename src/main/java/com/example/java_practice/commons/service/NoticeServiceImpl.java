@@ -49,7 +49,7 @@ public class NoticeServiceImpl implements NoticeService {
                 Path filePath = dirPath.resolve(storedFileName);
 
                 file.transferTo(filePath);
-                uploadedFiles.add(filePath); // 업로드된 파일 기록
+                uploadedFiles.add(filePath);
 
                 NoticeFile noticeFile = new NoticeFile();
                 noticeFile.setF_notice_id(noticeId);
@@ -111,7 +111,6 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional
     public Notice updateNoticeById(Notice notice) {
-        // 조회수 초기화
         noticeMapper.updateViewCntToZero(notice.getF_id());
         noticeMapper.updateNoticeById(notice);
         return notice;

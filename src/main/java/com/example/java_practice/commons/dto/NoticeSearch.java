@@ -1,8 +1,9 @@
 package com.example.java_practice.commons.dto;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 public class NoticeSearch {
     private String staDate;
     private String endDate;

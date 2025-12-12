@@ -26,7 +26,6 @@ public class NoticeRestController {
     private final NoticeService noticeService;
     private final FileService fileService;
 
-    // 조회수 증가
     @PostMapping("/{id}/view-count")
     public void addViewCnt(@PathVariable("id") int noticeId)
     {
@@ -36,7 +35,6 @@ public class NoticeRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteNotice(@PathVariable("id") int id)
     {
-        // 공지사항 삭제
         List<NoticeFile> noticeFiles = noticeService.selectNoticeFilesByNoticeId(id);
         boolean success = noticeService.deleteNoticeById(id);
         if(success){

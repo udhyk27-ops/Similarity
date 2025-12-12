@@ -204,7 +204,7 @@
                                         <th>파일명</th>
                                         <th th:if="${type == 'award'}">공모전명</th>
                                         <th>저작자명</th>
-                                        <th th:text="${type == 'award' ? '상권명' : '코드명'}">상권명</th>
+                                        <th th:if="${type == 'award'}">상권명</th>
                                         <th>제목</th>
                                         <th>발표년도</th>
                                         <th>저작물사이즈</th>
@@ -215,7 +215,7 @@
                                 </thead>
                                 <tbody id="excelDataList">
                                     <tr>
-                                        <td th:colspan="${type == 'award' ? 12 : 9}">작품 메타정보 업로드 후 동기화 해주세요</td>
+                                        <td th:colspan="${type == 'award' ? 12 : 8}">작품 메타정보 업로드 후 동기화 해주세요</td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -243,24 +243,24 @@
                         }
                         const award = data.data.awardStats;
                         const invit = data.data.invitStats;
-                        const backgroundColor = ['#f17f97', '#fab2c1', '#ffe9e9'];
+                        const backgroundColor = ['#f17f97', '#fab2c1'];
                         const douAwardData = {
-                            labels : ['등록', '승인', '미승인'],
+                            labels : ['승인', '미승인'],
                             datasets : [
                                 {
                                     // label : '수상작',
-                                    data : [award.total_cnt, award.valid_cnt, award.invalid_cnt],
+                                    data : [award.valid_cnt, award.invalid_cnt],
                                     backgroundColor : backgroundColor
                                 },
 
                             ]
                         }
                         const douInvitData = {
-                            labels : ['등록', '승인', '미승인'],
+                            labels : ['승인', '미승인'],
                             datasets : [
                                 {
                                     // label : '초대작',
-                                    data : [invit.total_cnt, invit.valid_cnt, invit.invalid_cnt],
+                                    data : [invit.valid_cnt, invit.invalid_cnt],
                                     backgroundColor : backgroundColor
                                 }
                             ]

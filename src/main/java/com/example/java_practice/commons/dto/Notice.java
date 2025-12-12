@@ -1,10 +1,13 @@
 package com.example.java_practice.commons.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Notice {
     private int f_id;
     private String f_title;

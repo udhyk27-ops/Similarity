@@ -1,8 +1,11 @@
 package com.example.java_practice.commons.dto;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Invit {
     private int f_work_no;
     private String f_title;

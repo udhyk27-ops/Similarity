@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-     @Override
+    @Override
     public int selectListTotalCnt(String type) {
         if(type.equals("award")){
             return awardWorkMapper.selectAwardListCnt();
@@ -158,7 +158,6 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public boolean insertBatchAwardWork(int userNo, List<Award> awardList, List<MultipartFile> files) {
 
-        // pk 값 가져오기
         int maxNum = awardWorkMapper.selectNextWorkNo();
         boolean hasFile = (files != null && !files.isEmpty());
 

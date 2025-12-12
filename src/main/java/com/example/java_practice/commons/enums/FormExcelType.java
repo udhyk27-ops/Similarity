@@ -7,7 +7,7 @@ public enum FormExcelType {
     ),
     INVITE_FORM(
             "초대작_리스트_등록양식",
-            new String[]{"파일명", "저작자명", "코드명", "제목", "발표년도", "저작물사이즈(너비, 높이)"}
+            new String[]{"파일명", "저작자명", "제목", "발표년도", "저작물사이즈(너비, 높이)"}
     );
     private final String sheetName;
     private final String[] headers;
