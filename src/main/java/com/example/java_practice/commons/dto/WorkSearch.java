@@ -1,8 +1,10 @@
 package com.example.java_practice.commons.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class WorkSearch {
     private String staDate;
     private String endDate;

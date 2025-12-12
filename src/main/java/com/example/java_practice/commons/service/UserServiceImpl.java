@@ -39,56 +39,40 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public int selectListTotalCnt(String type) {
-        if(type.equals("award")){
-            return awardWorkMapper.selectAwardListCnt();
-        }else{
-            return invitWorkMapper.selectInvitListCnt();
-        }
+        if(type.equals("award")) return awardWorkMapper.selectAwardListCnt();
+        else                     return invitWorkMapper.selectInvitListCnt();
     }
 
     @Override
     public int selectListSearchCnt(String type, WorkSearch workSearch) {
-        if(type.equals("award")){
-            return awardWorkMapper.selectAwardListCntBySearch(workSearch);
-        }else{
-            return invitWorkMapper.selectInvitListCntBySearch(workSearch);
-        }
+        if(type.equals("award")) return awardWorkMapper.selectAwardListCntBySearch(workSearch);
+        else                     return invitWorkMapper.selectInvitListCntBySearch(workSearch);
     }
 
     @Override
     public List<?> selectListForExcel(String type, WorkSearch workSearch) {
-        if(type.equals("award")){
-            return awardWorkMapper.selectAwardListForExcel(workSearch);
-        }else{
-            return invitWorkMapper.selectInvitListForExcel(workSearch);
-        }
+        if(type.equals("award")) return awardWorkMapper.selectAwardListForExcel(workSearch);
+        else                     return invitWorkMapper.selectInvitListForExcel(workSearch);
     }
 
     @Override
     public List<String> selectYearList(String type) {
-        if(type.equals("award")){
-            return awardWorkMapper.selectAwardYearList();
-        }else{
-            return invitWorkMapper.selectInvitYearList();
-        }
+        if(type.equals("award")) return awardWorkMapper.selectAwardYearList();
+        else                     return invitWorkMapper.selectInvitYearList();
     }
 
     @Override
     @Transactional
     public boolean deleteWork(String type, int workNo) {
         int rows;
-        if(type.equals("award")){
-            rows = awardWorkMapper.updateAwardStatusByWorkNo(workNo);
-        }else{
-            rows = invitWorkMapper.updateInvitStatusByWorkNo(workNo);
-        }
+        if(type.equals("award")) rows = awardWorkMapper.updateAwardStatusByWorkNo(workNo);
+        else                     rows = invitWorkMapper.updateInvitStatusByWorkNo(workNo);
+
         return rows > 0;
     }
 
     @Override
-    public boolean chkDupAwardWork(String author, String contest, String award, String year) {
-        return awardWorkMapper.chkDupAwardWork(author, contest, award, year);
-    }
+    public boolean chkDupAwardWork(String author, String contest, String award, String year) { return awardWorkMapper.chkDupAwardWork(author, contest, award, year); }
 
     @Override
     @Transactional
@@ -121,9 +105,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean chkDupInvitWork(String title, String author, String year) {
-        return invitWorkMapper.chkDupInvitWork(title, author, year);
-    }
+    public boolean chkDupInvitWork(String title, String author, String year) { return invitWorkMapper.chkDupInvitWork(title, author, year); }
 
     @Override
     @Transactional

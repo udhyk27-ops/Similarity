@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * 에러 페이지 설정
+ * */
 @Controller
 public class WebErrorController implements ErrorController {
-    // 에러 페이지 설정
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request)
     {

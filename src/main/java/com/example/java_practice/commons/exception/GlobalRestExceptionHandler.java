@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Rest API 예외 처리. custom 필요하면 추가
+ * */
 @Slf4j
 @RestControllerAdvice(annotations = RestController.class)
 public class GlobalRestExceptionHandler {
-    // rest api 예외 처리. custom 필요하면 추가
 
-    // JSON 파싱 에러
+    /** JSON 파싱 에러 */
     @ExceptionHandler(JsonProcessingException.class)
     public ResponseEntity<ErrorResponse> handleJsonException(JsonProcessingException e){
         log.error("JSON Parsing Error", e);
@@ -23,7 +25,7 @@ public class GlobalRestExceptionHandler {
                 .body(new ErrorResponse("INVALID_JSON", "잘못된 JSON 형식입니다"));
     }
 
-    // 일반적인 예외
+    /** 일반적인 예외 */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e){
         log.error("API Error", e);

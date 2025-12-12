@@ -1,4 +1,6 @@
-// 파일 업로드 관련
+/**
+ * fileInput
+ * */
 const fileUpload = {
     enablePreview: false, // 이미지 미리보기 활성화 여부
 
@@ -104,7 +106,9 @@ const fileUpload = {
     }
 }
 
-// 대량 등록 사진 파일 업로드
+/**
+ * photoInput
+ * */
 
 // Handle files
 function handleFiles(files) {

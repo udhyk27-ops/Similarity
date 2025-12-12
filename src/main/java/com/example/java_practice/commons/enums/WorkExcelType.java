@@ -1,7 +1,12 @@
 package com.example.java_practice.commons.enums;
 
+/**
+ * 엑셀 저장
+ * String sheetName : 엑셀 파일명
+ * String[] headers : 헤더
+ * String[] fieldNames : DB필드명
+ * */
 public enum WorkExcelType {
-    // 엑셀 헤더, 필드명
     AWARD(
             "수상작_등록현황",
             new String[]{"번호", "이미지", "제목", "저작자명", "공모전명", "상권명", "주최", "주관", "발표년도", "등록일시"},

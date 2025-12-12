@@ -1,5 +1,10 @@
 package com.example.java_practice.commons.enums;
 
+/**
+ * 양식 다운로드
+ * String sheetName : 양식 제목
+ * String[] headers : 헤더
+ * */
 public enum FormExcelType {
     AWARD_FORM(
             "수상작_리스트_등록양식",

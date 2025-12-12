@@ -180,7 +180,7 @@
                                         <a th:href="@{/bulk/{type}(type=${type})}" class="btn-navy">대량등록</a>
                                     </div>
                                     <div class="sch-group">
-                                        <select name="size" class="form-control" onchange="this.form.submit();">
+                                        <select name="size" class="form-control offset" onchange="this.form.submit();">
                                             <option value="10" th:selected="${size == 10}">10</option>
                                             <option value="30" th:selected="${size == 30}">30</option>
                                             <option value="50" th:selected="${size == 50}">50</option>
@@ -288,7 +288,6 @@
         })
         const frm = {
             deleteWork : function (workNo){
-                console.log(workNo);
                 if(!confirm("삭제하시겠습니까?")) return;
 
                 const type = document.getElementById('type').value;
@@ -315,10 +314,12 @@
                 location.href = `/workList/${type}/excel?${searchParams}`;
             },
             resetSch : function (){
-                const inputs = document.querySelectorAll('.form-control');
+                const inputs = document.querySelectorAll('.form-control:not(.offset)');
                 for(const input of inputs){
                     input.value = '';
                 }
+                const offset = document.querySelector('.offset');
+                offset.value = 10;
             }
         }
     </script>

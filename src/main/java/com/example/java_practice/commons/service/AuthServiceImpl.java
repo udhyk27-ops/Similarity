@@ -17,9 +17,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthMapper authMapper;
 
     @Override
-    public UserWithAuth getUserInfoById(String id) {
-        return authMapper.selectUserById(id);
-    }
+    public UserWithAuth getUserInfoById(String id) { return authMapper.selectUserById(id); }
 
     @Override
     @Transactional
@@ -28,12 +26,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserStats selectUserSortStats() {
-        return authMapper.selectUserSortStats();
-    }
+    public UserStats selectUserSortStats() { return authMapper.selectUserSortStats(); }
 
     @Override
-    public List<UserRegStats> selectUserRegStats() {
-        return authMapper.selectUserRegStats();
-    }
+    public List<UserRegStats> selectUserRegStats() { return authMapper.selectUserRegStats(); }
 }

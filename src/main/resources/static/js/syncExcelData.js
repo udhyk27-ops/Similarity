@@ -1,4 +1,6 @@
-// 대량등록 동기화 관련
+/**
+ * 대량등록, 동기화 관련
+ * */
 const syncExcelData = {
     parseExcelFile : function(file) {
         const reader = new FileReader();

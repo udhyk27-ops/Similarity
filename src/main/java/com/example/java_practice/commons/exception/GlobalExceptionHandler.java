@@ -7,12 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * 웹 예외처리(try-catch). custom 필요할 경우 추가
+ * */
 @Slf4j
 @ControllerAdvice(annotations = Controller.class)
 public class GlobalExceptionHandler {
-    // 웹 예외처리(try-catch). custom 필요하면 추가
 
-    // 400 bad request
+    /** 400 bad request */
     @ExceptionHandler(IllegalArgumentException.class)
     public String handleBusinessException(IllegalArgumentException e, Model model){
         log.error("IllegalArgument", e.getMessage());
@@ -20,7 +22,7 @@ public class GlobalExceptionHandler {
         return "error/400";
     }
 
-    // 404 
+    /** 404 */
     @ExceptionHandler(NotFoundException.class)
     public String handleNotFoundException(NotFoundException e, Model model) {
         log.error("Not Found: {}", e.getMessage());
@@ -35,7 +37,7 @@ public class GlobalExceptionHandler {
         return "error/error";
     }
 
-    // 일반적인 예외
+    /** 일반적인 예외 */
     @ExceptionHandler(Exception.class)
     public String handleException(Exception e, Model model){
         log.error("Unexpected Error", e);

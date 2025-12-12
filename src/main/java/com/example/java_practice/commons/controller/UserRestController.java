@@ -31,7 +31,7 @@ public class UserRestController {
     {
         boolean success = userService.deleteWork(type, workId);
         if(success) return ResponseEntity.ok().body(Map.of("status", true, "msg", "삭제되었습니다"));
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status", false, "msg", "삭제에 실패했습니다"));
+        else        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status", false, "msg", "삭제에 실패했습니다"));
     }
 
     @PostMapping("/bulk/{type}")
@@ -58,7 +58,7 @@ public class UserRestController {
         }
 
         if(success) return ResponseEntity.ok().body(Map.of("status", true, "msg", "등록이 완료되었습니다"));
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status", false, "msg", "등록에 실패했습니다"));
+        else        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("status", false, "msg", "등록에 실패했습니다"));
     }
 
 }

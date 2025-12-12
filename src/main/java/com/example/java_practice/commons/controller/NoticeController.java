@@ -35,13 +35,13 @@ public class NoticeController {
         int totalPages = (int) Math.ceil((double) totalCnt / size);
         totalPages = totalPages == 0 ? 1 : totalPages;
 
-        model.addAttribute("user", userDetails); // 세션
-        model.addAttribute("noticeList", noticeService.selNoticeList(params, page, size)); // 리스트
+        model.addAttribute("user", userDetails);
+        model.addAttribute("noticeList", noticeService.selNoticeList(params, page, size));
 
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", page);
         model.addAttribute("size", size);
-        model.addAttribute("search", params); // 검색 조건
+        model.addAttribute("search", params);
 
         return "commons/notice/noticePage";
     }
@@ -75,7 +75,6 @@ public class NoticeController {
         return "commons/notice/noticeDetailPage";
     }
 
-    // 공지 수정, 등록
     @PostMapping("/regNoticeProcess")
     public String regNoticeProcess(
             @ModelAttribute("noticeDetail") Notice noticeDetail,
@@ -103,13 +102,10 @@ public class NoticeController {
             notice = noticeService.insertNotice(params);
         }
 
-        // 신규 파일 등록
         boolean hasFile = noticeFiles.stream()
                 .anyMatch(f -> f != null && !f.isEmpty() && f.getSize() > 0);
 
-        if(hasFile) {
-            noticeService.insertNoticeFile(notice.getF_id(), noticeFiles);
-        }
+        if(hasFile) noticeService.insertNoticeFile(notice.getF_id(), noticeFiles);
 
         return "redirect:/notice";
     }

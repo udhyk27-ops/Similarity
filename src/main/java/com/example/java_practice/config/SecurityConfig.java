@@ -20,12 +20,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        // 전부 허용
+        /** 전부 허용 */
 //        http.csrf(csrf -> csrf.disable())
 //                .authorizeHttpRequests(auth -> auth
 //                .anyRequest().permitAll());
 
-        // login만 허용
+        /** login만 허용 */
 //        http
 //                .csrf(csrf -> csrf.disable())
 //                .authorizeHttpRequests(auth -> auth
@@ -63,9 +63,11 @@ public class SecurityConfig {
 //    public BCryptPasswordEncoder bCryptPasswordEncoder() {
 //        return new BCryptPasswordEncoder();
 //    }
-    @Bean
-    // 정적 리소스 허용
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/css/**", "/images/**", "/js/**");
-    }
+    /**
+     * 정적 리소스 허용
+     * */
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().requestMatchers("/css/**", "/images/**", "/js/**");
+//    }
 }

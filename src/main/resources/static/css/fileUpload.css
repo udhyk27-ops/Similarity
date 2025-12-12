@@ -1,4 +1,4 @@
-/* 파일 업로드 */
+/* fileInput */
 .file-box {
     border: 2px dashed #cacaca;
     padding: 0.3rem;
@@ -38,7 +38,7 @@
     text-decoration: none;
 }
 
-/* 사진 업로드 */
+/* photoInput */
 .dropbox {
     height: 12rem;
     border: 3px dashed var(--border);

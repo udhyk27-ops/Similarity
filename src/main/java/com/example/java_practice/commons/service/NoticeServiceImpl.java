@@ -61,7 +61,7 @@ public class NoticeServiceImpl implements NoticeService {
                 noticeMapper.insertNoticeFile(noticeFile);
 
             } catch (IOException e) {
-                // insert 실패 시 이미 업로드된 파일도 삭제
+                /** insert 실패 시 이미 업로드된 파일도 삭제 */
                 fileService.deleteFiles(uploadedFiles);
                 throw new RuntimeException("파일 업로드 중 오류 발생: " + file.getOriginalFilename(), e);
             }
@@ -91,9 +91,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     @Transactional
-    public void updateViewCnt(int noticeId) {
-        noticeMapper.updateViewCnt(noticeId);
-    }
+    public void updateViewCnt(int noticeId) { noticeMapper.updateViewCnt(noticeId); }
 
     @Override
     public List<NoticeFile> selectNoticeFilesByNoticeId(int noticeId) {

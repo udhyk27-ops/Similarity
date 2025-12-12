@@ -4,34 +4,30 @@ import com.example.java_practice.commons.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 public interface UserService {
-    // 등록현황 리스트(수상작/초대작)
+    /** 등록현황 리스트(수상작/초대작) */
     List<?> selectList(String type, WorkSearch workSearch, int page, int size);
-    // 등록현황 총 개수(수상작/초대작)
+    /** 등록현황 총 개수(수상작/초대작) */
     int selectListTotalCnt(String type);
     int selectListSearchCnt(String type, WorkSearch workSearch);
-    // 엑셀 저장
+    /** 엑셀 저장 */
     List<?> selectListForExcel(String type, WorkSearch workSearch);
-    // 발표년도 select
+    /** 발표년도 select */
     List<String> selectYearList(String type);
-    // 삭제
+    /** 삭제 */
     boolean deleteWork(String type, int workNo);
-    // 수상작 중복 체크
+    /** 중복 체크 */
     boolean chkDupAwardWork(String author, String contest, String award, String year);
-    // 수상작 개별 등록
-    void insertSingleAwardWork(Award award, MultipartFile file);
-    // 초대작 중복 체크
     boolean chkDupInvitWork(String title, String author, String year);
-    // 초대작 개별 등록
+    /** 개별 등록 */
+    void insertSingleAwardWork(Award award, MultipartFile file);
     void insertSingleInvitWork(Invit invit, MultipartFile file);
-    // 수상작 단체등록
+    /** 단체등록 */
     boolean insertBatchAwardWork(int userNo, List<Award> awardList, List<MultipartFile> file);
-    // 초대작 단체등록
     boolean insertBatchInvitWork(int userNo, List<Invit> invitList, List<MultipartFile> files);
-    // 대시보드 등록현황
+    /** dashboard - 등록 현황 */
     TotalWorkStats selectWorkStats();
-    // 대시보드 발매년도 별 등록 현황
+    /** dashboard - 발매년도별 등록 현황 */
     List<WorkYearStats> selectYearStats();
 }

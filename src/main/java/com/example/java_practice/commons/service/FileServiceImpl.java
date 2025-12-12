@@ -84,9 +84,8 @@ public class FileServiceImpl implements FileService{
     public Path createDirPath(String dirName) {
         Path dirPath = Paths.get(uploadDir + "/" + dirName);
         try{
-            if (!Files.exists(dirPath)) {
-                Files.createDirectories(dirPath);
-            }
+            if (!Files.exists(dirPath)) Files.createDirectories(dirPath);
+
         }catch (IOException e){
             throw new RuntimeException("디렉토리 생성 중 오류 발생", e);
         }

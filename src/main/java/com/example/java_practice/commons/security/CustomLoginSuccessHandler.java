@@ -22,10 +22,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
-        // 인증 완료 후
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        // 최신 로그인 갱신
+        /** update F_LOGIN_DATE */
         authService.updateLastLoginByUserNo(userDetails.getUserNo());
 
         response.sendRedirect("/main");

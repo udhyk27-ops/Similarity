@@ -39,34 +39,22 @@ public class CustomUserDetails implements UserDetails {
         return authorities;
     }
 
+    /** 실습용. 실제 서비스는 암호화 필요 */
     @Override
-    // 비밀번호 바꿔보기
-    public String getPassword() {
-        return "{noop}" + userWithAuth.getF_id(); // 실습용. 실제 서비스는 암호화 필요
-    }
+    public String getPassword() { return "{noop}" + userWithAuth.getF_id(); }
 
     @Override
-    public String getUsername() {
-        return userWithAuth.getF_id();
-    }
+    public String getUsername() { return userWithAuth.getF_id(); }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    public boolean isAccountNonExpired() { return true; }
 
     @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    public boolean isAccountNonLocked() { return true; }
 
     @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+    public boolean isCredentialsNonExpired() { return true; }
 
     @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    public boolean isEnabled() { return true; }
 }
