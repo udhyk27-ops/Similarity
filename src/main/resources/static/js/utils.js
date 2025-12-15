@@ -25,7 +25,7 @@ export function bindEvents(context) {
 
     // 필터 변경
     $('.filter').on('change', function() {
-        window.location.href = '/award?filter=' + $(this).val();
+        window.location.href = '/admin/award?filter=' + $(this).val();
     });
 
     // 모달 내 회원 선택
@@ -67,6 +67,7 @@ export function postAJAX(url, data, onSuccess, onError = console.error) {
         url,
         type: 'POST',
         data,
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
         beforeSend: xhr => xhr.setRequestHeader(header, token),
         success: onSuccess,
         error: onError

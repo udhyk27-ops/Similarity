@@ -27,4 +27,7 @@ public interface AdminMapper {
     ArrayList<User> selManageList(Search userSearch);
 
     int delUser(String sort, int userNo);
+
+    int mergeUser(User user, String sort);
+    int mergeAuth(User user, String sort);
 }

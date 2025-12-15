@@ -33,4 +33,7 @@ public interface AdminService {
 
     // 회원 삭제
     int delUser(String sort, int userNo);
+
+    // 관리 저장
+    int saveInfo(User user, String sort);
 }

@@ -1,9 +1,10 @@
 package com.example.java_practice.commons.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 
+import com.example.java_practice.commons.dto.Auth;
 import com.example.java_practice.commons.dto.User;
 import com.example.java_practice.commons.dto.WorkWithUser;
 import com.example.java_practice.commons.service.AdminService;
@@ -46,4 +47,39 @@ public class AdminRestController {
 //        System.out.println("user : " + user);
         return adminService.modInfo(work, user);
     }
+
+    // 관리 - 저장
+    @PostMapping("/saveInfo")
+    public int saveInfo(@ModelAttribute User user,
+                        @RequestParam(value = "auth", required = false) List<String> authLists) {
+
+
+        System.out.println("saveInfo user : " + user);
+
+        Auth auth = convertAuth(user.getF_user_no(), authLists);
+
+        System.out.println("auth : " + auth);
+
+        return 1;
+//        return adminService.saveInfo(user, sort);
+    }
+
+    private Auth convertAuth(int userNo, List<String> authCodes) {
+        Auth auth = new Auth();
+        auth.setF_user_no(userNo);
+
+        List<String> list = authCodes == null ? Collections.emptyList() : authCodes;
+
+        auth.setF_auth_award(list.contains("f_auth_award") ? "Y" : "N");
+        auth.setF_auth_invit(list.contains("f_auth_invit") ? "Y" : "N");
+        auth.setF_auth_reg(list.contains("f_auth_reg") ? "Y" : "N");
+        auth.setF_auth_sim(list.contains("f_auth_sim") ? "Y" : "N");
+        auth.setF_auth_user(list.contains("f_auth_user") ? "Y" : "N");
+        auth.setF_auth_admin(list.contains("f_auth_admin") ? "Y" : "N");
+
+        return auth;
+    }
+
+
+
 }

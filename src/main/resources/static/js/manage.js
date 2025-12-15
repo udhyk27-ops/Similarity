@@ -35,13 +35,18 @@ const UserAdminModule = {
         $('.del-btn').on('click', () => this.deleteUser());
 
         // 저장
-        if ($('.save-btn.auth').length) {
-            $('.save-btn.auth').on('click', () => this.saveAuth());
-        } else {
-            $('.save-btn').on('click', () => {
-                console.log("저장 버튼 클릭됨. 주소 저장 등 로직 추가 예정.");
-            });
-        }
+        $('#manage-form').on('submit', e =>  {
+            e.preventDefault()
+
+            const formData = $(e.currentTarget).serialize();
+            console.log('formData:', formData);
+
+            if ( $('body').data('page-type') === 'user' ) {
+                this.saveUser(formData);
+            } else {
+                this.saveAdmin(formData);
+            }
+        });
 
         // 엑셀 저장
         $('.excel-div .cell-btn').on('click', () => {
@@ -61,8 +66,8 @@ const UserAdminModule = {
         $('#user-email').val(user.f_email);
         $('#user-dept').val(user.f_dept);
         $('#user-position').val(user.f_position);
-        $('#user-login').val(user.f_login_date);
-        $('#user-modify').val(user.f_mod_date);
+        $('#user-login').text(user.f_login_date);
+        $('#user-modify').text(user.f_mod_date);
         $('#user-memo').text(user.f_memo);
         $('#user-no').val(user.f_user_no);
 
@@ -110,19 +115,31 @@ const UserAdminModule = {
         });
     },
 
-    /** 저장 */
-    saveAuth() {
-        const sort = $('body').data('page-type') === 'user' ? '회원' : '관리자';
-        const userNo = $('#user-no').val();
-        if (!userNo) return alert('대상을 선택해주세요.');
+    /** 운영회원 저장 */
+    saveUser(formData) {
+        console.log('운영회원 저장');
 
-        const authArr = $('input[name="auth"]:checked').map(function() {
-            return $(this).next().text().trim();
-        }).get();
 
-        util.postAJAX('/api/admin/modifyInfo', { userNo, auth: authArr }, response => {
-            if (response === 1) alert('권한 저장 완료');
-            else alert('권한 저장 실패');
+
+
+
+        util.postAJAX('/api/admin/saveInfo', formData + '&f_sort=회원', response => {
+            alert(response === 1 ? '저장 완료' : '저장 실패');
+        });
+
+
+
+
+    },
+    
+    /** 관리자 저장 */
+    saveAdmin(formData) {
+        console.log('관리자 저장');
+
+        console.log(formData);
+
+        util.postAJAX('/api/admin/saveInfo', formData + '&f_sort=관리자', response => {
+            alert(response === 1 ? '저장 완료' : '저장 실패');
         });
     }
 };

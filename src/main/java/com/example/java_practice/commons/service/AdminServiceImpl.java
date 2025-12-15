@@ -65,4 +65,25 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public int delUser(String sort, int userNo) { return adminMapper.delUser(sort, userNo); }
+
+    @Override
+    public int saveInfo(User user, String sort) {
+        int userResult = 1;
+        int authResult = 1;
+
+        if ( sort.equals("회원")) {
+            userResult = adminMapper.mergeUser(user, sort);
+        } else if (sort.equals("관리자")){
+            userResult = adminMapper.mergeUser(user, sort);
+            authResult = adminMapper.mergeAuth(user, sort);
+
+        }
+
+        if (userResult == 1 && authResult == 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
 }

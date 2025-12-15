@@ -12,8 +12,6 @@ body { margin: 0; padding: 0; background-color: var(--bg); }
 .sec1-1 { flex: 1;}
 .sec1-2 { flex: 0.2; display: flex; width: 100%; }
 .sec1-3 { flex: 8.8; }
-.sec2-1 { flex: 5; }
-.sec2-2 { height: 100%; }
 
 .row { display: flex; flex-wrap: nowrap; border-bottom: 1px solid #ddd; }
 .header-row { background: #fff0f0; font-weight: 600; text-align: center; }
