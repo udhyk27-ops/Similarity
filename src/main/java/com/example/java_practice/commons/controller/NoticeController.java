@@ -43,6 +43,7 @@ public class NoticeController {
         model.addAttribute("size", size);
         model.addAttribute("search", params);
 
+        // 수정하기(alert과 순서문제)
         return "commons/notice/noticePage";
     }
 
@@ -107,6 +108,6 @@ public class NoticeController {
 
         if(hasFile) noticeService.insertNoticeFile(notice.getF_id(), noticeFiles);
 
-        return "redirect:/notice";
+        return "redirect:/noticeReg?proc=true";
     }
 }

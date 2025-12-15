@@ -14,8 +14,8 @@ public enum WorkExcelType {
     ),
     INVITE(
             "초대작_등록현황",
-            new String[]{"번호", "이미지", "제목", "저작자명", "코드", "발표년도", "등록일시"},
-            new String[]{"f_work_no", "f_filename", "f_title", "f_author", "f_code", "f_year", "f_reg_date"}
+            new String[]{"번호", "이미지", "제목", "저작자명", "발표년도", "등록일시"},
+            new String[]{"f_work_no", "f_filename", "f_title", "f_author", "f_year", "f_reg_date"}
     );
 
     private final String sheetName;

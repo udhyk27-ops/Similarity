@@ -200,9 +200,9 @@
         <selectKey keyProperty="f_work_no" resultType="int" order="BEFORE">
             SELECT NVL(MAX(F_WORK_NO), 0) + 1 FROM T_AWARD_WORK
         </selectKey>
-        insert into T_AWARD_WORK(F_WORK_NO, F_TITLE, F_AUTHOR, F_YEAR, F_REG_DATE, F_CODE, F_USER_NO, F_WORK_SIZE,
+        insert into T_AWARD_WORK(F_WORK_NO, F_TITLE, F_AUTHOR, F_YEAR, F_REG_DATE, F_USER_NO, F_WORK_SIZE,
                                  F_FILENAME, F_FILEPATH, F_CONTEST, F_AWARD, F_MANAGER, F_HOST, F_MEMO)
-        values (#{f_work_no}, #{f_title}, #{f_author}, #{f_year}, sysdate, #{f_code}, #{f_user_no}, #{f_work_size},
+        values (#{f_work_no}, #{f_title}, #{f_author}, #{f_year}, sysdate, #{f_user_no}, #{f_work_size},
                 #{f_filename}, #{f_filepath}, #{f_contest}, #{f_award}, #{f_manager}, #{f_host}, #{f_memo})
     </insert>
 
@@ -213,10 +213,10 @@
     <insert id="insertBatchAwardWork" parameterType="list">
         insert all
         <foreach collection="list" item="award">
-            into T_AWARD_WORK(F_WORK_NO, F_TITLE, F_AUTHOR, F_YEAR, F_REG_DATE, F_CODE, F_USER_NO, F_WORK_SIZE,
+            into T_AWARD_WORK(F_WORK_NO, F_TITLE, F_AUTHOR, F_YEAR, F_REG_DATE, F_USER_NO, F_WORK_SIZE,
             F_FILENAME, F_FILEPATH, F_CONTEST, F_AWARD, F_MANAGER, F_HOST, F_MEMO)
             values
-               (#{award.f_work_no}, #{award.f_title}, #{award.f_author}, #{award.f_year}, sysdate, #{award.f_code}, #{award.f_user_no}, #{award.f_work_size},
+               (#{award.f_work_no}, #{award.f_title}, #{award.f_author}, #{award.f_year}, sysdate, #{award.f_user_no}, #{award.f_work_size},
                 #{award.f_filename}, #{award.f_filepath}, #{award.f_contest}, #{award.f_award}, #{award.f_manager}, #{award.f_host}, #{award.f_memo})
         </foreach>
         select 1 from dual
@@ -225,8 +225,8 @@
     <select id="selectAwardWorkStats" resultMap="workStatsResultMap">
         select
             count(1) as total_cnt,
-            nvl(sum(case when F_STATUS = 'N' then 1 else 0 end), 0) as valid_cnt,
-            nvl(sum(case when F_STATUS = 'Y' then 1 else 0 end), 0) as invalid_cnt
+            nvl(sum(case when F_CODE is not null then 1 else 0 end), 0) as valid_cnt,
+            nvl(sum(case when F_CODE is null then 1 else 0 end), 0) as invalid_cnt
         from T_AWARD_WORK
     </select>
 

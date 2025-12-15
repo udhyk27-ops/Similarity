@@ -127,7 +127,7 @@ public class UserController {
             Award awardParams,
             Invit invitParams)
     {
-        String code = String.format("%06d", (int)(Math.random() * 1000000));
+//        String code = String.format("%06d", (int)(Math.random() * 1000000));
         if(type.equals("award")){
 
             boolean result = userService.chkDupAwardWork(awardParams.getF_author(), awardParams.getF_contest(), awardParams.getF_award(), awardParams.getF_year());
@@ -135,7 +135,7 @@ public class UserController {
 
             awardParams.setF_user_no(userDetails.getUserNo());
             awardParams.setF_work_size(size_wid + "x" + size_hei);
-            awardParams.setF_code("EMC" + code);
+//            awardParams.setF_code("EMC" + code);
 
             userService.insertSingleAwardWork(awardParams, file);
             return "redirect:/single/award?dup=false";
@@ -147,7 +147,7 @@ public class UserController {
 
             invitParams.setF_user_no(userDetails.getUserNo());
             invitParams.setF_work_size(size_wid + "x" + size_hei);
-            invitParams.setF_code("EMC" + code);
+//            invitParams.setF_code("EMC" + code);
 
             userService.insertSingleInvitWork(invitParams, file);
             return "redirect:/single/invit?dup=false";

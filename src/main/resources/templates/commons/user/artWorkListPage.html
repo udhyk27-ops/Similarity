@@ -200,7 +200,8 @@
                                     <th>이미지</th>
                                     <th>제목</th>
                                     <th>저작자명</th>
-                                    <th th:text="${type == 'award' ? '공모전명/상권명' : '코드'}">공모전명/상권명</th>
+<!--                                    <th th:text="${type == 'award' ? '공모전명/상권명' : '코드'}">공모전명/상권명</th>-->
+                                    <th th:if="${type == 'award'}">공모전명/상권명</th>
                                     <th th:if="${type == 'award'}">주최/주관</th>
                                     <th>발표년도</th>
                                     <th>등록일시</th>
@@ -230,7 +231,7 @@
                                     <td><img class="artwork-img" th:src="${invit.f_filepath == null ? '/images/noPhoto.png' : invit.f_filepath}" alt="초대작 작품"></td>
                                     <td class="artwork-title" th:text="${invit.f_title}"></td>
                                     <td th:text="${invit.f_author}"></td>
-                                    <td th:text="${invit.f_code}"></td>
+<!--                                    <td th:text="${(invit.f_code == null) ? '미발급' : invit.f_code}"></td>-->
                                     <td th:text="${invit.f_year} + '년'"></td>
                                     <td th:text="${invit.f_reg_date}"></td>
                                     <td><button class="btn-pink" th:onclick="'frm.deleteWork(' + ${invit.f_work_no} + ')'">삭제</button></td>

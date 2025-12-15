@@ -163,8 +163,8 @@ public class UserServiceImpl implements UserService{
 
             validAwardList.add(award);
 
-            String code = String.format("%06d", (int)(Math.random() * 1000000));
-            award.setF_code("EMC" + code);
+//            String code = String.format("%06d", (int)(Math.random() * 1000000));
+//            award.setF_code("EMC" + code);
             award.setF_memo("");
 
             award.setF_work_no(maxNum + i);
@@ -225,8 +225,8 @@ public class UserServiceImpl implements UserService{
 
             validInvitList.add(invit);
 
-            String code = String.format("%06d", (int)(Math.random() * 1000000));
-            invit.setF_code("EMC" + code);
+//            String code = String.format("%06d", (int)(Math.random() * 1000000));
+//            invit.setF_code("EMC" + code);
             invit.setF_memo("");
             invit.setF_work_no(maxNum + i);
             invit.setF_user_no(userNo);
@@ -290,7 +290,10 @@ public class UserServiceImpl implements UserService{
             yearMap.get(i.getF_year()).setInvit_cnt(i.getInvit_cnt());
         }
 
-        List<WorkYearStats> yearList = yearMap.values().stream().sorted(Comparator.comparing(WorkYearStats::getF_year)).collect(Collectors.toList());
+        List<WorkYearStats> yearList = yearMap.values().stream()
+                .sorted(Comparator.comparing(WorkYearStats::getF_year))
+                .collect(Collectors.toList());
+
         return yearList;
 
     }
