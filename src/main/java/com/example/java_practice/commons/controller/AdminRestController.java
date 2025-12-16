@@ -3,6 +3,7 @@ package com.example.java_practice.commons.controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import com.example.java_practice.commons.dto.Auth;
 import com.example.java_practice.commons.dto.User;
@@ -18,62 +19,62 @@ public class AdminRestController {
 
     private final AdminService adminService;
 
-    // 기본정보 조회
-
-    @GetMapping("/searchWork")
+    @GetMapping("/searchWork") // 기본정보 조회
     public ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo) { return adminService.selWorkWithUser(sort, workNo); }
     
-    // 회원정보 조회 모달
-    @GetMapping("/searchUser")
+
+    @GetMapping("/searchUser") // 회원정보 조회 모달
     public List<User> selUser(@RequestParam(required = false) String sort,
                               @RequestParam(required = false, defaultValue = "0") int userNo)
     { return adminService.selUserList(sort, userNo); }
 
-    // 작품 삭제
-    @PostMapping("/deleteWork")
+
+    @PostMapping("/regWork") // 작품 등록
+    public int regWork(String sort, int workNo) {
+
+        Random r = new Random();
+        int num = r.nextInt(1000000);
+        String workCode = String.format("EMC%06d", num);
+        System.out.println("workCode : " + workCode);
+
+
+
+
+
+
+
+        return adminService.regWork(sort, workNo, workCode);
+//        return 1;
+    }
+
+
+    @PostMapping("/deleteWork") // 작품 삭제
     public int delWork(String sort, int workNo) { return adminService.delWork(sort, workNo); }
 
-    // 회원 삭제
-    @PostMapping("/deleteUser")
+    @PostMapping("/deleteUser") // 회원 삭제
     public int delUser(String sort, int userNo) { return adminService.delUser(sort, userNo); }
 
-    // 정보 수정
-    @PostMapping("/modifyInfo")
+    @PostMapping("/modifyInfo") // 정보 수정
     public int modInfo(
             @RequestParam ArrayList<String> work,
             @RequestParam ArrayList<String> user
     ) { return adminService.modInfo(work, user); }
 
-    // 관리 - 저장
-    @PostMapping("/saveInfo")
+    @PostMapping("/saveInfo") // 관리 - 저장
     public int saveInfo(@ModelAttribute User user,
                         @RequestParam(value = "auth", required = false) List<String> authLists) {
 
-
         Auth auth = new Auth();
-
-        if (user.getF_sort().equals("관리자")) {
-            auth = convertAuth(authLists);
-            System.out.println("auth : " + auth);
-        }
-
-        if (user.getF_user_no() != null) {
-            auth.setF_user_no(user.getF_user_no());
-        }
-
-        System.out.println("saveInfo user : " + user);
-        System.out.println("saveInfo auth : " + auth);
-
+        if (user.getF_sort().equals("관리자")) { auth = convertAuth(authLists); }
+        if (user.getF_user_no() != null) { auth.setF_user_no(user.getF_user_no()); }
 
         return adminService.saveInfo(user, auth);
     }
 
     private Auth convertAuth(List<String> authCodes) {
         Auth auth = new Auth();
-//        auth.setF_user_no(userNo);
 
         List<String> list = authCodes == null ? Collections.emptyList() : authCodes;
-
         auth.setF_auth_award(list.contains("f_auth_award") ? "Y" : "N");
         auth.setF_auth_invit(list.contains("f_auth_invit") ? "Y" : "N");
         auth.setF_auth_reg(list.contains("f_auth_reg") ? "Y" : "N");

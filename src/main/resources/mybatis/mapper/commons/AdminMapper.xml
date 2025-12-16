@@ -69,7 +69,7 @@
     </resultMap>
 
     <sql id="selWork">
-        F_WORK_NO, F_TITLE, F_AUTHOR, F_CODE, TO_CHAR(F_REG_DATE, 'YYYYMMDD') AS F_REG_DATE
+        F_WORK_NO, F_TITLE, F_AUTHOR, NVL(F_CODE, ' ') AS F_CODE, TO_CHAR(F_REG_DATE, 'YYYYMMDD') AS F_REG_DATE
     </sql>
 
     <sql id="selAuth">
@@ -163,9 +163,9 @@
     </select>
 
     <select id="selWorkWithUser" resultMap="workResultSet">
-        SELECT T1.F_CODE,
-               T1.F_TITLE,
-               T1.F_AUTHOR,
+        SELECT NVL(T1.F_CODE, ' ') AS F_CODE,
+               NVL(T1.F_TITLE, ' ') AS F_TITLE,
+               NVL(T1.F_AUTHOR, ' ') AS F_AUTHOR,
                T1.F_YEAR,
                T1.F_REG_DATE,
                T1.F_FILEPATH,
@@ -180,10 +180,10 @@
                T2.F_SUB_ADDRESS,
                T2.F_USER_NO
                 <if test="sort == 'award'">
-                    , T1.F_CONTEST
-                    , T1.F_AWARD
-                    , T1.F_HOST
-                    , T1.F_MANAGER
+                    , NVL(T1.F_CONTEST, ' ') AS F_CONTEST
+                    , NVL(T1.F_AWARD, ' ') AS F_AWARD
+                    , NVL(T1.F_HOST, ' ') AS F_HOST
+                    , NVL(T1.F_MANAGER, ' ') AS F_MANAGER
                 </if>
           FROM
             <if test="sort == 'award'">
@@ -462,7 +462,20 @@
                F_USER_NO = #{f_user_no}
     </update>
 
-
+    <update id="regWork">
+        UPDATE
+            <choose>
+                <when test="sort == 'award'">
+                    T_AWARD_WORK
+                </when>
+                <when test="sort == 'invit'">
+                    T_INVIT_WORK
+                </when>
+            </choose>
+           SET
+               F_CODE = #{workCode}
+         WHERE F_WORK_NO = #{workNo}
+    </update>
 
 
 

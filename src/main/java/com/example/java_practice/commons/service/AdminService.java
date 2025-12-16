@@ -7,33 +7,26 @@ import java.util.List;
 
 public interface AdminService {
 
-    // 수상작 리스트 조회
-    ArrayList<Award> selAwardList(Search search);
+    ArrayList<Award> selAwardList(Search search); // 수상작 리스트 조회
 
-    // 수상작 CNT
-    int cntAwardList(Search cntWorks);
+    int cntAwardList(Search cntWorks); // 수상작 CNT
 
-    // 작품 조회
-    ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo);
+    ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo); // 작품 조회
 
-    // 회원 조회(모달)
-    List<User> selUserList(String sort, int userNo);
+    List<User> selUserList(String sort, int userNo); // 회원 조회(모달)
 
-    // 작품 삭제
-    int delWork(String sort, int workNo);
+    int regWork(String sort, int workNo, String workCode); // 작품 등록
 
-    // 정보 수정
-    int modInfo(ArrayList<String> work, ArrayList<String> user);
+    int delWork(String sort, int workNo); // 작품 삭제
 
-    // 관리 리스트
-    ArrayList<User> selManageList(Search userSearch);
+    int modInfo(ArrayList<String> work, ArrayList<String> user); // 정보 수정
 
-    // 회원 CNT
-    int cntUserList(Search cntUsers);
+    ArrayList<User> selManageList(Search userSearch); // 관리 리스트
 
-    // 회원 삭제
-    int delUser(String sort, int userNo);
+    int cntUserList(Search cntUsers); // 회원 CNT
 
-    // 관리 저장
-    int saveInfo(User user, Auth auth);
+    int delUser(String sort, int userNo); // 회원 삭제
+
+    int saveInfo(User user, Auth auth); // 관리 저장
+
 }

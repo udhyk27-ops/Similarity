@@ -1,6 +1,7 @@
+const path = window.location.pathname.split('/').pop();
+
 export function bindEvents(context) {
     const self = context;
-    const path = window.location.pathname.split('/').pop();
 
     // 테이블 행 클릭
     $('.reg-list-row').on('click', function() {
@@ -48,7 +49,7 @@ export function bindEvents(context) {
     $('.mod-btn').on('click', () => modifyWork());
 
     // 작품 등록 페이지 이동
-    $('.ins-btn').on('click', () => window.location.href = '/single/' + path);
+    $('.ins-btn').on('click', () => regWork());
 }
 
 
@@ -103,7 +104,7 @@ export function initDatePicker(selector, options = {}) {
  * @param imgSelector
  * @param fileNameSelector
  */
-export function downloadImage(imgSelector, fileNameSelector) {
+function downloadImage(imgSelector, fileNameSelector) {
     const img = $(imgSelector).attr('src');
     if (!img) return alert('이미지가 없습니다.');
 
@@ -118,7 +119,7 @@ export function downloadImage(imgSelector, fileNameSelector) {
 /**
  * 모달
  */
-export function filterTableRows({ tableSelector, rowSelector, excludeSelector, searchInputSelector, optionSelector, columns }) {
+function filterTableRows({ tableSelector, rowSelector, excludeSelector, searchInputSelector, optionSelector, columns }) {
     const keyword = $(searchInputSelector).val().toLowerCase();
     const option = $(optionSelector).val();
 
@@ -185,7 +186,7 @@ export function excel({ header, row, fileName }) {
 /**
  * 모달
  */
-export function openUserModal() {
+function openUserModal() {
     const workNo = $('.info-workNo').val();
     if (!workNo) return alert('작품을 선택해주세요.');
 
@@ -213,9 +214,25 @@ export function openUserModal() {
 }
 
 /**
+ * 작품등록(코드발급)
+ */
+function regWork() {
+    const code = document.getElementById('work-code').textContent.trim();
+    const workNo = document.getElementsByClassName('info-workNo')[0].value;
+    if (code === '') {
+        postAJAX('/api/admin/regWork', {sort: path, workNo: workNo}, resp => {
+            if (resp === 1) alert('등록되었습니다.'), window.location.reload();
+            else alert('등록 실패');
+        });
+    } else {
+        alert('이미 등록되어있는 작품입니다.');
+    }
+}
+
+/**
  * 작품 수정
  */
-export function modifyWork() {
+function modifyWork() {
     const path = window.location.pathname.split('/').pop();
     const workNo = $('.info-workNo').val();
     if (!workNo) return alert('작품을 선택해주세요.');
@@ -232,7 +249,7 @@ export function modifyWork() {
 /**
  * 모달 검색
  */
-export function doSearch() {
+function doSearch() {
     filterTableRows({
         tableSelector: '.user-list-tb',
         rowSelector: '.row',
@@ -246,7 +263,7 @@ export function doSearch() {
 /**
  * 작품 삭제
  */
-export function deleteWork() {
+function deleteWork() {
     const path = window.location.pathname.split('/').pop();
     const workNo = $('.info-workNo').val();
     if(!workNo) return alert('선택된 작품이 없습니다.');

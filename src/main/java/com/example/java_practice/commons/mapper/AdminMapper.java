@@ -32,4 +32,6 @@ public interface AdminMapper {
     int insertAuth(Auth auth);
     int updateUserAll(User user);
     int updateAuth(Auth auth);
+
+    int regWork(String sort, int workNo, String workCode);
 }
