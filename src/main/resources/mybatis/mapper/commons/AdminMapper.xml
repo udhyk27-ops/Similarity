@@ -205,18 +205,18 @@
             F_NAME,
             F_PERSONAL_NUM,
             F_REG_DATE,
-            F_AREA,
-            F_BIRTH,
+            NVL(F_AREA, ' ') AS F_AREA,
+            NVL(F_BIRTH, ' ') AS F_BIRTH,
             F_PHONE,
             F_EMAIL,
             F_DEPT,
             F_POSITION,
-            F_MAIN_ADDRESS,
-            F_SUB_ADDRESS,
-            F_LOGIN_DATE,
+            NVL(F_MAIN_ADDRESS, ' ') AS F_MAIN_ADDRESS,
+            NVL(F_SUB_ADDRESS, ' ') AS F_SUB_ADDRESS,
+            NVL(F_LOGIN_DATE, TO_DATE('99990101', 'YYYYMMDD')) AS F_LOGIN_DATE,
             F_MOD_DATE,
             F_STATUS,
-            F_MEMO,
+            NVL(F_MEMO, ' ') AS F_MEMO,
             T2.F_USER_NO,
             T2.F_AUTH_AWARD,
             T2.F_AUTH_INVIT,
@@ -393,36 +393,39 @@
                 </otherwise>
             </choose>
         </if>
+        ORDER BY F_MOD_DATE DESC
         <if test="offset != null and limit != null">
             OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
         </if>
     </select>
 
     <update id="delUser">
-        UPDATE T_USER
-        SET F_STATUS = 'Y'
+        DELETE
+        FROM T_USER
         WHERE F_SORT = #{sort}
           AND F_USER_NO = #{userNo}
+
     </update>
 
-
-
-
     <insert id="insertUser"> <!-- 운영회원 추가 -->
+        <selectKey keyProperty="f_user_no" resultType="int" order="BEFORE">
+            SELECT USER_SEQ.NEXTVAL FROM dual
+        </selectKey>
+
         INSERT INTO T_USER (F_USER_NO, F_NAME, F_ID, F_PERSONAL_NUM, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_BIRTH, F_AREA, F_REG_DATE, F_DEPT, F_POSITION, F_PHONE, F_EMAIL, F_STATUS, F_LOGIN_DATE, F_MOD_DATE, F_MEMO, F_SORT, F_PASSWORD)
         <choose>
         <when test="f_sort == '회원'">
-            VALUES (USER_SEQ.NEXTVAL, #{f_name}, #{f_id}, NULL, #{f_main_address}, #{f_sub_address}, NULL, NULL, SYSDATE, #{f_dept}, #{f_position}, #{f_phone}, #{f_email}, #{f_status}, NULL, SYSDATE, #{f_memo}, '회원', #{f_password})
+            VALUES (#{f_user_no}, #{f_name}, #{f_id}, NULL, #{f_main_address}, #{f_sub_address}, NULL, NULL, SYSDATE, #{f_dept}, #{f_position}, #{f_phone}, #{f_email}, #{f_status}, NULL, SYSDATE, #{f_memo}, '회원', #{f_password})
         </when>
         <when test="f_sort == '관리자'">
-            VALUES (USER_SEQ.NEXTVAL, #{f_name}, #{f_id}, NULL, NULL, NULL, NULL, NULL, SYSDATE, #{f_dept}, #{f_position}, #{f_phone}, #{f_email}, #{f_status}, NULL, SYSDATE, #{f_memo}, '관리자', #{f_password})
+            VALUES (#{f_user_no}, #{f_name}, #{f_id}, NULL, NULL, NULL, NULL, NULL, SYSDATE, #{f_dept}, #{f_position}, #{f_phone}, #{f_email}, #{f_status}, NULL, SYSDATE, #{f_memo}, '관리자', #{f_password})
         </when>
         </choose>
     </insert>
 
     <insert id="insertAuth"> <!-- 권한 추가 -->
         INSERT INTO T_AUTH (F_USER_NO, F_AUTH_AWARD, F_AUTH_INVIT, F_AUTH_REG, F_AUTH_SIM, F_AUTH_USER, F_AUTH_ADMIN)
-        VALUES (USER_SEQ.CURRVAL, #{f_auth_award}, #{f_auth_invit}, #{f_auth_reg}, #{f_auth_sim}, #{f_auth_user}, #{f_auth_admin})
+        VALUES (#{f_user_no}, #{f_auth_award}, #{f_auth_invit}, #{f_auth_reg}, #{f_auth_sim}, #{f_auth_user}, #{f_auth_admin})
     </insert>
 
     <update id="updateUserAll">
@@ -461,72 +464,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    <insert id="mergeUser">
-        MERGE INTO T_USER t
-            USING ( SELECT #{f_user_no} AS f_user_no FROM dual ) s
-            ON (t.f_user_no = s.f_user_no)
-
-            WHEN MATCHED THEN
-                UPDATE SET
-                    t.f_id = #{f_id},
-                    t.f_name = #{f_name},
-                    t.f_password = #{f_password},
-                    t.f_phone = #{f_phone},
-                    t.f_email = #{f_email},
-                    t.f_dept = #{f_dept},
-                    t.f_position = #{f_position},
-                    <if test="f_sort == '회원'">
-                        t.f_main_address = #{f_main_address},
-                        t.f_sub_address = #{f_sub_address},
-                    </if>
-                    t.f_status = #{f_status},
-                    t.f_memo = #{f_memo},
-                    t.f_mod_date = SYSDATE
-
-            WHEN NOT MATCHED THEN
-                INSERT (F_USER_NO, F_NAME, F_ID, F_PERSONAL_NUM, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_BIRTH, F_AREA, F_REG_DATE, F_DEPT, F_POSITION, F_PHONE, F_EMAIL, F_STATUS, F_LOGIN_DATE, F_MOD_DATE, F_MEMO, F_SORT, F_PASSWORD)
-                <choose>
-                    <when test="f_sort == '회원'">
-                            VALUES (USER_SEQ.NEXTVAL, #{f_name}, #{f_id}, NULL, #{f_main_address}, #{f_sub_address}, NULL, NULL, SYSDATE, #{f_dept}, #{f_position}, #{f_phone}, #{f_email}, #{f_status}, NULL, SYSDATE, #{f_memo}, '회원', #{f_password})
-                    </when>
-                    <when test="f_sort == '관리자'">
-                            VALUES (USER_SEQ.NEXTVAL, #{f_name}, #{f_id}, NULL, NULL, NULL, NULL, NULL, SYSDATE, #{f_dept}, #{f_position}, #{f_phone}, #{f_email}, #{f_status}, NULL, SYSDATE, #{f_memo}, '관리자', #{f_password})
-                    </when>
-                </choose>
-    </insert>
-
-    <!-- 관리자 권한 수정 -->
-    <insert id="mergeAuth">
-        MERGE INTO T_AUTH a
-            USING ( SELECT #{f_user_no} AS f_user_no FROM dual ) s
-            ON (a.f_user_no = s.f_user_no)
-
-        WHEN MATCHED THEN
-            UPDATE SET
-                a.F_AUTH_AWARD = #{f_auth_award},
-                a.F_AUTH_INVIT = #{f_auth_invit},
-                a.F_AUTH_REG = #{f_auth_reg},
-                a.F_AUTH_SIM = #{f_auth_sim},
-                a.F_AUTH_USER = #{f_auth_user},
-                a.F_AUTH_ADMIN = #{f_auth_admin}
-
-        WHEN NOT MATCHED THEN
-            INSERT (F_USER_NO, F_AUTH_AWARD, F_AUTH_INVIT, F_AUTH_REG, F_AUTH_SIM, F_AUTH_USER, F_AUTH_ADMIN)
-                VALUES (USER_SEQ.CURRVAL, #{f_auth_award}, #{f_auth_invit}, #{f_auth_reg}, #{f_auth_sim}, #{f_auth_user}, #{f_auth_admin})
-
-    </insert>
 
 
 </mapper>

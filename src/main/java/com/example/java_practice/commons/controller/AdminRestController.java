@@ -42,32 +42,35 @@ public class AdminRestController {
     public int modInfo(
             @RequestParam ArrayList<String> work,
             @RequestParam ArrayList<String> user
-    ) {
-//        System.out.println("work : " + work);
-//        System.out.println("user : " + user);
-        return adminService.modInfo(work, user);
-    }
+    ) { return adminService.modInfo(work, user); }
 
     // 관리 - 저장
     @PostMapping("/saveInfo")
     public int saveInfo(@ModelAttribute User user,
                         @RequestParam(value = "auth", required = false) List<String> authLists) {
 
+
         Auth auth = new Auth();
 
-        if (user.getF_user_no() != null) {
-            auth = convertAuth(user.getF_user_no(), authLists);
+        if (user.getF_sort().equals("관리자")) {
+            auth = convertAuth(authLists);
             System.out.println("auth : " + auth);
         }
 
+        if (user.getF_user_no() != null) {
+            auth.setF_user_no(user.getF_user_no());
+        }
+
         System.out.println("saveInfo user : " + user);
+        System.out.println("saveInfo auth : " + auth);
+
 
         return adminService.saveInfo(user, auth);
     }
 
-    private Auth convertAuth(int userNo, List<String> authCodes) {
+    private Auth convertAuth(List<String> authCodes) {
         Auth auth = new Auth();
-        auth.setF_user_no(userNo);
+//        auth.setF_user_no(userNo);
 
         List<String> list = authCodes == null ? Collections.emptyList() : authCodes;
 

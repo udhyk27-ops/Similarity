@@ -117,28 +117,14 @@ const UserAdminModule = {
 
     /** 운영회원 저장 */
     saveUser(formData) {
-        console.log('운영회원 저장');
-
-
-
-
-
         util.postAJAX('/api/admin/saveInfo', formData + '&f_sort=회원', response => {
             alert(response === 1 ? '저장 완료' : '저장 실패');
             location.reload();
         });
-
-
-
-
     },
     
     /** 관리자 저장 */
     saveAdmin(formData) {
-        console.log('관리자 저장');
-
-        console.log(formData);
-
         util.postAJAX('/api/admin/saveInfo', formData + '&f_sort=관리자', response => {
             alert(response === 1 ? '저장 완료' : '저장 실패');
             location.reload();

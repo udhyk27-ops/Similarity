@@ -27,9 +27,6 @@ public interface AdminMapper {
 
     int delUser(String sort, int userNo);
 
-    int mergeUser(User user);
-    int mergeAuth(User user, Auth auth);
-
 
     int insertUser(User user);
     int insertAuth(Auth auth);
