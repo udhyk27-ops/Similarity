@@ -35,5 +35,5 @@ public interface AdminService {
     int delUser(String sort, int userNo);
 
     // 관리 저장
-    int saveInfo(User user, String sort);
+    int saveInfo(User user, Auth auth);
 }

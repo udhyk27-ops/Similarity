@@ -3,7 +3,6 @@ package com.example.java_practice.commons.mapper;
 import com.example.java_practice.commons.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.ArrayList;
-import java.util.Map;
 
 @Mapper
 public interface AdminMapper {
@@ -28,6 +27,12 @@ public interface AdminMapper {
 
     int delUser(String sort, int userNo);
 
-    int mergeUser(User user, String sort);
-    int mergeAuth(User user, String sort);
+    int mergeUser(User user);
+    int mergeAuth(User user, Auth auth);
+
+
+    int insertUser(User user);
+    int insertAuth(Auth auth);
+    int updateUserAll(User user);
+    int updateAuth(Auth auth);
 }

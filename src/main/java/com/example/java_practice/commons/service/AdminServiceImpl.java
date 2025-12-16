@@ -1,9 +1,6 @@
 package com.example.java_practice.commons.service;
 
-import com.example.java_practice.commons.dto.Award;
-import com.example.java_practice.commons.dto.Search;
-import com.example.java_practice.commons.dto.User;
-import com.example.java_practice.commons.dto.WorkWithUser;
+import com.example.java_practice.commons.dto.*;
 import com.example.java_practice.commons.mapper.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -67,23 +64,32 @@ public class AdminServiceImpl implements AdminService {
     public int delUser(String sort, int userNo) { return adminMapper.delUser(sort, userNo); }
 
     @Override
-    public int saveInfo(User user, String sort) {
+    public int saveInfo(User user, Auth auth) {
         int userResult = 1;
-        int authResult = 1;
+        int adminResult = 1;
 
-        if ( sort.equals("회원")) {
-            userResult = adminMapper.mergeUser(user, sort);
-        } else if (sort.equals("관리자")){
-            userResult = adminMapper.mergeUser(user, sort);
-            authResult = adminMapper.mergeAuth(user, sort);
+        // 신규
+        if (user.getF_user_no() == null) {
+            userResult = adminMapper.insertUser(user);
+            if ("관리자".equals(user.getF_sort())) {
+                auth.setF_user_no(user.getF_user_no());
+                adminResult = adminMapper.insertAuth(auth);
+            }
 
+        // 기존
+        } else {
+            userResult = adminMapper.updateUserAll(user);
+            if ("관리자".equals(user.getF_sort())) {
+                adminResult = adminMapper.updateAuth(auth);
+            }
         }
 
-        if (userResult == 1 && authResult == 1) {
+        if (userResult == 1 && adminResult == 1) {
             return 1;
         } else {
             return 0;
         }
+
     }
 
 }

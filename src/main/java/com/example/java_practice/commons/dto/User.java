@@ -5,8 +5,9 @@ import java.util.List;
 
 @Data
 public class User {
-    private int f_user_no;
+    private Integer f_user_no;
     private String f_id;
+    private String f_password;
     private String f_name;
     private String f_personal_num;
     private String f_reg_date;

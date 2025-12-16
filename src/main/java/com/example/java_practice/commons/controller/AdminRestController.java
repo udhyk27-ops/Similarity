@@ -53,15 +53,16 @@ public class AdminRestController {
     public int saveInfo(@ModelAttribute User user,
                         @RequestParam(value = "auth", required = false) List<String> authLists) {
 
+        Auth auth = new Auth();
+
+        if (user.getF_user_no() != null) {
+            auth = convertAuth(user.getF_user_no(), authLists);
+            System.out.println("auth : " + auth);
+        }
 
         System.out.println("saveInfo user : " + user);
 
-        Auth auth = convertAuth(user.getF_user_no(), authLists);
-
-        System.out.println("auth : " + auth);
-
-        return 1;
-//        return adminService.saveInfo(user, sort);
+        return adminService.saveInfo(user, auth);
     }
 
     private Auth convertAuth(int userNo, List<String> authCodes) {

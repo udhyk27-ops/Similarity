@@ -90,10 +90,10 @@ const UserAdminModule = {
         }
 
         // 상태 체크
-        if (user.f_status === "N") {
+        if (user.f_status === "Y") {
             $("#use").prop("checked", true);
             $("#stop").prop("checked", false);
-        } else if (user.f_status === "Y") {
+        } else if (user.f_status === "N") {
             $("#use").prop("checked", false);
             $("#stop").prop("checked", true);
         }
@@ -125,6 +125,7 @@ const UserAdminModule = {
 
         util.postAJAX('/api/admin/saveInfo', formData + '&f_sort=회원', response => {
             alert(response === 1 ? '저장 완료' : '저장 실패');
+            location.reload();
         });
 
 
@@ -140,6 +141,7 @@ const UserAdminModule = {
 
         util.postAJAX('/api/admin/saveInfo', formData + '&f_sort=관리자', response => {
             alert(response === 1 ? '저장 완료' : '저장 실패');
+            location.reload();
         });
     }
 };
