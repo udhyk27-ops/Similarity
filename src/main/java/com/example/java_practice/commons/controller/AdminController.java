@@ -54,7 +54,7 @@ public class AdminController {
 
     // 유사도 검색 페이지
     @GetMapping("similar")
-    public String similarPage(){return "commons/admin/similar";}
+    public String similarPage(){ return "commons/admin/similar";}
 
     // 운영회원 / 관리자 관리 페이지
     @GetMapping("{type:user|manage}")

@@ -5,9 +5,7 @@ import com.example.java_practice.commons.mapper.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -94,4 +92,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int regWork(String sort, int workNo, String workCode) { return adminMapper.regWork(sort, workNo, workCode); }
 
+    @Override
+    public Similar compareImage(String filename) { return adminMapper.compareImage(filename); }
 }

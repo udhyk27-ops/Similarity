@@ -61,23 +61,15 @@ select:focus { outline: none; }
     border-radius: 4px;
     transition: background-color 0.2s, color 0.2s;
 }
-.paging-div a:hover {
-    background-color: #eee;
-}
+.paging-div a:hover { background-color: #eee; }
+.paging-div a.current { background-color: #ffdae4; color: #fff; font-weight: bold; border-color: #ffdae4; }
 
-.paging-div a.current {
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-    border-color: #007bff;
-}
 .work-tb > .row > .header-row { width: 8.0rem }
 .info { padding: 0 0 1.0rem 0; font-size: 1.2rem; font-weight: 600; }
 .img-cell { max-height: 10.0rem; display: flex; padding: 0.5rem; }
 .img-cell > div { height: 100%; align-items: flex-end; display: flex; }
 .img-div { border: 1px solid #ddd; }
 .img-cell > div > img { max-width: 100%; max-height: 100%; object-fit: contain; }
-
 
 .sec2-2 { padding-top: 1.0rem; }
 .select-user { width: calc(100% - 7.0rem);}

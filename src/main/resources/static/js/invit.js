@@ -49,4 +49,4 @@ const InvitModule = {
 
 document.addEventListener('DOMContentLoaded', () => InvitModule.init());
 
-export default InvitModule;
+// export default InvitModule;

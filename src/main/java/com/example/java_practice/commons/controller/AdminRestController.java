@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.java_practice.commons.dto.Auth;
+import com.example.java_practice.commons.dto.Similar;
 import com.example.java_practice.commons.dto.User;
 import com.example.java_practice.commons.dto.WorkWithUser;
 import com.example.java_practice.commons.service.AdminService;
@@ -20,7 +21,7 @@ public class AdminRestController {
     private final AdminService adminService;
 
     @GetMapping("/searchWork") // 기본정보 조회
-    public ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo) { return adminService.selWorkWithUser(sort, workNo); }
+    public ArrayList<WorkWithUser> selWorkWithUser(@RequestParam String sort, @RequestParam int workNo) { return adminService.selWorkWithUser(sort, workNo); }
     
 
     @GetMapping("/searchUser") // 회원정보 조회 모달
@@ -30,29 +31,20 @@ public class AdminRestController {
 
 
     @PostMapping("/regWork") // 작품 등록
-    public int regWork(String sort, int workNo) {
+    public int regWork(@RequestParam String sort, @RequestParam int workNo) {
 
         Random r = new Random();
         int num = r.nextInt(1000000);
         String workCode = String.format("EMC%06d", num);
-        System.out.println("workCode : " + workCode);
-
-
-
-
-
-
 
         return adminService.regWork(sort, workNo, workCode);
-//        return 1;
     }
 
-
     @PostMapping("/deleteWork") // 작품 삭제
-    public int delWork(String sort, int workNo) { return adminService.delWork(sort, workNo); }
+    public int delWork(@RequestParam String sort, @RequestParam int workNo) { return adminService.delWork(sort, workNo); }
 
     @PostMapping("/deleteUser") // 회원 삭제
-    public int delUser(String sort, int userNo) { return adminService.delUser(sort, userNo); }
+    public int delUser(@RequestParam String sort, @RequestParam int userNo) { return adminService.delUser(sort, userNo); }
 
     @PostMapping("/modifyInfo") // 정보 수정
     public int modInfo(
@@ -63,7 +55,6 @@ public class AdminRestController {
     @PostMapping("/saveInfo") // 관리 - 저장
     public int saveInfo(@ModelAttribute User user,
                         @RequestParam(value = "auth", required = false) List<String> authLists) {
-
         Auth auth = new Auth();
         if (user.getF_sort().equals("관리자")) { auth = convertAuth(authLists); }
         if (user.getF_user_no() != null) { auth.setF_user_no(user.getF_user_no()); }
@@ -85,6 +76,11 @@ public class AdminRestController {
         return auth;
     }
 
+    @GetMapping("/compareImage")
+    public Similar compareImage(@RequestParam String filename) { return adminService.compareImage(filename); }
+
+
 
 
 }
+

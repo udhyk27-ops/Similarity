@@ -52,4 +52,4 @@ const AwardModule = {
 
 document.addEventListener('DOMContentLoaded', () => AwardModule.init());
 
-export default AwardModule;
+// export default AwardModule;

@@ -2,6 +2,8 @@ package com.example.java_practice.commons.mapper;
 
 import com.example.java_practice.commons.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.ArrayList;
 
 @Mapper
@@ -34,4 +36,6 @@ public interface AdminMapper {
     int updateAuth(Auth auth);
 
     int regWork(String sort, int workNo, String workCode);
+
+    Similar compareImage(@Param("filename") String filename);
 }

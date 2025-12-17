@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
+
 /**
  * Rest API 예외 처리. custom 필요하면 추가
  * */
@@ -31,5 +33,4 @@ public class GlobalRestExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("ERROR", e.getMessage()));
     }
-
 }

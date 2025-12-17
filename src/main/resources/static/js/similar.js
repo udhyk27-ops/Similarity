@@ -1,4 +1,6 @@
-const SimilarModule = {
+import { getAJAX } from "./utils.js";
+
+const Similar = {
     init() {
         this.setEvents();
     },
@@ -8,15 +10,26 @@ const SimilarModule = {
         this.setupImageModal();
     },
 
+    /**
+     * 이미지 업로드
+     */
     setupUploadBox() {
         const dropArea = $('.upload-box');
         const fileInput = $('#fileInput');
         const allowedExt = ['png', 'jpg', 'jpeg'];
 
         const handleFile = (file) => {
+            if (!file || !file.name) {
+                $('.status-text').text('유효하지 않은 파일입니다.').css('color','red').show();
+                return;
+            }
+
             const ext = file.name.split('.').pop().toLowerCase();
 
-            // 실패 처리
+            // console.log(ext); // 확장자
+            // console.log(file.name); // 파일명
+
+            // 업로드 실패
             if (!allowedExt.includes(ext)) {
                 $('.fileImg').attr('src', '/images/file_error.png');
                 $('.upload-text').hide();
@@ -24,7 +37,43 @@ const SimilarModule = {
                 return;
             }
 
-            // 성공 처리
+            // 유사도 AJAX
+            const filename = file.name;
+            const cnt = document.getElementsByClassName('match-cnt');
+            getAJAX('/api/admin/compareImage', { filename }, response => {
+                console.log(response);
+
+                if (!response) {
+                    document.querySelector('.sec2-2').style.display = 'none';
+                    return;
+                }
+
+                // 이미지
+                const img = document.querySelector('.sec2-2 img');
+                img.src = response.f_filepath;
+
+                // 텍스트 구성
+                const text =
+                    `작품코드: ${response.f_code}
+                    ${response.f_title}
+                    ${response.f_author}
+                    ${response.f_contest}
+                    ${response.f_award}`;
+
+                // 텍스트 삽입
+                const pre = document.querySelector('.match-result-text');
+                pre.textContent = text;
+
+                // 결과 영역 표시
+                document.querySelector('.sec2-2').style.display = 'block';
+
+            });
+            
+            // 업로드 성공
+            const element = document.getElementById('upload-img-div');
+            if (element.style.display === 'none') element.style.display = 'block';
+            
+
             $('.fileImg').attr('src', '/images/file.png');
             $('.upload-text').hide();
             $('.status-text').text('파일 업로드 성공').css('color','green').show();
@@ -42,7 +91,7 @@ const SimilarModule = {
                     const infoText =
                         `파일명 : ${file.name}\n이미지 사이즈: ${width}x${height}\n이미지 크기: ${fileSizeKB}kb`;
 
-                    $('.text-div pre').text(infoText);
+                    $('.upload-img-text pre').text(infoText);
                 };
 
                 img.src = e.target.result;
@@ -76,6 +125,9 @@ const SimilarModule = {
         });
     },
 
+    /**
+     * 이미지 클릭 모달
+     */
     setupImageModal() {
         $('.img-div').on('click', function() {
             $('.modal-img').attr('src', $(this).find('img').attr('src'));
@@ -88,6 +140,4 @@ const SimilarModule = {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => SimilarModule.init());
-
-export default SimilarModule;
+document.addEventListener('DOMContentLoaded', () => Similar.init());

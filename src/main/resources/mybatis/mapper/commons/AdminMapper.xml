@@ -477,6 +477,11 @@
          WHERE F_WORK_NO = #{workNo}
     </update>
 
+    <select id="compareImage" resultType="com.example.java_practice.commons.dto.Similar">
+        SELECT F_CODE, F_TITLE, F_AUTHOR, F_CONTEST, F_AWARD, F_FILENAME, F_FILEPATH
+        FROM T_AWARD_WORK
+        WHERE F_FILENAME = #{filename}
+    </select>
 
 
 </mapper>

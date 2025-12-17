@@ -29,4 +29,5 @@ public interface AdminService {
 
     int saveInfo(User user, Auth auth); // 관리 저장
 
+    Similar compareImage(String filename); // 유사도 검색
 }
