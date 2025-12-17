@@ -8,6 +8,18 @@ const Similar = {
     setEvents() {
         this.setupUploadBox();
         this.setupImageModal();
+
+        const reset = document.querySelector('#reset-btn');
+        reset.addEventListener('click', () => {
+
+            ['.status-text', '#upload-img-div', '.match-cnt', '.sec2-2']
+                .forEach(s => document.querySelector(s).style.display = 'none');
+
+            document.querySelectorAll('.upload-text')
+                .forEach(el => el.style.display = 'block');
+
+            document.querySelector('.fileImg').src = '/images/add-file.png';
+        });
     },
 
     /**
@@ -23,11 +35,7 @@ const Similar = {
                 $('.status-text').text('유효하지 않은 파일입니다.').css('color','red').show();
                 return;
             }
-
-            const ext = file.name.split('.').pop().toLowerCase();
-
-            // console.log(ext); // 확장자
-            // console.log(file.name); // 파일명
+            const ext = file.name.split('.').pop().toLowerCase(); // 확장자
 
             // 업로드 실패
             if (!allowedExt.includes(ext)) {
@@ -40,9 +48,6 @@ const Similar = {
             // 유사도 AJAX
             const filename = file.name;
             getAJAX('/api/admin/compareImage', { filename }, response => {
-                console.log(response);
-
-                // 요소 자체를 잡는다
                 const cntEl = document.querySelector('.match-cnt');
                 const sec2El = document.querySelector('.sec2-2');
                 const imgEl = document.querySelector('.sec2-2 img');
@@ -57,13 +62,12 @@ const Similar = {
                     imgEl.src = response.f_filepath;
                     textEl.textContent =
                         `작품코드: ${response.f_code}
-                        ${response.f_title}
-                        ${response.f_author}
-                        ${response.f_contest}
-                        ${response.f_award}`;
+${response.f_title}
+${response.f_author}
+${response.f_contest}
+${response.f_award}`;
                 }
 
-                // 화면 표시
                 cntEl.style.display = 'block';
                 sec2El.style.display = 'block';
             });
