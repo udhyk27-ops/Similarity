@@ -14,16 +14,14 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="module" th:src="@{/js/similar.js}"></script>
     <style>
-        .area1, .area2, .area3, .area4 { border-top: 1px solid #ddd; padding: 1.0rem; display: flex; flex-direction: column; }
+        .area1, .area2 { border-top: 1px solid #ddd; padding: 1.0rem; display: flex; flex-direction: column; }
         .area1 { flex: 2.5; border-right: 1px solid #ddd; }
-        .area2 { flex: 2.0; }
-        .area3 { flex: 2.0; padding-top: 2.1rem; }
-        .area4 { flex: 2.0; padding-top: 2.1rem; }
+        .area2 { flex: 6.0; }
         .sec1-1 { flex: 0.5;}
         .sec1-2 { flex: 0.2; padding: 1.0rem 0; font-size: 1.0rem; font-weight: 600; display: flex; gap: 3.0rem; align-items: center; }
         .sec1-3 { flex: 4.0; }
         .sec1-4 { flex: 5.8; }
-        .img-div { flex: 8; display: flex; justify-content: center; padding: 1.0rem; }
+        .img-div { flex: 8; display: flex; justify-content: center; padding: 1.0rem; max-height: 40rem;}
         .modal-content {
             background-color: #fff;
             margin: 10% auto;
@@ -136,102 +134,22 @@
             </div>
 
             <div class="area2">
-
                 <div class="sec2-1">
-                    <div th:text="'매칭결과: ' + ${count} + '건'" style="display: none;" class="match-cnt">
-                        매칭결과: 0건
-                    </div>
+                    <div style="display: none;" class="match-cnt"></div>
                 </div>
-                <div class="sec2-2" style="padding-top: 0; display: none;">
+                <div class="sec2-2" style="display: none;">
                     <div class="pd-card">
                         <div class="img-div">
-                            <img src="/images/sample.png" alt="file"/>
+
+                            <img src="" alt=""/>
                         </div>
                         <div class="text-div">
                             <pre class="match-result-text"></pre>
                         </div>
                     </div>
-<!--                    <div class="pd-card">-->
-<!--                        <div class="img-div">-->
-<!--                            <img src="/images/sample.png" alt="file"/>-->
-<!--                        </div>-->
-<!--                        <div class="text-div">-->
-<!--                            <pre>-->
-<!--작품코드: EMC124502-->
-<!--비가 내린 오후-->
-<!--홍길동-->
-<!--2023 주니어해양피켓챌린지-->
-<!--대상-->
-<!--유사도: 78%-->
-<!--                            </pre>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="pd-card">-->
-<!--                        <div class="img-div">-->
-<!--                            <img src="/images/sample2.png" alt="file"/>-->
-<!--                        </div>-->
-<!--                        <div class="text-div">-->
-<!--                            <pre>-->
-<!--작품코드: EMC124502-->
-<!--비가 내린 오후-->
-<!--홍길동-->
-<!--2023 주니어해양피켓챌린지-->
-<!--대상-->
-<!--유사도: 78%-->
-<!--                            </pre>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
             </div>
-            <div class="area3">
-<!--                <div class="pd-card">-->
-<!--                    <div class="img-div">-->
-<!--                        <img src="/images/sample.png" alt="file"/>-->
-<!--                    </div>-->
-<!--                    <div class="text-div">-->
-<!--                            <pre>-->
-<!--작품코드: EMC124502-->
-<!--비가 내린 오후-->
-<!--홍길동-->
-<!--2023 주니어해양피켓챌린지-->
-<!--대상-->
-<!--유사도: 78%-->
-<!--                            </pre>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="pd-card">-->
-<!--                    <div class="img-div">-->
-<!--                        <img src="/images/sample.png" alt="file"/>-->
-<!--                    </div>-->
-<!--                    <div class="text-div">-->
-<!--                            <pre>-->
-<!--작품코드: EMC124502-->
-<!--비가 내린 오후-->
-<!--홍길동-->
-<!--2023 주니어해양피켓챌린지-->
-<!--대상-->
-<!--유사도: 78%-->
-<!--                            </pre>-->
-<!--                    </div>-->
-<!--                </div>-->
-            </div>
-            <div class="area4">
-<!--                <div class="pd-card">-->
-<!--                    <div class="img-div">-->
-<!--                        <img src="/images/sample2.png" alt="file"/>-->
-<!--                    </div>-->
-<!--                    <div class="text-div">-->
-<!--                            <pre>-->
-<!--작품코드: EMC124502-->
-<!--비가 내린 오후-->
-<!--홍길동-->
-<!--2023 주니어해양피켓챌린지-->
-<!--대상-->
-<!--유사도: 78%-->
-<!--                            </pre>-->
-<!--                    </div>-->
-<!--                </div>-->
-            </div>
+
         </div>
     </div>
 </div>

@@ -20,7 +20,7 @@ public class AdminController {
 
     @RequestMapping("/**")
     public String handleUnknown() { // 404
-        return "commons/admin/error";
+        return "/error/404";
     }
 
     private final AdminService adminService;

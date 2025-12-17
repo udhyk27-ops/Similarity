@@ -39,34 +39,33 @@ const Similar = {
 
             // 유사도 AJAX
             const filename = file.name;
-            const cnt = document.getElementsByClassName('match-cnt');
             getAJAX('/api/admin/compareImage', { filename }, response => {
                 console.log(response);
 
+                // 요소 자체를 잡는다
+                const cntEl = document.querySelector('.match-cnt');
+                const sec2El = document.querySelector('.sec2-2');
+                const imgEl = document.querySelector('.sec2-2 img');
+                const textEl = document.querySelector('.match-result-text');
+
                 if (!response) {
-                    document.querySelector('.sec2-2').style.display = 'none';
-                    return;
+                    cntEl.textContent = '매칭결과: 0건';
+                    imgEl.src = '/images/ocean.png';
+                    textEl.textContent = '작품코드 : NNNNNN';
+                } else {
+                    cntEl.textContent = '매칭결과: 1건';
+                    imgEl.src = response.f_filepath;
+                    textEl.textContent =
+                        `작품코드: ${response.f_code}
+                        ${response.f_title}
+                        ${response.f_author}
+                        ${response.f_contest}
+                        ${response.f_award}`;
                 }
 
-                // 이미지
-                const img = document.querySelector('.sec2-2 img');
-                img.src = response.f_filepath;
-
-                // 텍스트 구성
-                const text =
-                    `작품코드: ${response.f_code}
-                    ${response.f_title}
-                    ${response.f_author}
-                    ${response.f_contest}
-                    ${response.f_award}`;
-
-                // 텍스트 삽입
-                const pre = document.querySelector('.match-result-text');
-                pre.textContent = text;
-
-                // 결과 영역 표시
-                document.querySelector('.sec2-2').style.display = 'block';
-
+                // 화면 표시
+                cntEl.style.display = 'block';
+                sec2El.style.display = 'block';
             });
             
             // 업로드 성공
