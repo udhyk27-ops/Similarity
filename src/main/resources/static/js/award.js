@@ -1,6 +1,6 @@
 import * as util from './utils.js';
 
-const AwardModule = {
+const Award = {
     init() {
         this.path = window.location.pathname.split('/').pop();
         util.bindEvents(this);
@@ -50,6 +50,4 @@ const AwardModule = {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => AwardModule.init());
-
-// export default AwardModule;
+document.addEventListener('DOMContentLoaded', () => Award.init());

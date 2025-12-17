@@ -3,6 +3,21 @@ const path = window.location.pathname.split('/').pop();
 export function bindEvents(context) {
     const self = context;
 
+    const startDate = document.querySelector('input[name="startDate"]');
+    const endDate = document.querySelector('input[name="endDate"]');
+
+    // startDate 변경 시 endDate 최소값 설정
+    startDate.addEventListener('change', () => {
+        // console.log('changed startDate !!', startDate.value);
+
+        // endDate.setAttribute('min', startDate.value);
+
+        // 기존 값이 startDate보다 이전이면 초기화
+        if (endDate.value && endDate.value < startDate.value) {
+            endDate.value = '';
+        }
+    });
+
     // 테이블 행 클릭
     $('.reg-list-row').on('click', function() {
         const workNo = $(this).data('work-no');
@@ -96,7 +111,17 @@ export function openPostcode(callback) {
  * flatpickr
  */
 export function initDatePicker(selector, options = {}) {
-    flatpickr(selector, { locale: 'ko', dateFormat: 'Y-m-d', ...options });
+
+    const today = new Date();
+    const tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
+
+    flatpickr(selector, {
+        locale: 'ko',
+        dateFormat: 'Y-m-d',
+        minDate: tenYearsAgo,
+        maxDate: today,
+        ...options
+    });
 }
 
 /**

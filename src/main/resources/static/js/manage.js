@@ -1,6 +1,6 @@
 import * as util from "./utils.js";
 
-const UserAdminModule = {
+const Manage = {
     init() {
         this.bindEvents();
     },
@@ -133,4 +133,4 @@ const UserAdminModule = {
 };
 
 // 초기화
-document.addEventListener("DOMContentLoaded", () => UserAdminModule.init());
+document.addEventListener("DOMContentLoaded", () => Manage.init());

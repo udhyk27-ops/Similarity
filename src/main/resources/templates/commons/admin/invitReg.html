@@ -81,7 +81,8 @@
                         <label>
                             <select class="filter">
                                 <option value="">전체</option>
-                                <option>1</option>
+                                <option value="filter_year" th:selected="${filter == 'filter_year'}">출품년도</option>
+                                <option value="filter_date" th:selected="${filter == 'filter_date'}">일자</option>
                             </select>
                         </label>
                     </div>
@@ -108,22 +109,76 @@
                     </div>
 
                     <div class="paging-div" th:if="${totalPages > 1}">
-                        <a th:if="${currentPage > 1}" th:href="@{/admin/invit(page=1)}">처음</a>
 
+                        <!-- 처음 -->
                         <a th:if="${currentPage > 1}"
-                           th:href="@{/admin/invit(page=${currentPage - 1})}">이전</a>
+                           th:href="@{/admin/invit(
+                           page=1,
+                           keyword=${invitSearch.keyword},
+                           schFilter=${invitSearch.schFilter},
+                           filter=${invitSearch.filter},
+                           startDate=${invitSearch.startDate},
+                           endDate=${invitSearch.endDate}
+                       )}">
+                            처음
+                        </a>
 
-                        <!-- 페이지 번호 반복 -->
+                        <!-- 이전 -->
+                        <a th:if="${currentPage > 1}"
+                           th:href="@{/admin/invit(
+                           page=${currentPage - 1},
+                           keyword=${invitSearch.keyword},
+                           schFilter=${invitSearch.schFilter},
+                           filter=${invitSearch.filter},
+                           startDate=${invitSearch.startDate},
+                           endDate=${invitSearch.endDate}
+                       )}">
+                            이전
+                        </a>
+
+                        <!-- 페이지 번호 -->
                         <a th:each="i : ${#numbers.sequence(1, totalPages)}"
-                           th:href="@{/admin/invit(page=${i})}"
+                           th:href="@{/admin/invit(
+                           page=${i},
+                           keyword=${invitSearch.keyword},
+                           schFilter=${invitSearch.schFilter},
+                           filter=${invitSearch.filter},
+                           startDate=${invitSearch.startDate},
+                           endDate=${invitSearch.endDate}
+                       )}"
                            th:text="${i}"
-                           th:classappend="${i == currentPage} ? 'current' : ''"></a>
+                           th:classappend="${i == currentPage} ? 'current' : ''">
+                        </a>
 
+                        <!-- 다음 -->
                         <a th:if="${currentPage < totalPages}"
-                           th:href="@{/admin/invit(page=${currentPage + 1})}">다음</a>
+                           th:href="@{/admin/invit(
+                           page=${currentPage + 1},
+                           keyword=${invitSearch.keyword},
+                           schFilter=${invitSearch.schFilter},
+                           filter=${invitSearch.filter},
+                           startDate=${invitSearch.startDate},
+                           endDate=${invitSearch.endDate}
+                       )}">
+                            다음
+                        </a>
 
-                        <a th:if="${currentPage < totalPages}" th:href="@{/admin/invit(page=${totalPages})}">끝</a>
+                        <!-- 끝 -->
+                        <a th:if="${currentPage < totalPages}"
+                           th:href="@{/admin/invit(
+                           page=${totalPages},
+                           keyword=${invitSearch.keyword},
+                           schFilter=${invitSearch.schFilter},
+                           filter=${invitSearch.filter},
+                           startDate=${invitSearch.startDate},
+                           endDate=${invitSearch.endDate}
+                       )}">
+                            끝
+                        </a>
+
                     </div>
+
+
                 </div>
             </div>
 
@@ -223,7 +278,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <!-- Modal -->

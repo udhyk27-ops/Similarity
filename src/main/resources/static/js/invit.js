@@ -1,6 +1,6 @@
 import * as util from './utils.js';
 
-const InvitModule = {
+const Invit = {
     init() {
         this.path = window.location.pathname.split('/').pop();
         util.bindEvents(this);
@@ -47,6 +47,4 @@ const InvitModule = {
 
 };
 
-document.addEventListener('DOMContentLoaded', () => InvitModule.init());
-
-// export default InvitModule;
+document.addEventListener('DOMContentLoaded', () => Invit.init());

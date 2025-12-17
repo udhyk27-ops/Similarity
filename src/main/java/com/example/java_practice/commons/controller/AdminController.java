@@ -60,8 +60,6 @@ public class AdminController {
     @GetMapping("{type:user|manage}")
     public String userManagePage(@PathVariable String type, @ModelAttribute Search userSearch, Model model) {
 
-        System.out.println("type : " + type);
-
         userSearch.setSort(type.equals("user") ? "회원" : "관리자");
 
         // paging
