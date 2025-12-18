@@ -144,13 +144,13 @@
                             <input type="hidden" id="noticeId" th:value="${noticeDetail.f_id}">
                             <div class="buttons">
                                 <div>
-<!--                                    <button class="btn btn-pink" onclick="frm.deleteNotice()" th:if="${user.sort == '관리자'}">삭제</button>-->
-                                    <button class="btn btn-pink" onclick="frm.deleteNotice()">삭제</button>
+                                    <button class="btn btn-pink" onclick="frm.deleteNotice()" th:if="${user.sort == '관리자'}">삭제</button>
+<!--                                    <button class="btn btn-pink" onclick="frm.deleteNotice()">삭제</button>-->
                                 </div>
                                 <div class="right-btns">
                                     <a href="/notice" class="btn btn-white">목록</a>
-<!--                                    <a th:href="@{/noticeReg/{id}(id=${noticeDetail.f_id})}" class="btn btn-navy" th:if="${user.sort == '관리자'}">수정</a>-->
-                                    <a th:href="@{/noticeReg/{id}(id=${noticeDetail.f_id})}" class="btn btn-navy">수정</a>
+                                    <a th:href="@{/noticeReg/{id}(id=${noticeDetail.f_id})}" class="btn btn-navy" th:if="${user.sort == '관리자'}">수정</a>
+<!--                                    <a th:href="@{/noticeReg/{id}(id=${noticeDetail.f_id})}" class="btn btn-navy">수정</a>-->
                                 </div>
                             </div>
                         </div>

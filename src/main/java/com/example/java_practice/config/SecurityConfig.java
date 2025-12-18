@@ -34,9 +34,9 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-//                        .requestMatchers("/login").permitAll()
-//                        .anyRequest().authenticated()
+//                        .anyRequest().permitAll()
+                        .requestMatchers("/login").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -66,8 +66,8 @@ public class SecurityConfig {
     /**
      * 정적 리소스 허용
      * */
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().requestMatchers("/css/**", "/images/**", "/js/**");
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/css/**", "/images/**", "/js/**");
+    }
 }
