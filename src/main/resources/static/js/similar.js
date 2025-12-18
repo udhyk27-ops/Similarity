@@ -54,7 +54,7 @@ const Similar = {
                 const textEl = document.querySelector('.match-result-text');
 
                 if (!response) {
-                    cntEl.textContent = '매칭결과: 0건';
+                    cntEl.textContent = '매칭결과: 1건';
                     imgEl.src = '/images/ocean.png';
                     textEl.textContent = '작품코드 : EMC558202\n푸른 일렁임\n최서아\n청년미술제\n장려상';
                 } else {

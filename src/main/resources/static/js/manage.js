@@ -51,11 +51,19 @@ const Manage = {
         // 엑셀 저장
         $('.excel-div .cell-btn').on('click', () => {
             const sort = $('body').data('page-type') === 'user' ? '회원' : '관리자';
+            const date = new Date();
+            const today = date.getFullYear().toString() + (date.getMonth() + 1) + date.getDate();
+
             util.excel({
-                header: '.reg-list-header .cell',
+                header: '.reg-list-tb > .header-row > .cell',
                 row: '.reg-list-row',
-                fileName: sort + '목록.xlsx'
+                fileName: sort + '목록_' + today + '.xlsx'
             });
+
+
+
+
+
         });
     },
 

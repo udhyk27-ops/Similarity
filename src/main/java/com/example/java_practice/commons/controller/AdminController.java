@@ -63,7 +63,7 @@ public class AdminController {
         userSearch.setSort(type.equals("user") ? "회원" : "관리자");
 
         // paging
-        int limit = 10;
+        int limit = type.equals("user") ? 10 : 5; // 회원 10, 관리자 5
         int offset = (userSearch.getPage() - 1) * limit;
         userSearch.setLimit(limit);
         userSearch.setOffset(offset);
@@ -72,6 +72,7 @@ public class AdminController {
         int userCnt = adminService.cntUserList(userSearch);
         int totalCnt = adminService.cntUserList(new Search(){{ setSort(type.equals("user") ? "회원" : "관리자"); }}); // 전체 건수
 
+        System.out.println("userSearch : " + userSearch);
         System.out.println("userList : " + userList);
 
         model.addAttribute("userSearch", userSearch);
