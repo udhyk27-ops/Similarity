@@ -9,7 +9,7 @@
             <span class="admin-name" th:text="${(#authentication.principal.sort == '관리자') ? '관리자' : '운영회원'}">▼</span>
             <span class="admin-name" th:text="${#authentication.principal.name} + ' 님 ▼'"></span>
             <div class="dropdown">
-                <a href="#" class="mypage-link">마이페이지</a>
+                <a th:href="${(#authentication.principal.sort == '관리자') ? '/admin/manage' : '/admin/user'}" class="mypage-link">마이페이지</a>
                 <form th:action="@{/logout}" method="post">
                     <button type="submit" class="logout-link">로그아웃</button>
                 </form>
