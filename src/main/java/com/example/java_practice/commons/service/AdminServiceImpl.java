@@ -4,7 +4,6 @@ import com.example.java_practice.commons.dto.*;
 import com.example.java_practice.commons.mapper.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,16 +12,14 @@ public class AdminServiceImpl implements AdminService {
 
     private final AdminMapper adminMapper;
 
-
     @Override
-    public ArrayList<Award> selAwardList(Search search) { return adminMapper.selAwardList(search); }
+    public List<Award> selAwardList(Search search) { return adminMapper.selAwardList(search); }
 
     @Override
     public int cntAwardList(Search cntWorks){ return adminMapper.cntAwardList(cntWorks); };
 
     @Override
-
-    public ArrayList<WorkWithUser> selWorkWithUser(String sort, int workNo) { return adminMapper.selWorkWithUser(sort, workNo); }
+    public List<WorkWithUser> selWorkWithUser(String sort, int workNo) { return adminMapper.selWorkWithUser(sort, workNo); }
 
     @Override
     public List<User> selUserList(String sort, int userNo) { return adminMapper.selUserList(sort, userNo); }
@@ -31,7 +28,7 @@ public class AdminServiceImpl implements AdminService {
     public int delWork(String sort, int workNo) { return adminMapper.delWork(sort, workNo); }
 
     @Override
-    public int modInfo(ArrayList<String> work, ArrayList<String> user) {
+    public int modInfo(List<String> work, List<String> user) {
         int workResult = 1;
         int userResult = 1;
         int userNoResult = 1;
@@ -56,7 +53,7 @@ public class AdminServiceImpl implements AdminService {
     public int cntUserList(Search cntUsers) { return adminMapper.cntUserList(cntUsers); }
 
     @Override
-    public ArrayList<User> selManageList(Search userSearch) { return adminMapper.selManageList(userSearch); }
+    public List<User> selManageList(Search userSearch) { return adminMapper.selManageList(userSearch); }
 
     @Override
     public int delUser(String sort, int userNo) { return adminMapper.delUser(sort, userNo); }
@@ -66,16 +63,13 @@ public class AdminServiceImpl implements AdminService {
         int userResult = 1;
         int adminResult = 1;
 
-        // 신규
-        if (user.getF_user_no() == null) {
+        if (user.getF_user_no() == null) { // 신규
             userResult = adminMapper.insertUser(user);
             if ("관리자".equals(user.getF_sort())) {
                 auth.setF_user_no(user.getF_user_no());
                 adminResult = adminMapper.insertAuth(auth);
             }
-
-        // 기존
-        } else {
+        } else { // 기존
             userResult = adminMapper.updateUserAll(user);
             if ("관리자".equals(user.getF_sort())) {
                 adminResult = adminMapper.updateAuth(auth);

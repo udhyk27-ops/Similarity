@@ -7,7 +7,8 @@ import com.example.java_practice.commons.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +37,7 @@ public class AdminController {
         search.setOffset(offset);
         search.setSort(type);
 
-        ArrayList<Award> list = adminService.selAwardList(search);
+        List<Award> list = adminService.selAwardList(search);
         int cdCnt = adminService.cntAwardList(search);
         int totalCnt = adminService.cntAwardList(new Search() {{ setSort(type); }}); // 전체 건수
 
@@ -68,12 +69,9 @@ public class AdminController {
         userSearch.setLimit(limit);
         userSearch.setOffset(offset);
 
-        ArrayList<User> userList = adminService.selManageList(userSearch);
+        List<User> userList = adminService.selManageList(userSearch);
         int userCnt = adminService.cntUserList(userSearch);
         int totalCnt = adminService.cntUserList(new Search(){{ setSort(type.equals("user") ? "회원" : "관리자"); }}); // 전체 건수
-
-//        System.out.println("userSearch : " + userSearch);
-//        System.out.println("userList : " + userList);
 
         model.addAttribute("userSearch", userSearch);
         model.addAttribute("userList", userList);

@@ -22,9 +22,7 @@ const Similar = {
         });
     },
 
-    /**
-     * 이미지 업로드
-     */
+    // 이미지 업로드
     setupUploadBox() {
         const dropArea = $('.upload-box');
         const fileInput = $('#fileInput');
@@ -128,9 +126,7 @@ ${response.f_award}`;
         });
     },
 
-    /**
-     * 이미지 클릭 모달
-     */
+    // 이미지 클릭 모달
     setupImageModal() {
         $('.img-div').on('click', function() {
             $('.modal-img').attr('src', $(this).find('img').attr('src'));

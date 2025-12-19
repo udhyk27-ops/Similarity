@@ -1,5 +1,4 @@
 import * as util from "./utils.js";
-import {excelAJAX} from "./utils.js";
 
 const Manage = {
     init() {
@@ -7,7 +6,7 @@ const Manage = {
     },
 
     bindEvents() {
-        // 리스트에서 회원 클릭 시 정보 로드
+        // 리스트에서 행 클릭 시 정보 로드
         $('.reg-list-row').on('click', e => {
             const userNo = $(e.currentTarget).data('user-no');
             if (!userNo) return;

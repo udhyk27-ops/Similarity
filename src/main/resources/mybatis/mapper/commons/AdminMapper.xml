@@ -4,7 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.java_practice.commons.mapper.AdminMapper">
-
     <resultMap type="award" id="awardResultSet">
         <result column="F_WORK_NO" property="f_work_no" />
         <result column="F_TITLE" property="f_title" />
@@ -207,33 +206,33 @@
 
     <select id="selUserList" resultMap="userResultSet">
         SELECT
-            T1.F_USER_NO,
-            F_ID,
-            F_NAME,
-            F_PERSONAL_NUM,
-            F_REG_DATE,
-            NVL(F_AREA, ' ') AS F_AREA,
-            NVL(F_BIRTH, ' ') AS F_BIRTH,
-            F_PHONE,
-            F_EMAIL,
-            F_DEPT,
-            F_POSITION,
-            NVL(F_MAIN_ADDRESS, ' ') AS F_MAIN_ADDRESS,
-            NVL(F_SUB_ADDRESS, ' ') AS F_SUB_ADDRESS,
-            NVL(F_LOGIN_DATE, TO_DATE('99990101', 'YYYYMMDD')) AS F_LOGIN_DATE,
-            F_MOD_DATE,
-            F_STATUS,
-            NVL(F_MEMO, ' ') AS F_MEMO,
-            T2.F_USER_NO,
-            T2.F_AUTH_AWARD,
-            T2.F_AUTH_INVIT,
-            T2.F_AUTH_REG,
-            T2.F_AUTH_SIM,
-            T2.F_AUTH_USER,
-            T2.F_AUTH_ADMIN
+                T1.F_USER_NO,
+                F_ID,
+                F_NAME,
+                F_PERSONAL_NUM,
+                F_REG_DATE,
+                NVL(F_AREA, ' ') AS F_AREA,
+                NVL(F_BIRTH, ' ') AS F_BIRTH,
+                F_PHONE,
+                F_EMAIL,
+                F_DEPT,
+                F_POSITION,
+                NVL(F_MAIN_ADDRESS, ' ') AS F_MAIN_ADDRESS,
+                NVL(F_SUB_ADDRESS, ' ') AS F_SUB_ADDRESS,
+                NVL(F_LOGIN_DATE, TO_DATE('99990101', 'YYYYMMDD')) AS F_LOGIN_DATE,
+                F_MOD_DATE,
+                F_STATUS,
+                NVL(F_MEMO, ' ') AS F_MEMO,
+                T2.F_USER_NO,
+                T2.F_AUTH_AWARD,
+                T2.F_AUTH_INVIT,
+                T2.F_AUTH_REG,
+                T2.F_AUTH_SIM,
+                T2.F_AUTH_USER,
+                T2.F_AUTH_ADMIN
         FROM T_USER T1
         LEFT JOIN T_AUTH T2
-        ON T1.F_USER_NO = T2.F_USER_NO
+               ON T1.F_USER_NO = T2.F_USER_NO
         WHERE 1=1
         <if test="sort != null and sort != ''">
             AND F_STATUS = 'Y'
@@ -251,6 +250,7 @@
         </if>
     </select>
 
+    <!-- 작품 삭제 -->
     <update id="delWork" parameterType="int">
         UPDATE
         <if test="sort == 'award'">
@@ -411,15 +411,13 @@
         FROM T_USER
         WHERE F_SORT = #{sort}
           AND F_USER_NO = #{userNo}
-
     </update>
 
     <insert id="insertUser"> <!-- 운영회원 추가 -->
         <selectKey keyProperty="f_user_no" resultType="int" order="BEFORE">
             SELECT USER_SEQ.NEXTVAL FROM dual
         </selectKey>
-
-        INSERT INTO T_USER (F_USER_NO, F_NAME, F_ID, F_PERSONAL_NUM, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_BIRTH, F_AREA, F_REG_DATE, F_DEPT, F_POSITION, F_PHONE, F_EMAIL, F_STATUS, F_LOGIN_DATE, F_MOD_DATE, F_MEMO, F_SORT, F_PASSWORD)
+            INSERT INTO T_USER (F_USER_NO, F_NAME, F_ID, F_PERSONAL_NUM, F_MAIN_ADDRESS, F_SUB_ADDRESS, F_BIRTH, F_AREA, F_REG_DATE, F_DEPT, F_POSITION, F_PHONE, F_EMAIL, F_STATUS, F_LOGIN_DATE, F_MOD_DATE, F_MEMO, F_SORT, F_PASSWORD)
         <choose>
         <when test="f_sort == '회원'">
             VALUES (#{f_user_no}, #{f_name}, #{f_id}, NULL, #{f_main_address}, #{f_sub_address}, NULL, NULL, SYSDATE, #{f_dept}, #{f_position}, #{f_phone}, #{f_email}, #{f_status}, NULL, SYSDATE, #{f_memo}, '회원', #{f_password})
@@ -430,7 +428,8 @@
         </choose>
     </insert>
 
-    <insert id="insertAuth"> <!-- 권한 추가 -->
+    <!-- 권한 추가 -->
+    <insert id="insertAuth">
         INSERT INTO T_AUTH (F_USER_NO, F_AUTH_AWARD, F_AUTH_INVIT, F_AUTH_REG, F_AUTH_SIM, F_AUTH_USER, F_AUTH_ADMIN)
         VALUES (#{f_user_no}, #{f_auth_award}, #{f_auth_invit}, #{f_auth_reg}, #{f_auth_sim}, #{f_auth_user}, #{f_auth_admin})
     </insert>

@@ -8,11 +8,6 @@ export function bindEvents(context) {
 
     // startDate 변경 시 endDate 최소값 설정
     startDate.addEventListener('change', () => {
-        // console.log('changed startDate !!', startDate.value);
-
-        // endDate.setAttribute('min', startDate.value);
-
-        // 기존 값이 startDate보다 이전이면 초기화
         if (endDate.value && endDate.value < startDate.value) {
             endDate.value = '';
         }
@@ -40,9 +35,7 @@ export function bindEvents(context) {
     $('input[name="modal-keyword"]').on('keypress', e => { if(e.key === 'Enter') doSearch(); });
 
     // 필터 변경
-    $('.filter').on('change', function() {
-        window.location.href = '/admin/award?filter=' + $(this).val();
-    });
+    $('.filter').on('change', function() { window.location.href = '/admin/award?filter=' + $(this).val(); });
 
     // 모달 내 회원 선택
     $('#user-row').on('click', '.cell-btn', function() {
@@ -54,16 +47,9 @@ export function bindEvents(context) {
         $('#myModal').fadeOut();
     });
 
-    // 삭제 버튼
     $('.del-btn').on('click', () => deleteWork());
-
-    // 우편번호 버튼
     $('.post-btn').on('click', () => openPostcode(self.fillAddress));
-
-    // 수정 버튼
     $('.mod-btn').on('click', () => modifyWork());
-
-    // 작품 등록 페이지 이동
     $('.ins-btn').on('click', () => regWork());
 }
 
@@ -116,7 +102,6 @@ export function openPostcode(callback) {
             if(data.bname && /[동|로|가]$/g.test(data.bname)) extraRoadAddr += data.bname;
             if(data.buildingName && data.apartment === 'Y') extraRoadAddr += (extraRoadAddr ? ', ' : '') + data.buildingName;
             if(extraRoadAddr) extraRoadAddr = extraRoadAddr ? ` (${extraRoadAddr})` : '';
-
             if(callback) callback({ zonecode: data.zonecode, roadAddr, extraRoadAddr });
         }
     }).open();
@@ -126,7 +111,6 @@ export function openPostcode(callback) {
  * flatpickr
  */
 export function initDatePicker(selector, options = {}) {
-
     const today = new Date();
     const tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
 
@@ -141,8 +125,6 @@ export function initDatePicker(selector, options = {}) {
 
 /**
  * 이미지 다운로드
- * @param imgSelector
- * @param fileNameSelector
  */
 function downloadImage(imgSelector, fileNameSelector) {
     const img = $(imgSelector).attr('src');

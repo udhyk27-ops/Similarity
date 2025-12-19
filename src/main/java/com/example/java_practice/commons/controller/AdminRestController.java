@@ -1,6 +1,5 @@
 package com.example.java_practice.commons.controller;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -18,25 +17,18 @@ public class AdminRestController {
     private final AdminService adminService;
 
     @GetMapping("/searchWork") // 기본정보 조회
-    public ArrayList<WorkWithUser> selWorkWithUser(@RequestParam String sort, @RequestParam int workNo) { return adminService.selWorkWithUser(sort, workNo); }
+    public List<WorkWithUser> selWorkWithUser(@RequestParam String sort, @RequestParam int workNo) { return adminService.selWorkWithUser(sort, workNo); }
 
     @GetMapping("/searchUser") // 회원정보 조회 모달
     public List<User> selUser(@RequestParam(required = false) String sort,
                               @RequestParam(required = false, defaultValue = "0") int userNo)
-    {
-        List<User> result = adminService.selUserList(sort, userNo);
-        System.out.println(result);
-
-        return result;
-    }
+    { return adminService.selUserList(sort, userNo); }
 
     @PostMapping("/regWork") // 작품 등록
     public int regWork(@RequestParam String sort, @RequestParam int workNo) {
-
         Random r = new Random();
         int num = r.nextInt(1000000);
         String workCode = String.format("EMC%06d", num);
-
         return adminService.regWork(sort, workNo, workCode);
     }
 
@@ -48,8 +40,8 @@ public class AdminRestController {
 
     @PostMapping("/modifyInfo") // 정보 수정
     public int modInfo(
-            @RequestParam ArrayList<String> work,
-            @RequestParam ArrayList<String> user
+            @RequestParam List<String> work,
+            @RequestParam List<String> user
     ) { return adminService.modInfo(work, user); }
 
     @PostMapping("/saveInfo") // 관리 - 저장
@@ -76,23 +68,10 @@ public class AdminRestController {
         return auth;
     }
 
-    @GetMapping("/compareImage")
+    @GetMapping("/compareImage") // 이미지 유사도
     public Similar compareImage(@RequestParam String filename) { return adminService.compareImage(filename); }
 
-
-    @PostMapping("/selExcel")
-    public List<ExcelUser> selExcel(Search userSearch) {
-
-        userSearch.setOffset(null);
-        userSearch.setLimit(null);
-
-//        List<User> userList = adminService.selManageList(userSearch);
-        List<ExcelUser> userList = adminService.selExcelList(userSearch);
-
-
-        System.out.println("userList : " + userList);
-        return userList;
-    }
-
+    @PostMapping("/selExcel") // 관리 - 엑셀 데이터
+    public List<ExcelUser> selExcel(Search userSearch) { return adminService.selExcelList(userSearch); }
 }
 
