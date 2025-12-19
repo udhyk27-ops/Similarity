@@ -38,6 +38,7 @@ src/main/resources/application.properties
 ### VS Code ###
 .vscode/
 
-application.properties
+**/application.properties
 Dockerfile
 .env
+.env.*
