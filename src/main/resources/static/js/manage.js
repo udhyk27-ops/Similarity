@@ -1,4 +1,5 @@
 import * as util from "./utils.js";
+import {excelAJAX} from "./utils.js";
 
 const Manage = {
     init() {
@@ -54,16 +55,35 @@ const Manage = {
             const date = new Date();
             const today = date.getFullYear().toString() + (date.getMonth() + 1) + date.getDate();
 
-            util.excel({
-                header: '.reg-list-tb > .header-row > .cell',
-                row: '.reg-list-row',
-                fileName: sort + '목록_' + today + '.xlsx'
+
+            // schFilter, keyword 넘기기
+            const schFilter = document.querySelector('select[name="schFilter"]');
+            const keyword = document.querySelector('input[name="keyword"]');
+
+            console.log('schFilter: ' + schFilter.value);
+            console.log('keyword: ' + keyword.value);
+
+            const formData = new FormData();
+            formData.append('sort', sort);
+            formData.append('schFilter', schFilter.value);
+            formData.append('keyword', keyword.value);
+
+            // console.log('formData:', formData);
+
+            util.excelAJAX('/api/admin/selExcel', formData, response => {
+
+                console.log(response);
+
+                if (response) {
+                    util.excel({
+                        header: '.reg-list-tb > .header-row > .cell',
+                        row: response,
+                        fileName: sort + '목록_' + today + '.xlsx'
+                    });
+                } else {
+                    console.log('통신 오류');
+                }
             });
-
-
-
-
-
         });
     },
 

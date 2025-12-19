@@ -5,10 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import com.example.java_practice.commons.dto.Auth;
-import com.example.java_practice.commons.dto.Similar;
-import com.example.java_practice.commons.dto.User;
-import com.example.java_practice.commons.dto.WorkWithUser;
+import com.example.java_practice.commons.dto.*;
 import com.example.java_practice.commons.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +19,16 @@ public class AdminRestController {
 
     @GetMapping("/searchWork") // 기본정보 조회
     public ArrayList<WorkWithUser> selWorkWithUser(@RequestParam String sort, @RequestParam int workNo) { return adminService.selWorkWithUser(sort, workNo); }
-    
 
     @GetMapping("/searchUser") // 회원정보 조회 모달
     public List<User> selUser(@RequestParam(required = false) String sort,
                               @RequestParam(required = false, defaultValue = "0") int userNo)
-    { return adminService.selUserList(sort, userNo); }
+    {
+        List<User> result = adminService.selUserList(sort, userNo);
+        System.out.println(result);
 
+        return result;
+    }
 
     @PostMapping("/regWork") // 작품 등록
     public int regWork(@RequestParam String sort, @RequestParam int workNo) {
@@ -80,7 +80,19 @@ public class AdminRestController {
     public Similar compareImage(@RequestParam String filename) { return adminService.compareImage(filename); }
 
 
+    @PostMapping("/selExcel")
+    public List<ExcelUser> selExcel(Search userSearch) {
 
+        userSearch.setOffset(null);
+        userSearch.setLimit(null);
+
+//        List<User> userList = adminService.selManageList(userSearch);
+        List<ExcelUser> userList = adminService.selExcelList(userSearch);
+
+
+        System.out.println("userList : " + userList);
+        return userList;
+    }
 
 }
 

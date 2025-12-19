@@ -13,8 +13,10 @@ import lombok.Data;
 @Data
 public class Search {
     private String sort;
-    private int offset;
-    private int limit;
+//    private int offset;
+//    private int limit;;
+    private Integer offset;
+    private Integer limit;
     private int page;
     private String keyword;
     private String schFilter;

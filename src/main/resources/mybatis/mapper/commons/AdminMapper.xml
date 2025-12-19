@@ -65,7 +65,14 @@
             <result property="f_auth_user" column="F_AUTH_USER"/>
             <result property="f_auth_admin" column="F_AUTH_ADMIN"/>
         </collection>
+    </resultMap>
 
+    <resultMap type="excelUser" id="excelResultSet">
+        <result column="F_USER_NO" property="f_user_no" />
+        <result column="F_NAME" property="f_name" />
+        <result column="F_DEPT" property="f_dept" />
+        <result column="F_POSITION" property="f_position" />
+        <result column="F_PHONE" property="f_phone" />
     </resultMap>
 
     <sql id="selWork">
@@ -99,7 +106,7 @@
          WHERE F_STATUS = 'N'
 
         <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-            AND F_REG_DATE BETWEEN #{startDate} AND #{endDate}
+            AND F_REG_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD') + 0.99999
         </if>
 
         <if test="keyword != null and keyword != ''">
@@ -143,7 +150,7 @@
          WHERE F_STATUS = 'N'
 
         <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-            AND F_REG_DATE BETWEEN #{startDate} AND #{endDate}
+            AND F_REG_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD') + 0.99999
         </if>
 
         <if test="keyword != null and keyword != ''">
@@ -229,7 +236,7 @@
         ON T1.F_USER_NO = T2.F_USER_NO
         WHERE 1=1
         <if test="sort != null and sort != ''">
-            AND F_STATUS = 'N'
+            AND F_STATUS = 'Y'
             <choose>
                 <when test="sort == '회원'">
                     AND F_SORT = '회원'
@@ -478,10 +485,62 @@
     </update>
 
     <select id="compareImage" resultType="com.example.java_practice.commons.dto.Similar">
-        SELECT F_CODE, F_TITLE, F_AUTHOR, F_CONTEST, F_AWARD, F_FILENAME, F_FILEPATH
-        FROM T_AWARD_WORK
-        WHERE F_FILENAME = #{filename}
+        SELECT *
+        FROM (SELECT rownum,
+                     F_CODE,
+                     F_TITLE,
+                     F_AUTHOR,
+                     F_CONTEST,
+                     F_AWARD,
+                     F_FILENAME,
+                     F_FILEPATH
+              FROM T_AWARD_WORK
+              WHERE F_FILENAME = #{filename}
+              ORDER BY F_REG_DATE) aa
+        where rownum = '1'
     </select>
 
+    <select id="selExcelList" resultMap="excelResultSet" parameterType="search">
+        SELECT ROWNUM AS F_USER_NO, ta.*
+        FROM (
+            SELECT
+                F_NAME,
+                F_DEPT,
+                F_POSITION,
+                F_PHONE
+            FROM T_USER T1
+            WHERE 1=1
+            <if test="sort != null and sort != ''">
+                <choose>
+                    <when test="sort == '회원'">
+                        AND F_SORT = '회원'
+                    </when>
+                    <when test="sort == '관리자'">
+                        AND F_SORT = '관리자'
+                    </when>
+                </choose>
+            </if>
+
+            <if test="keyword != null and keyword != ''">
+                <choose>
+                    <when test="schFilter != null and schFilter == 'op-name'">
+                        AND F_NAME LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="schFilter != null and schFilter == 'op-dept'">
+                        AND F_DEPT LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="schFilter != null and schFilter == 'op-position'">
+                        AND F_POSITION LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <otherwise>
+                        AND (F_NAME LIKE '%' || #{keyword} || '%'
+                        OR F_DEPT LIKE '%' || #{keyword} || '%'
+                        OR F_POSITION LIKE '%' || #{keyword} || '%')
+                    </otherwise>
+                </choose>
+            </if>
+            ORDER BY F_MOD_DATE DESC
+            ) ta
+    </select>
 
 </mapper>

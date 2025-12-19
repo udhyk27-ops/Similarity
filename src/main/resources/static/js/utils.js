@@ -90,6 +90,21 @@ export function postAJAX(url, data, onSuccess, onError = console.error) {
     });
 }
 
+export function excelAJAX(url, data, onSuccess, onError = console.error) {
+    const token = $("meta[name='_csrf']").attr("content");
+    const header = $("meta[name='_csrf_header']").attr("content");
+
+    $.ajax({
+        url,
+        type: 'POST',
+        data,
+        processData: false,
+        contentType: false,
+        beforeSend: xhr => xhr.setRequestHeader(header, token),
+        success: onSuccess,
+        error: onError
+    });
+}
 /**
  * 우편번호 API
  */
@@ -187,14 +202,13 @@ export function excel({ header, row, fileName }) {
     });
 
     // 2) 행 데이터
-    const rows = [];
-    $(row).each(function () {
-        const rowData = [];
-        $(this).find('.cell').each(function () {
-            rowData.push($(this).text().trim());
-        });
-        rows.push(rowData);
-    });
+    const rows = row.map(item => ([
+        item.f_user_no,
+        item.f_name,
+        item.f_dept,
+        item.f_position,
+        item.f_phone
+    ]));
 
     // 3) 시트 데이터 구성
     const sheetData = [headers, ...rows];

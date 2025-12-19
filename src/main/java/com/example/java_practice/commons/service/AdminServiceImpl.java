@@ -94,4 +94,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Similar compareImage(String filename) { return adminMapper.compareImage(filename); }
+
+    @Override
+    public List<ExcelUser> selExcelList(Search userSearch) { return adminMapper.selExcelList(userSearch); }
 }

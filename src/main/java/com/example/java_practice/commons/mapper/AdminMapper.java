@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface AdminMapper {
@@ -38,4 +39,6 @@ public interface AdminMapper {
     int regWork(String sort, int workNo, String workCode);
 
     Similar compareImage(@Param("filename") String filename);
+
+    List<ExcelUser> selExcelList(Search userSearch);
 }
