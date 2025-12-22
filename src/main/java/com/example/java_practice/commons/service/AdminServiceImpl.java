@@ -5,6 +5,7 @@ import com.example.java_practice.commons.mapper.AdminMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @RequiredArgsConstructor
@@ -84,10 +85,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public int checkWorkCode(String workCode) { return adminMapper.checkWorkCode(workCode); }
-
-    @Override
-    public int regWork(String sort, int workNo, String workCode) { return adminMapper.regWork(sort, workNo, workCode); }
+    public int regWork(String sort, int workNo) {
+        String workCode = "";
+        while (true) { // 생성된 작품코드 중복확인
+            int num = ThreadLocalRandom.current().nextInt(1_000_000);
+            workCode = String.format("EMC%06d", num);
+            if (adminMapper.checkWorkCode(workCode) == 0) break;
+        }
+        return adminMapper.regWork(sort, workNo, workCode);
+    }
 
     @Override
     public Similar compareImage(String filename) { return adminMapper.compareImage(filename); }

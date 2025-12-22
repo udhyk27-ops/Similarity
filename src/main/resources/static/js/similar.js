@@ -18,7 +18,7 @@ const Similar = {
             document.querySelectorAll('.upload-text')
                 .forEach(el => el.style.display = 'block');
 
-            document.querySelector('.fileImg').src = '/images/add-file.png';
+            document.querySelector('.fileImg').src = '/images/images/add-file.png';
         });
     },
 
@@ -53,7 +53,7 @@ const Similar = {
 
                 if (!response) {
                     cntEl.textContent = '매칭결과: 1건';
-                    imgEl.src = '/images/ocean.png';
+                    imgEl.src = '/images/images/ocean.png';
                     textEl.textContent = '작품코드 : EMC558202\n푸른 일렁임\n최서아\n청년미술제\n장려상';
                 } else {
                     cntEl.textContent = '매칭결과: 1건';
@@ -75,7 +75,7 @@ ${response.f_award}`;
             if (element.style.display === 'none') element.style.display = 'block';
             
 
-            $('.fileImg').attr('src', '/images/file.png');
+            $('.fileImg').attr('src', '/images/images/file.png');
             $('.upload-text').hide();
             $('.status-text').text('파일 업로드 성공').css('color','green').show();
 
@@ -85,13 +85,11 @@ ${response.f_award}`;
 
                 const fileSizeKB = (file.size / 1024).toFixed(1);
                 const img = new Image();
-
                 img.onload = function() {
                     const width = img.width;
                     const height = img.height;
                     const infoText =
                         `파일명 : ${file.name}\n이미지 사이즈: ${width}x${height}\n이미지 크기: ${fileSizeKB}kb`;
-
                     $('.upload-img-text pre').text(infoText);
                 };
 

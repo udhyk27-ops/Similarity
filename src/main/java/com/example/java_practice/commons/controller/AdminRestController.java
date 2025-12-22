@@ -25,21 +25,7 @@ public class AdminRestController {
     { return adminService.selUserList(sort, userNo); }
 
     @PostMapping("/regWork") // 작품 등록
-    public int regWork(@RequestParam String sort, @RequestParam int workNo) {
-
-        Random r = new Random();
-        String workCode = "";
-
-        while (true) {
-            int num = r.nextInt(1000000);
-            workCode = String.format("EMC%06d", num); // 작품코드 생성
-
-            int isUsed = adminService.checkWorkCode(workCode); // 기등록 작품코드 확인
-            if (isUsed == 0) break;
-        }
-
-        return adminService.regWork(sort, workNo, workCode);
-    }
+    public int regWork(@RequestParam String sort, @RequestParam int workNo) { return adminService.regWork(sort, workNo); }
 
     @PostMapping("/deleteWork") // 작품 삭제
     public int delWork(@RequestParam String sort, @RequestParam int workNo) { return adminService.delWork(sort, workNo); }

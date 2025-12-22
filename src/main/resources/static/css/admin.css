@@ -45,7 +45,7 @@ select { padding: 0.5rem; border: 1px solid #ddd; font-size: 1.0rem; width: 7.0r
 select:focus { outline: none; }
 .cell-btn { cursor: pointer; padding: 0.5rem; font-size: 1.0rem; border: 1px solid #ddd; background-color: transparent; width: 7.0rem; }
 .flatpickr {
-    background: url('../images/images/calendar.png') no-repeat calc(100% - 0.625rem) center;
+    background: url('../images/calendar.png') no-repeat calc(100% - 0.625rem) center;
     background-size: 1rem 1rem;
     padding-right: 1.5rem;
 }
