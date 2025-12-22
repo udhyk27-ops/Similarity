@@ -101,11 +101,12 @@ public class NoticeController {
             notice = noticeService.insertNotice(params);
         }
 
+        int id = noticeDetail.getF_id();
         boolean hasFile = noticeFiles.stream()
                 .anyMatch(f -> f != null && !f.isEmpty() && f.getSize() > 0);
 
         if(hasFile) noticeService.insertNoticeFile(notice.getF_id(), noticeFiles);
 
-        return "redirect:/noticeReg?proc=true";
+        return "redirect:/noticeReg?proc=true&f_id=" + id;
     }
 }

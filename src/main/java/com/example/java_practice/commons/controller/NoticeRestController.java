@@ -20,7 +20,7 @@ import java.util.Map;
 @Slf4j
 public class NoticeRestController {
 
-    @Value("${UPLOAD_DIR}")
+    @Value("${file.upload-dir}")
     private String baseUploadDir;
 
     private final NoticeService noticeService;

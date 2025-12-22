@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService{
 
             try{
                 file.transferTo(filePath);
-                params.setF_filepath("/images/" + originalFileName);
+                params.setF_filepath("/images/images/" + originalFileName);
             }catch (IOException e){
                 fileService.deleteFile(filePath);
                 throw new RuntimeException("파일 업로드 중 오류 발생: " + file.getOriginalFilename(), e);
@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService{
 
             try{
                 file.transferTo(filePath);
-                params.setF_filepath("/images/" + originalFileName);
+                params.setF_filepath("/images/images/" + originalFileName);
             }catch (IOException e){
                 fileService.deleteFile(filePath);
                 throw new RuntimeException("파일 업로드 중 오류 발생: " + file.getOriginalFilename(), e);
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService{
                     try {
                         matchedFile.transferTo(filePath);
                         uploadedFiles.add(filePath);
-                        award.setF_filepath("/images/" + originalFileName);
+                        award.setF_filepath("/images/images/" + originalFileName);
                     } catch (IOException e) {
                         fileService.deleteFile(filePath);
                         throw new RuntimeException("파일 업로드 중 오류 발생: " + matchedFile.getOriginalFilename(), e);
@@ -238,7 +238,7 @@ public class UserServiceImpl implements UserService{
                         matchedFile.transferTo(filePath);
                         uploadedFiles.add(filePath);
 
-                        invit.setF_filepath("/images/" + originalFileName);
+                        invit.setF_filepath("/images/images/" + originalFileName);
                     }catch(IOException e){
                         fileService.deleteFile(filePath);
                         throw new RuntimeException("파일 업로드 중 오류 발생: " + matchedFile.getOriginalFilename(), e);
