@@ -1,6 +1,6 @@
 package com.example.java_practice.commons.dto;
 
-import lombok.Data;
+import lombok.*;
 
 /**
  * f_code 작품코드
@@ -11,7 +11,10 @@ import lombok.Data;
  * f_filename 파일명
  * f_filepath 파일경로
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Similar {
     private String f_code;
     private String f_title;

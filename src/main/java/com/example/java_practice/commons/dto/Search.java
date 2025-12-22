@@ -1,6 +1,6 @@
 package com.example.java_practice.commons.dto;
 
-import lombok.Data;
+import lombok.*;
 
 /**
  * sort => 수상작 / 초대작 구분
@@ -10,11 +10,12 @@ import lombok.Data;
  * startDate => 시작일자
  * endDate => 종료일자
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Search {
     private String sort;
-//    private int offset;
-//    private int limit;;
     private Integer offset;
     private Integer limit;
     private int page;

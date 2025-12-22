@@ -18,6 +18,14 @@ export function bindEvents(context) {
         const workNo = $(this).data('work-no');
         $('.info-workNo').val(workNo);
         self.loadWork(workNo);
+
+        const img = document.querySelector('#work-img');
+        const btn = document.querySelector('.download-btn');
+        img.onerror = function () {
+            this.parentElement.style.display = 'none';
+            btn.style.display = 'none';
+        }
+
     });
 
     // 이미지 다운로드
@@ -254,9 +262,15 @@ function regWork() {
  * 작품 수정
  */
 function modifyWork() {
-    const path = window.location.pathname.split('/').pop();
     const workNo = $('.info-workNo').val();
     if (!workNo) return alert('작품을 선택해주세요.');
+
+    const phoneReg = /^0\d{1,2}-\d{4}-\d{4}$/;
+    const emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    const phone = document.querySelector('#user-phone').value;
+    const email = document.querySelector('#user-email').value;
+    if (!phoneReg.test(phone)) return alert('전화번호 형식이 맞지 않습니다.');
+    if (!emailReg.test(email)) return alert('이메일 형식이 맞지 않습니다.');
 
     const workValues = path + ', ' + $('.work-tb input').map((i, el) => $(el).val()).get() + ',' + workNo;
     const userValues = path + ', ' + $('.user-tb input').map((i, el) => $(el).val()).get() + ',' + workNo;
@@ -265,7 +279,6 @@ function modifyWork() {
         resp => { if(resp === 1) alert('수정 완료'), window.location.reload(); else alert('수정 실패'); }
     );
 }
-
 
 /**
  * 모달 검색

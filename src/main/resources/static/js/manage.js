@@ -38,8 +38,14 @@ const Manage = {
         $('#manage-form').on('submit', e =>  {
             e.preventDefault()
 
+            const phoneReg = /^0\d{1,2}-\d{4}-\d{4}$/;
+            const emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            const phone = document.querySelector('#user-phone').value;
+            const email = document.querySelector('#user-email').value;
+            if (!phoneReg.test(phone)) return alert('전화번호 형식이 맞지 않습니다.');
+            if (!emailReg.test(email)) return alert('이메일 형식이 맞지 않습니다.');
+
             const formData = $(e.currentTarget).serialize();
-            console.log('formData:', formData);
 
             if ( $('body').data('page-type') === 'user' ) {
                 this.saveUser(formData);
@@ -58,9 +64,6 @@ const Manage = {
             // schFilter, keyword 넘기기
             const schFilter = document.querySelector('select[name="schFilter"]');
             const keyword = document.querySelector('input[name="keyword"]');
-
-            console.log('schFilter: ' + schFilter.value);
-            console.log('keyword: ' + keyword.value);
 
             const formData = new FormData();
             formData.append('sort', sort);

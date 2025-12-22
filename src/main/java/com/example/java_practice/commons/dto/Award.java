@@ -1,8 +1,28 @@
 package com.example.java_practice.commons.dto;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+/**
+ * f_work_no 작품번호
+ * f_title 제목
+ * f_author 작가
+ * f_year 출품년도
+ * f_contest 공모전
+ * f_award 상권명
+ * f_code 작품코드
+ * f_manager 주관
+ * f_host 주최
+ * f_reg_date 등록일시
+ * f_filepath 파일경로
+ * f_user_no 등록자 번호
+ * f_work_size 사이즈
+ * f_filename 파일명
+ * f_memo 회원메모
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Award {
     private int f_work_no;
     private String f_title;
