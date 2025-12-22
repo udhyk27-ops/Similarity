@@ -32,7 +32,7 @@
             justify-content: space-between;
             gap: 0.6rem;
             flex-wrap: wrap;
-            margin: 0.9rem 0;
+            margin: 1.2rem 0;
         }
         .sch-table tr td{
             border: 1px solid var(--border);
@@ -147,7 +147,7 @@
                                         </label>
                                         <div id="fileList"></div>
                                 </div>
-                                <div class="info-row">
+                                <div class="info-row" style="margin-top: 3rem;">
                                     <span class="info-title">사진 파일 업로드</span>
                                 </div>
                                 <div class="file-upload">
@@ -157,7 +157,8 @@
                                             <div class="dropbox-text">파일 선택 또는 여기로 끌어오세요</div>
                                             <div class="dropbox-subtext">
                                                 * 작품은 한번에 최대 100장까지 등록할 수 있습니다<br>
-                                                * 파일의 형식은 JPG, JPEG, PNG 파일만 업로드할 수 있습니다
+                                                * 파일의 형식은 JPG, JPEG, PNG 만 업로드할 수 있습니다<br>
+                                                * 우측 리스트의 파일명과 동일한 파일명의 작품만 저장됩니다
                                             </div>
                                             <input type="file" id="photoInput" name="photos" multiple accept=".jpg, .jpeg, .png" style="display:none;">
                                         </div>
