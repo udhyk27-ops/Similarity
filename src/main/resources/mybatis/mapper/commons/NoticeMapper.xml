@@ -66,7 +66,9 @@
 
     <select id="selectNoticeCntBySearch" resultType="int">
         select count(*)
-        from T_NOTICE
+        from T_NOTICE t1
+            join T_USER t2
+                on t1.F_REGID = t2.F_USER_NO
         <where>
             <if test="staDate != null and staDate != ''">
                 AND TO_CHAR(F_REGDATE, 'YYYY-MM-DD') <![CDATA[>=]]> #{staDate}

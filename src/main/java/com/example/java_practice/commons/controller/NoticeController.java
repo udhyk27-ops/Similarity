@@ -37,13 +37,11 @@ public class NoticeController {
 
         model.addAttribute("user", userDetails);
         model.addAttribute("noticeList", noticeService.selNoticeList(params, page, size));
-
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", page);
         model.addAttribute("size", size);
         model.addAttribute("search", params);
 
-        // 수정하기(alert과 순서문제)
         return "commons/notice/noticePage";
     }
 

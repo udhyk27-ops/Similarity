@@ -159,7 +159,7 @@
     </update>
 
     <select id="chkDupInvitWork" resultType="boolean">
-        select count(*) from T_INVIT_WORK where F_TITLE = #{f_title} and F_AUTHOR = #{f_author} and F_YEAR = #{f_year}
+        select count(*) from T_INVIT_WORK where F_TITLE = #{f_title} and F_AUTHOR = #{f_author} and F_YEAR = #{f_year} and F_STATUS = 'N'
     </select>
 
     <insert id="insertInvitWork">
