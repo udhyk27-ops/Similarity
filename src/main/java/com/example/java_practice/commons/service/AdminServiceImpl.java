@@ -84,6 +84,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public int checkWorkCode(String workCode) { return adminMapper.checkWorkCode(workCode); }
+
+    @Override
     public int regWork(String sort, int workNo, String workCode) { return adminMapper.regWork(sort, workNo, workCode); }
 
     @Override

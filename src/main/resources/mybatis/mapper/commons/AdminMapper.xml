@@ -468,6 +468,16 @@
                F_USER_NO = #{f_user_no}
     </update>
 
+    <select id="checkWorkCode">
+        SELECT COUNT(*) AS CNT
+        FROM (SELECT F_CODE
+              FROM T_AWARD_WORK
+              UNION ALL
+              SELECT F_CODE
+              FROM T_INVIT_WORK) A
+        WHERE A.F_CODE = #{workCode}
+    </select>
+
     <update id="regWork">
         UPDATE
             <choose>

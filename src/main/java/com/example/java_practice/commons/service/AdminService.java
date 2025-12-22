@@ -13,6 +13,8 @@ public interface AdminService {
 
     List<User> selUserList(String sort, int userNo); // 회원 조회(모달)
 
+    int checkWorkCode(String workCode); // 작품코드 확인
+
     int regWork(String sort, int workNo, String workCode); // 작품 등록
 
     int delWork(String sort, int workNo); // 작품 삭제
