@@ -195,7 +195,6 @@ public class UserServiceImpl implements UserService{
             }
         }
         if(validAwardList.isEmpty()) return false;
-
         int rows = awardWorkMapper.insertBatchAwardWork(validAwardList);
         if(rows == 0) fileService.deleteFiles(uploadedFiles);
         return rows > 0;

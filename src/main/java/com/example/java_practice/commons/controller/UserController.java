@@ -36,12 +36,6 @@ public class UserController {
 
     private final UserService userService;
 
-    // 에러페이지 확인용 -> 나중에 삭제예정
-    @GetMapping("/test")
-    public String test() {
-        throw new RuntimeException("에러가 발생했습니다");
-    }
-
     @GetMapping("/worklist/{type}")
     public String artWorkListPage(
             Model model,

@@ -31,6 +31,7 @@ const syncExcelData = {
         const colspan = (type === 'award') ? 12 : 8;
 
         let html = ""
+        const headerLength = (type === 'award') ? 9 : 5;
         const rows = workDataList.length > 0 ? workDataList : data.slice(1);
         if(flag === "sync"){
             const chkText = "저작물사이즈(너비, 높이)";
@@ -51,13 +52,19 @@ const syncExcelData = {
 
         const totalCnt = rows.length;
         rows.forEach((row, i) => {
+
+            const fixedRow = [];
+            for(let col = 0; col < headerLength; col++){
+                fixedRow[col] = (row[col] !== undefined && row[col] !== null) ? row[col] : "";
+            }
+
             const rowNum = totalCnt - i;
             html += ` <tr data-index="${i}">`
             html += `<td><input class="input_chk checkbox" type="checkbox" name="list_check[]" value="${i}"></td>`;
             html += `<td>${rowNum}</td>`;
-            row.forEach(cell => {
-                const cellVal = (cell !== undefined && cell !== null) ? cell : "";
-                html += `<td>${cellVal}</td>`;
+            fixedRow.forEach(cell => {
+                // const cellVal = (cell !== undefined && cell !== null) ? cell : "";
+                html += `<td>${cell}</td>`;
             });
             html += `<td><button data-index="${i}" class="btn-pink singleDelBtn" onclick="syncExcelData.deleteRow(${i})">X</button></td>`
             html += `</tr>`;
@@ -102,6 +109,7 @@ const syncExcelData = {
             if(!confirm("사진 파일이 없습니다. 등록하시겠습니까?")) return false;
         }
         const data = this.mapData(workDataList);
+        if(!this.validateRows(data, type)) return false;
 
         const formData = new FormData();
         formData.append("data", JSON.stringify(data));
@@ -146,6 +154,17 @@ const syncExcelData = {
             return obj;
         });
         return mapData;
+    },
+    validateRows : function (data, type){
+        for( const row of data ){
+            const fields = Object.keys(row);
+            const length = type === 'award' ? 9 : 5;
+            if( fields.length < length ){
+                alert('비어있는 항목이 있습니다');
+                return false;
+            };
+        };
+        return true;
     }
 
 
